@@ -5,8 +5,10 @@ import streamlit as st
 import os
 import subprocess
 import re
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import sys
+from langdetect import detect, DetectorFactory
+DetectorFactory.seed = 0
 
 PRODUCTS = ["Car Insurance", "Travel Insurance"]
 INSURERS = ["Generali", "AXA", "Allianz", "Swiss", "Baloise"]
@@ -33,8 +35,6 @@ if st.button("Start scraping"):
                     cwd=os.path.join(os.path.dirname(__file__), "..", "..", "scrapers"),
                     capture_output=True, text=True
                 )
-                st.text(f"{insurer} stdout:\n{result.stdout}")
-                st.text(f"{insurer} stderr:\n{result.stderr}")
                 if result.returncode != 0:
                     scraping_errors.append(insurer)
             except Exception as e:
@@ -56,8 +56,19 @@ if st.session_state.show_results:
             if match:
                 return match.group(0)
         except Exception:
-            pass
+            return "Unreadable"
         return "-"
+
+    def detect_language_from_pdf(pdf_path):
+        try:
+            reader = PdfReader(pdf_path)
+            first_page = reader.pages[0]
+            text = first_page.extract_text() or ''
+            lang = detect(text)
+            lang_map = {'de': 'German', 'fr': 'French', 'it': 'Italian', 'en': 'English'}
+            return lang_map.get(lang, lang)
+        except Exception:
+            return "Unreadable"
 
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'documents'))
     folders = {
@@ -84,38 +95,52 @@ if st.session_state.show_results:
             for filename in sorted(os.listdir(product_folder)):
                 if filename.lower().endswith('.pdf'):
                     year = extract_year_from_pdf(os.path.join(product_folder, filename))
+                    language = detect_language_from_pdf(os.path.join(product_folder, filename))
                     table_data.append({
                         "Insurer": insurer,
                         "PDF name": filename,
                         "Year": year,
+                        "Language": language,
                         "File": os.path.join(product_folder, filename)
                     })
                     pdf_found = True
-                    break
         if not pdf_found:
             table_data.append({
                 "Insurer": insurer,
                 "PDF name": "No document found",
                 "Year": "-",
+                "Language": "-",
                 "File": None
             })
 
     st.header("Scraping results")
-    cols = st.columns([2, 5, 1, 2])
+    cols = st.columns([2, 5, 1, 2, 2])
     cols[0].markdown("**Insurer**")
     cols[1].markdown("**PDF name**")
     cols[2].markdown("**Year**")
-    cols[3].markdown("**Download**")
+    cols[3].markdown("**Language**")
+    cols[4].markdown("**Download**")
 
+    last_insurer = None
     for row in table_data:
-        cols = st.columns([2, 5, 1, 2])
-        cols[0].write(row["Insurer"])
-        cols[1].write(row["PDF name"])
+        cols = st.columns([2, 5, 1, 2, 2])
+        # Affiche l'assureur seulement si différent du précédent
+        if row["Insurer"] != last_insurer:
+            cols[0].write(f"**{row['Insurer']}**")
+            last_insurer = row["Insurer"]
+        else:
+            cols[0].write("")
+        # Nom du PDF en italique
+        if row["PDF name"] != "No document found":
+            cols[1].markdown(f"*{row['PDF name']}*")
+        else:
+            cols[1].markdown("No document found")
         cols[2].write(row["Year"])
+        cols[3].write(row["Language"])
         if row["File"]:
             with open(row["File"], "rb") as f:
-                cols[3].download_button("Download", f, file_name=row["PDF name"])
+                cols[4].download_button("Download", f, file_name=row["PDF name"])
         else:
-            cols[3].write("-")
+            cols[4].write("-")
 else:
     st.info("Start scraping to see the documents.") 
