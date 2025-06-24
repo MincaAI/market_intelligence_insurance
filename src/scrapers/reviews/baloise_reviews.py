@@ -1,0 +1,1 @@
+# Script Playwright pour scraper et faire des screenshots des avis clients Baloise 

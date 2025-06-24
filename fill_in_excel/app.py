@@ -1,0 +1,146 @@
+import streamlit as st
+import pandas as pd
+from PyPDF2 import PdfReader
+import io
+import fitz  # PyMuPDF
+import concurrent.futures
+from agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
+from pydantic import BaseModel
+from langchain_openai import ChatOpenAI
+
+st.set_page_config(layout="wide")
+
+st.title("Insurance Comparison")
+
+insurance_type = st.radio("Select Insurance Type:", ("Car", "Travel"))
+
+# Create two columns for file uploads
+col1, col2 = st.columns(2)
+
+with col1:
+    st.header("Document 1")
+    uploaded_file1 = st.file_uploader("Upload the first PDF document", type="pdf", key="file1")
+
+with col2:
+    st.header("Document 2")
+    uploaded_file2 = st.file_uploader("Upload the second PDF document", type="pdf", key="file2")
+
+def get_pdf_text(pdf_doc):
+    """
+    Extracts text from a PDF using a two-stage parsing strategy with concurrency.
+    """
+    pdf_bytes = pdf_doc.getvalue()
+    try:
+        with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                page_texts = list(executor.map(lambda i: doc.load_page(i).get_text(), range(len(doc))))
+            # st.info("PDF text extracted successfully using the primary parser (PyMuPDF).")
+            return "".join(page_texts)
+    except Exception as e1:
+        st.warning(f"Primary parser (PyMuPDF) failed: {e1}. Attempting sequential fallback parser...")
+        page_texts = []
+        try:
+            pdf_doc.seek(0)
+            pdf_reader = PdfReader(pdf_doc)
+            for page in pdf_reader.pages:
+                try:
+                    page_texts.append(page.extract_text())
+                except Exception:
+                    page_texts.append("")
+            return "".join(page_texts)
+        except Exception as e2:
+            st.error(f"Both PDF parsers failed. Fallback parser (PyPDF2) error: {e2}")
+            return ""
+
+def flatten_model_for_excel(model, prefix=''):
+    """Recursively flattens a Pydantic model for Excel export."""
+    data = {}
+    if model:
+        for field_name, field in model.__fields__.items():
+            value = getattr(model, field_name)
+            current_path = f"{prefix}.{field_name}" if prefix else field_name
+            if isinstance(value, BaseModel):
+                data.update(flatten_model_for_excel(value, prefix=current_path))
+            else:
+                data[current_path] = format_value(value)
+    return data
+
+def to_excel(doc1_data, doc2_data, llm):
+    """Creates an Excel report with three sheets."""
+    output = io.BytesIO()
+    
+    flat_doc1 = flatten_model_for_excel(doc1_data)
+    flat_doc2 = flatten_model_for_excel(doc2_data)
+    
+    df1 = pd.DataFrame(flat_doc1.items(), columns=['Criteria', 'Value'])
+    df2 = pd.DataFrame(flat_doc2.items(), columns=['Criteria', 'Value'])
+    
+    comparison_data = []
+    all_keys = sorted(list(set(flat_doc1.keys()) | set(flat_doc2.keys())))
+    for key in all_keys:
+        val1 = flat_doc1.get(key, "Not Available")
+        val2 = flat_doc2.get(key, "Not Available")
+        comp = get_detailed_comparison(llm, key, val1, val2)
+        comparison_data.append({'Criteria': key, 'Comparison': comp})
+    
+    df_comp = pd.DataFrame(comparison_data)
+
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df1.to_excel(writer, index=False, sheet_name='Document 1')
+        df2.to_excel(writer, index=False, sheet_name='Document 2')
+        df_comp.to_excel(writer, index=False, sheet_name='Comparison')
+        
+    return output.getvalue()
+
+
+if uploaded_file1 and uploaded_file2:
+    st.success("Both files uploaded successfully!")
+
+    doc1_text = get_pdf_text(uploaded_file1)
+    doc2_text = get_pdf_text(uploaded_file2)
+
+    doc1_data, doc2_data = None, None
+
+    with st.status("Performing analysis and comparison...", expanded=True) as status:
+        if insurance_type == "Car":
+            doc1_data, doc2_data = run_car_comparison(doc1_text, doc2_text, status)
+        else:
+            doc1_data, doc2_data = run_travel_comparison(doc1_text, doc2_text, status)
+        status.update(label="Analysis complete!", state="complete", expanded=False)
+
+    if doc1_data and doc2_data:
+        llm = ChatOpenAI(temperature=0, model="gpt-4")
+        
+        st.header("Comparison Summary")
+        
+        for field_name, field in doc1_data.__fields__.items():
+            with st.expander(f"### {field_name.replace('_', ' ').title()}"):
+                col1, col2, col3 = st.columns(3)
+                
+                value1 = getattr(doc1_data, field_name)
+                value2 = getattr(doc2_data, field_name)
+
+                with col1:
+                    st.subheader("Document 1")
+                    st.markdown(f"**{field_name.replace('_', ' ').title()}**")
+                    st.markdown(format_value(value1))
+
+                with col2:
+                    st.subheader("Document 2")
+                    st.markdown(f"**{field_name.replace('_', ' ').title()}**")
+                    st.markdown(format_value(value2))
+                
+                with col3:
+                    st.subheader("Analysis")
+                    comparison_text = get_detailed_comparison(llm, field_name, value1, value2)
+                    st.markdown(comparison_text)
+
+        excel_data = to_excel(doc1_data, doc2_data, llm)
+        st.download_button(
+            label="Download Full Report as Excel",
+            data=excel_data,
+            file_name=f"{insurance_type.lower()}_comparison_report.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+    else:
+        st.error("Could not generate a comparison. Please check the documents and try again.")
