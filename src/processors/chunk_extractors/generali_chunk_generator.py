@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 
-SECTIONS_MAP = {
+SECTIONS_MAP_FR = {
     "A.": "DISPOSITIONS COMMUNES",
     "B.": "RESPONSABILITÉ CIVILE",
     "C.": "ASSURANCE CASCO",
@@ -14,20 +14,31 @@ SECTIONS_MAP = {
     "E.": "SERVICE D'ASSISTANCE ET DE DÉPANNAGE 24H/24"
 }
 
+SECTIONS_MAP_EN = {
+    "A.": "Benefits overview",
+    "B.": "Common provisions",
+    "C.": "General exclusions",
+    "D.": "Services",
+    "E.": "Cancellation costs"
+}
+
 SECTION_TITLES_PATTERN = re.compile(r"^([A-E])\.\s*$")
 
 
-def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
+def extract_chunks_from_text(text: str, pdf_name: str, lang: str = "fr") -> List[Dict[str, Any]]:
     """
     Extrait les chunks du texte en utilisant des expressions régulières.
+    Utilise le mapping de section en français ou anglais selon la langue détectée.
     
     Args:
         text (str): Le texte nettoyé à découper en chunks
         pdf_name (str): Nom du fichier PDF source
+        lang (str): Langue du texte (par défaut 'fr')
         
     Returns:
         List[Dict[str, Any]]: Liste des chunks avec leurs métadonnées
     """
+    SECTIONS_MAP = SECTIONS_MAP_EN if lang == "en" else SECTIONS_MAP_FR
     chunks = []
     current_section = None
     current_chunk = None
