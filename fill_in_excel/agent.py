@@ -2,7 +2,13 @@ import pandas as pd
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel
-from fill_in_excel.models import CarCriteria, TravelInsuranceProduct
+from fill_in_excel.models import (
+    CarCriteria,
+    TravelInsuranceProduct,
+    ProductDetails,
+    CoverageDetails,
+    AssistanceServices
+)
 import concurrent.futures
 import os
 
@@ -229,22 +235,50 @@ def run_car_comparison(doc1_text, doc2_text, status):
 def run_travel_comparison(doc1_text, doc2_text, status):
     """
     This function uses ChatOpenAI to compare two travel insurance documents and returns the structured Pydantic objects.
+    It now runs extractions for each sub-model in parallel and merges the results.
     """
     llm = ChatOpenAI(temperature=0, model="gpt-4.1")
-    extraction_chain = create_extraction_chain(llm, TravelInsuranceProduct)
+
+    # Define all the sub-models to be extracted
+    models_to_extract = {
+        "product": ProductDetails,
+        "coverage": CoverageDetails,
+        "services": AssistanceServices,
+    }
+
+    def extract_for_model(model, text):
+        chain = create_extraction_chain(llm, model)
+        return chain.invoke({"input_text": text})
+
+    def process_document(text):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_model = {
+                executor.submit(extract_for_model, model, text): key
+                for key, model in models_to_extract.items()
+            }
+            results = {}
+            for future in concurrent.futures.as_completed(future_to_model):
+                key = future_to_model[future]
+                try:
+                    results[key] = future.result()
+                except Exception as exc:
+                    print(f"{key} generated an exception: {exc}")
+                    results[key] = None
+        return results
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         status.update(label="Extracting data from documents...")
-        future1 = executor.submit(extraction_chain.invoke, {"input_text": doc1_text})
-        future2 = executor.submit(extraction_chain.invoke, {"input_text": doc2_text})
+        future1 = executor.submit(process_document, doc1_text)
+        future2 = executor.submit(process_document, doc2_text)
 
-        doc1_dict = future1.result()
-        doc2_dict = future2.result()
+        doc1_results = future1.result()
+        doc2_results = future2.result()
 
-    if not doc1_dict or not doc2_dict:
+    if not doc1_results or not doc2_results:
         return None, None
 
-    doc1_data = TravelInsuranceProduct.parse_obj(doc1_dict)
-    doc2_data = TravelInsuranceProduct.parse_obj(doc2_dict)
+    # Merge the results into the main Pydantic model
+    doc1_data = TravelInsuranceProduct(**doc1_results)
+    doc2_data = TravelInsuranceProduct(**doc2_results)
 
     return doc1_data, doc2_data

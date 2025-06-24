@@ -124,12 +124,38 @@ def to_excel(doc1_data, doc2_data, llm):
         
     return output.getvalue()
 
-if selected_path1 and selected_path2:
-    if st.button("Start comparison"):
-        st.success("Both PDFs selected successfully!")
 
-        doc1_text = get_pdf_text_from_path(selected_path1)
-        doc2_text = get_pdf_text_from_path(selected_path2)
+def get_comparison_table(section_title, doc1_section, doc2_section, llm):
+    """Generates a comparison table for a section of the insurance product."""
+    st.header(section_title)
+    
+    table_data = []
+    for field_name, field in doc1_section.__fields__.items():
+        value1 = getattr(doc1_section, field_name)
+        value2 = getattr(doc2_section, field_name)
+        
+        # Format values for display
+        formatted_value1 = format_value(value1)
+        formatted_value2 = format_value(value2)
+        
+        # Get detailed comparison
+        analysis = get_detailed_comparison(llm, field_name, value1, value2)
+        
+        table_data.append([
+            field_name.replace('_', ' ').title(),
+            formatted_value1,
+            formatted_value2,
+            analysis
+        ])
+        
+    df = pd.DataFrame(table_data, columns=["Criterion", "Document 1", "Document 2", "Analysis"])
+    st.dataframe(df)
+
+if uploaded_file1 and uploaded_file2:
+    st.success("Both files uploaded successfully!")
+
+    doc1_text = get_pdf_text(uploaded_file1)
+    doc2_text = get_pdf_text(uploaded_file2)
 
         doc1_data, doc2_data = None, None
 
@@ -140,32 +166,41 @@ if selected_path1 and selected_path2:
                 doc1_data, doc2_data = run_travel_comparison(doc1_text, doc2_text, status)
             status.update(label="Analysis complete!", state="complete", expanded=False)
 
-        if doc1_data and doc2_data:
-            llm = ChatOpenAI(temperature=0, model="gpt-4.1")
-            st.header("Comparison Summary")
-            for field_name, field in doc1_data.__fields__.items():
-                with st.expander(f"### {field_name.replace('_', ' ').title()}"):
-                    col1, col2, col3 = st.columns(3)
-                    value1 = getattr(doc1_data, field_name)
-                    value2 = getattr(doc2_data, field_name)
-                    with col1:
-                        st.subheader("Insurer 1")
-                        st.markdown(f"**{field_name.replace('_', ' ').title()}**")
-                        st.markdown(format_value(value1))
-                    with col2:
-                        st.subheader("Insurer 2")
-                        st.markdown(f"**{field_name.replace('_', ' ').title()}**")
-                        st.markdown(format_value(value2))
-                    with col3:
-                        st.subheader("Analysis")
-                        comparison_text = get_detailed_comparison(llm, field_name, value1, value2)
-                        st.markdown(comparison_text)
-            excel_data = to_excel(doc1_data, doc2_data, llm)
-            st.download_button(
-                label="Download Full Report as Excel",
-                data=excel_data,
-                file_name=f"{insurance_type.lower()}_comparison_report.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-        else:
-            st.error("Could not generate a comparison. Please check the documents and try again.")
+    if doc1_data and doc2_data:
+        llm = ChatOpenAI(temperature=0, model="gpt-4.1")
+        
+        st.header("Comparison Summary")
+
+        # Custom CSS for tables
+        st.markdown("""
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #e0e0e0;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f5f5f5;
+                font-weight: bold;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+
+        for field_name, field in doc1_data.__fields__.items():
+            doc1_section = getattr(doc1_data, field_name)
+            doc2_section = getattr(doc2_data, field_name)
+            get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm)
+
+        excel_data = to_excel(doc1_data, doc2_data, llm)
+        st.download_button(
+            label="Download Full Report as Excel",
+            data=excel_data,
+            file_name=f"{insurance_type.lower()}_comparison_report.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+    else:
+        st.error("Could not generate a comparison. Please check the documents and try again.")

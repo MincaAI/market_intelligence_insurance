@@ -265,321 +265,466 @@ class CarCriteria(BaseModel):
     assistance: AssistanceDetail
     accident_protection: AccidentOptions
 
-
-class TravelInsuranceProduct(BaseModel):
-    # ── Product Metadata ──────────────────────────────────────────────────────
+class ProductDetails(BaseModel):
+    # ── Identity & Pricing ──────────────────────────────────────────────────────
     product_name: str = Field(
-        ...,  
-        description=(
-            "Exact, full product title as it appears in policy documents or marketing materials. "
-            "Example: 'General Policy Conditions (GPC) Travel Insurance Edition 2025'. "
-            "This field helps the LLM identify the authoritative name used throughout the document, "
-            "preserving any edition numbers, trademarks, or version details."
-        )
+        ...,
+        description="Full product name as it appears on documentation, preserving edition, trademarks, version."
     )
-    product_variants: List[str] = Field(
-        ...,  
-        description=(
-            "List of all distinct policy types or plans available under this product. "
-            "Expected values include 'Single Trip', 'Annual', 'Family', 'Business'. "
-            "LLM should locate the section or dropdown listing variants, extract each option as a separate string, "
-            "and maintain their exact naming."
-        )
+    product_type: List[str] = Field(
+        ...,
+        description="List product types offered: 'Single Trip', 'Annual', 'Modular', etc."
     )
     target_market: List[str] = Field(
-        ...,  
-        description=(
-            "Intended audience segments for this insurance product. "
-            "Typical values: 'Leisure' for recreational travel, 'Business' for corporate trips, or 'Both'. "
-            "Extraction should capture every segment explicitly mentioned under 'Target Market' or similar heading."
-        )
+        ...,
+        description="List intended audience segments: 'Leisure', 'Business', 'Both'."
     )
-    territorial_validity: List[str] = Field(
-        ...,  
-        description=(
-            "Geographical regions where the policy provides coverage. "
-            "Common entries: 'Europe', 'Worldwide', 'Worldwide excl. USA-Canada', or specifically defined zones. "
-            "The LLM should parse tables or bullet lists under 'Territorial Validity' and return each region as a string."
-        )
+    single_trip_price_from: str = Field(
+        ...,
+        description="Specify price for single-trip policies, e.g. 'From CHF X'."
     )
-    min_trip_duration: int = Field(
-        ...,  
-        description=(
-            "Minimum number of days a trip must span to qualify for coverage. "
-            "Extract the numeric value from phrasing like 'Minimum trip duration: X days'."
-        )
+    annual_individual_from: str = Field(
+        ...,
+        description="Specify starting price for annual individual policies, e.g. 'From CHF X'."
     )
-    max_trip_duration: int = Field(
-        ...,  
-        description=(
-            "Maximum allowable trip length in days. "
-            "Derived from statements such as 'Maximum trip duration: Y days' or document logic. "
-            "LLM should strip units and return the integer number of days."
-        )
+    annual_family_from: str = Field(
+        ...,
+        description="Specify starting price for annual family policies, e.g. 'From CHF X'."
     )
-    age_minimum: int = Field(
-        ...,  
-        description=(
-            "Youngest age at which an individual is eligible for this policy. "
-            "Found under 'Age Limits' sections; extract integer value before 'years'."
-        )
+    unique_selling_points: List[str] = Field(
+        ...,
+        description="List main advantages or selling points of this product."
     )
-    age_maximum: int = Field(
-        ...,  
-        description=(
-            "Oldest age covered without special senior terms. "
-            "If document specifies senior conditions above this age, capture the cutoff. "
-            "LLM should convert to integer."
-        )
+    major_exclusions: List[str] = Field(
+        ...,
+        description="List the principal exclusions or limitations."
     )
-    online_purchase: bool = Field(
-        ...,  
-        description=(
-            "Indicates whether the policy can be purchased directly online. "
-            "Extract 'Yes'/'No' or equivalent phrasing and map to boolean True/False."
-        )
-    )
-    online_discount_rate: Optional[float] = Field(
-        None,  
-        description=(
-            "Percentage discount for online purchase, expressed as a decimal. "
-            "For example, '10% online discount' becomes 0.10. "
-            "If multiple tiers exist, return the primary or highest rate."
-        )
+    special_features: List[str] = Field(
+        ...,
+        description="List any additional benefits not covered elsewhere."
     )
 
-    # ── Pricing & Payment ──────────────────────────────────────────────────────
-    annual_premium_basic: Optional[str] = Field(
-        None,  
-        description=(
-            "Base annual premium for the entry-level plan. "
-            "Format examples: 'CHF 100–200' or 'from CHF 150'. "
-            "LLM should preserve currency and range syntax exactly as shown."
-        )
+    # ── Payment & Premium ───────────────────────────────────────────────────────
+    annual_premium_basic_coverage: str = Field(
+        ...,
+        description="Specify the annual premium for basic coverage as a CHF amount or range, e.g. 'CHF X–Y' or 'From CHF X'."
     )
-    trip_premium_from: Optional[float] = Field(
-        None,  
-        description=(
-            "Starting price for a single-trip variant in Swiss Francs. "
-            "Extract the numeric value after 'from CHF'."
-        )
-    )
-    payment_frequencies: List[str] = Field(
-        ...,  
-        description=(
-            "Allowed intervals for premium billing. "
-            "Examples: 'Annual', 'Semi-annual', 'Monthly', 'Per trip'. "
-            "LLM should read from 'Payment Frequency' tables or lists and return each as a clean string."
-        )
+    annual_premium_additional_coverage: str = Field(
+        ...,
+        description="Specify the annual premium for any additional coverage options (CHF per option)."
     )
     payment_methods: List[str] = Field(
-        ...,  
-        description=(
-            "Accepted payment options. Examples include 'Credit Card', 'Bank Transfer', 'PayPal'. "
-            "LLM should enumerate each method exactly as described in the 'Payment Methods' section."
-        )
+        ...,
+        description="List accepted payment frequencies or methods, e.g. 'Annual', 'Semi-annual', 'Monthly', 'Per trip'."
     )
-    cancellation_refund_limit: Optional[str] = Field(
-        None,  
-        description=(
-            "Maximum refundable amount upon policy cancellation. "
-            "Format: 'CHF X per person' or 'CHF Y per trip'. "
-            "LLM should match currency and per-unit wording exactly."
-        )
+    online_purchase_available: List[str] = Field(
+        ...,
+        description="Indicate whether online purchase is available and any restrictions, e.g. 'Yes', 'No', 'Restrictions (describe)'."
     )
 
-    # ── Cancellation Cover ────────────────────────────────────────────────────
+class CoverageDetails(BaseModel):
+    # ── Core Policy Terms ───────────────────────────────────────────────────────
+    product_variants_available: List[str] = Field(
+        ...,
+        description="List all distinct policy types or plans available under this product, e.g. 'Single Trip', 'Annual', 'Family', 'Business'."
+    )
+    contract_duration_options: List[str] = Field(
+        ...,
+        description="List the contract duration options with their time frames, e.g. 'Single trip: X days', 'Annual: 12 months', 'Other'."
+    )
+    special_discounts_available: List[str] = Field(
+        ...,
+        description="List any special discounts such as 'Family', 'Senior', 'Youth', 'Group', 'Online booking'."
+    )
+    territorial_validity: List[str] = Field(
+        ...,
+        description="List geographic regions where coverage applies, e.g. 'Europe', 'Worldwide', 'Worldwide excl. USA-Canada', 'Zones'."
+    )
+    cancellation_rights: List[str] = Field(
+        ...,
+        description="List cancellation rights and values, e.g. 'Automatic renewal: Yes/No', 'Special termination rights'."
+    )
+    notice_period: List[str] = Field(
+        ...,
+        description="List any notice period requirements, e.g. 'X months/days', 'Automatic expiry'."
+    )
+    service_features: List[str] = Field(
+        ...,
+        description="List service features such as '24/7 hotline', 'App', 'Online claims'."
+    )
+    leisure_protection: List[str] = Field(
+        ...,
+        description="Detail leisure protection coverage, e.g. 'Covered up to CHF X', 'Not covered', conditions."
+    )
+    pet_coverage: List[str] = Field(
+        ...,
+        description="Specify pet coverage: 'Included', 'Optional', 'Excluded', plus any limits."
+    )
+    epidemic_pandemic_coverage: List[str] = Field(
+        ...,
+        description="List if epidemic/pandemic events are 'Covered', 'Excluded', or 'Limited' with conditions."
+    )
+    min_max_trip_duration: str = Field(
+        ...,
+        description="Specify minimum/maximum trip durations, e.g. 'X days minimum / Y days maximum'."
+    )
+    age_limits: str = Field(
+        ...,
+        description="Detail age restrictions, e.g. 'Min age X', 'Max age Y', 'Senior conditions'."
+    )
+    waiting_periods: List[str] = Field(
+        ...,
+        description="List waiting periods, e.g. 'X days', 'None', 'By coverage type'."
+    )
+    individual_insurance: List[str] = Field(
+        ...,
+        description="List specifics for individual insurance: 'Age limits', 'Conditions', 'Premium factors'."
+    )
+    family_insurance: List[str] = Field(
+        ...,
+        description="List specifics for family insurance: 'Definition of family', 'Age limits for children', 'Max persons'."
+    )
+    additional_insured_persons: List[str] = Field(
+        ...,
+        description="List any additional insured persons (e.g. travel companions) and conditions."
+    )
+    family_definition: List[str] = Field(
+        ...,
+        description="Define 'family' per policy, e.g. 'Spouse/Partner', 'Children until age X', living arrangement."
+    )
+
+    # ── Cancellation & Trip ─────────────────────────────────────────────────────
+    cancellation_costs_maximum_coverage: str = Field(
+        ...,
+        description="State maximum cancellation coverage, e.g. 'CHF X per person', 'CHF Y per trip'."
+    )
     cancellation_covered_reasons: List[str] = Field(
-        ...,  
-        description=(
-            "Enumerates all valid reasons policyholders can cancel and claim a refund. "
-            "Typical values: 'Illness', 'Accident', 'Death', 'Job loss', 'Other'. "
-            "LLM should parse bullet lists or tables under 'Cancellation Covered Reasons'."
-        )
+        ...,
+        description="List reasons covered for cancellation: 'Illness', 'Accident', 'Death', 'Job loss', etc."
     )
-    cancellation_timeframe: str = Field(
-        ...,  
-        description=(
-            "Deadline for submitting a cancellation notice before trip start. "
-            "Extract phrasing like 'Must cancel within X days/hours before departure'. "
-            "Return the full phrase."
-        )
+    cancellation_deductible: str = Field(
+        ...,
+        description="Specify the deductible, e.g. a CHF amount or X% of claim."
     )
-    cancellation_deductible: Optional[str] = Field(
-        None,  
-        description=(
-            "Fixed fee or percentage deducted from the cancellation reimbursement. "
-            "Example formats: 'CHF 50' or '10% of claim'. "
-            "LLM should preserve unit and symbol."
-        )
+    cancellation_time_limits: str = Field(
+        ...,
+        description="State the cancellation time limit, e.g. 'Must cancel within X hours/days'."
+    )
+    cancellation_covered_costs: List[str] = Field(
+        ...,
+        description="List covered costs: 'Flights', 'Hotels', 'Tours', 'Other'."
     )
     cancellation_exclusions: List[str] = Field(
-        ...,  
-        description=(
-            "Specific scenarios where cancellation cover does not apply. "
-            "Examples: 'Change of mind', 'Pre-existing medical conditions'. "
-            "LLM to extract each exclusion as listed under 'Cancellation Exclusions'."
-        )
+        ...,
+        description="List any exclusions specific to cancellation coverage."
+    )
+    cancellation_additional_benefits: List[str] = Field(
+        ...,
+        description="List any special features or additional benefits for cancellation."
+    )
+    trip_interruption: str = Field(
+        ...,
+        description="Detail trip interruption coverage, e.g. 'Covered up to CHF X', conditions."
+    )
+    trip_delay: str = Field(
+        ...,
+        description="Detail trip delay compensation, e.g. 'CHF X per hour/day after Y hours delay'."
+    )
+    missed_departure: str = Field(
+        ...,
+        description="Specify missed departure coverage, e.g. 'Covered up to CHF X', conditions."
     )
 
-    # ── Medical & Assistance ──────────────────────────────────────────────────
-    medical_evacuation_limit: str = Field(
-        ...,  
-        description=(
-            "Maximum sum insured for emergency medical evacuation by air or ground. "
-            "Format: 'CHF X' or 'Unlimited'. "
-            "LLM should read from the 'Medical Evacuation' clause."
-        )
+    # ── Business, Legal & Luggage ────────────────────────────────────────────────
+    business_travel_basic_coverage: bool = Field(
+        ...,
+        description="Indicate if basic business travel coverage is included (True/False)."
     )
-    repatriation_limit: str = Field(
-        ...,  
-        description=(
-            "Coverage limit for repatriation of remains to home country. "
-            "Example: 'CHF 20,000' or 'Unlimited'. "
-            "Ensure currency and amount match policy text."
-        )
+    business_travel_additional_premium: str = Field(
+        ...,
+        description="Specify additional premium for business travel, CHF amount or percentage."
     )
-    emergency_medical_limit: str = Field(
-        ...,  
-        description=(
-            "Maximum cover for emergency medical treatment abroad. "
-            "Format: 'Up to CHF X'. "
-            "LLM to capture exact phrasing from 'Emergency Medical Treatment' section."
-        )
+    business_equipment: str = Field(
+        ...,
+        description="Detail business equipment coverage, limit and item types."
     )
-    hospital_daily_allowance: Optional[str] = Field(
-        None,  
-        description=(
-            "Daily cash benefit paid while hospitalized. "
-            "Example: 'CHF 150 per day'. "
-            "LLM should extract amount and unit phrase accurately."
-        )
+    replacement_person: str = Field(
+        ...,
+        description="Specify coverage for replacement person costs, including limits."
     )
-    search_and_rescue_limit: str = Field(
-        ...,  
-        description=(
-            "Maximum insured amount for search and rescue operations. "
-            "Format: 'Up to CHF X per incident'. "
-            "LLM should pull from 'Search & Rescue' limit table."
-        )
+    business_interruption: str = Field(
+        ...,
+        description="Detail business interruption coverage scope and limits."
     )
-    personal_assistance: bool = Field(
-        ...,  
-        description=(
-            "Whether a dedicated 24/7 personal assistance hotline or concierge service is included. "
-            "Map 'Yes'/'No' from the document to True/False."
-        )
+    travel_legal_protection_available: bool = Field(
+        ...,
+        description="Indicate if travel/legal protection is available (True/False)."
     )
-
-    # ── Luggage & Personal Effects ─────────────────────────────────────────────
+    legal_protection_coverage_limit: str = Field(
+        ...,
+        description="Specify coverage limit e.g. 'CHF X per case', 'CHF Y per year'."
+    )
+    legal_protection_deductible: str = Field(
+        ...,
+        description="Specify deductible for legal protection, CHF amount."
+    )
+    legal_protection_covered_disputes: List[str] = Field(
+        ...,
+        description="List types of disputes covered under legal protection."
+    )
+    legal_protection_geographic_scope: List[str] = Field(
+        ...,
+        description="List geographic scope for legal protection coverage."
+    )
+    legal_protection_waiting_period: str = Field(
+        ...,
+        description="Specify waiting period for legal protection, e.g. 'X days', 'None'."
+    )
+    travel_luggage_available: bool = Field(
+        ...,
+        description="Indicate if luggage coverage is available (True/False)."
+    )
     luggage_sum_insured: str = Field(
-        ...,  
-        description=(
-            "Maximum cover for loss or damage of all luggage per person. "
-            "Format: 'CHF X per person/event'. "
-            "LLM should preserve event context and currency."
-        )
+        ...,
+        description="Specify sum insured for luggage, e.g. 'CHF X per person/trip'."
     )
-    luggage_per_item_limit: Optional[str] = Field(
-        None,  
-        description=(
-            "Maximum sum insured for any single item, such as valuables. "
-            "Example: 'CHF 1,000'. "
-            "LLM to extract numeric limit and currency precisely."
-        )
+    luggage_per_item_limit: str = Field(
+        ...,
+        description="Specify per-item limit for luggage coverage."
     )
-    luggage_delay_compensation: Optional[str] = Field(
-        None,  
-        description=(
-            "Reimbursement paid when luggage is delayed beyond a specified threshold. "
-            "Example: 'After 4 hours delay: CHF 200'. "
-            "LLM should capture both delay trigger and compensation amount."
-        )
+    luggage_valuables_limit: str = Field(
+        ...,
+        description="Specify valuables limit under luggage coverage."
+    )
+    luggage_deductible: str = Field(
+        ...,
+        description="Specify deductible for luggage coverage, as CHF amount or percentage."
+    )
+    luggage_covered_perils: List[str] = Field(
+        ...,
+        description="List perils covered under luggage, e.g. 'Theft', 'Damage', 'Loss', 'Delay'."
+    )
+    luggage_delay_compensation: str = Field(
+        ...,
+        description="Detail compensation for luggage delay, e.g. 'After X hours: CHF Y'."
     )
     luggage_exclusions: List[str] = Field(
-        ...,  
-        description=(
-            "List of items or situations excluded from luggage cover. "
-            "Examples: 'Jewelry', 'Sports equipment', 'Bicycles'. "
-            "LLM to enumerate each exclusion exactly."
-        )
+        ...,
+        description="List exclusions specific to luggage coverage."
+    )
+    cdw_coverage_available: bool = Field(
+        ...,
+        description="Indicate if CDW coverage is available (True/False)."
+    )
+    cdw_coverage_limit: str = Field(
+        ...,
+        description="Specify CDW coverage limit, e.g. 'CHF X per event', 'per year'."
+    )
+    cdw_vehicle_types: List[str] = Field(
+        ...,
+        description="List vehicle types covered under CDW, e.g. 'Cars', 'Motorhomes', 'Motorcycles'."
+    )
+    cdw_geographic_validity: List[str] = Field(
+        ...,
+        description="List geographic validity for CDW coverage."
+    )
+    cdw_rental_duration_limit: str = Field(
+        ...,
+        description="Specify rental duration limit under CDW, e.g. 'Max X days'."
+    )
+    cdw_premium: str = Field(
+        ...,
+        description="Specify premium for CDW coverage, as a CHF amount."
     )
 
-    # ── Vehicle Assistance ────────────────────────────────────────────────────
-    vehicle_assistance: bool = Field(
-        ...,  
-        description=(
-            "Indicates whether roadside or rental vehicle assistance is part of the policy. "
-            "Map 'Yes'/'No' to True/False."
-        )
+class AssistanceServices(BaseModel):
+    # ── Personal & Medical ───────────────────────────────────────────────────────
+    personal_assistance_available: bool = Field(
+        ...,
+        description="Indicate if personal assistance is available (True/False)."
     )
-    towing_service_limit: Optional[str] = Field(
-        None,  
-        description=(
-            "Coverage limit for towing service after vehicle breakdown. "
-            "Example: 'Up to CHF 300 per event' or 'Distance limit 100 km'. "
-            "LLM should extract both currency/amount and any distance restrictions."
-        )
+    medical_evacuation: str = Field(
+        ...,
+        description="Detail medical evacuation coverage, e.g. 'Covered up to CHF X', conditions."
     )
-    replacement_vehicle_days: Optional[int] = Field(
-        None,  
-        description=(
-            "Number of days a replacement vehicle will be provided following a covered breakdown. "
-            "LLM should parse numeric days from phrases like 'Up to 5 days replacement vehicle'."
-        )
+    repatriation: str = Field(
+        ...,
+        description="Detail repatriation coverage, e.g. 'Covered up to CHF X', medical necessity."
     )
-
-    # ── Legal Protection ──────────────────────────────────────────────────────
-    legal_protection: bool = Field(
-        ...,  
-        description=(
-            "Specifies if a travel-related legal protection module is offered. "
-            "Translate 'Yes'/'No' to True/False."
-        )
+    hospital_visit_organization: str = Field(
+        ...,
+        description="Detail hospital visit organization coverage, including travel cost limits and beneficiaries."
     )
-    legal_protection_limit: Optional[str] = Field(
-        None,  
-        description=(
-            "Maximum coverage amount for legal expenses. "
-            "Format: 'CHF X per case' or 'CHF Y per year'. "
-            "LLM should retain currency and per-unit detail."
-        )
+    return_of_children: str = Field(
+        ...,
+        description="Specify child return coverage, e.g. 'Covered', age limits, accompaniment."
     )
-    legal_waiting_period: Optional[int] = Field(
-        None,  
-        description=(
-            "Number of days the legal protection cover must wait before activation. "
-            "Extract integer from 'Waiting period: X days'."
-        )
+    search_and_rescue_costs: str = Field(
+        ...,
+        description="Detail search and rescue costs coverage, max amount and limits."
+    )
+    medical_referral_service: List[str] = Field(
+        ...,
+        description="List medical referral service details, e.g. '24/7', languages."
+    )
+    other_personal_assistance: List[str] = Field(
+        ...,
+        description="List additional personal assistance services."
     )
 
-    # ── Extras & Add-Ons ──────────────────────────────────────────────────────
-    ski_snowboard_cover: Optional[bool] = Field(
-        None,  
-        description=(
-            "Indicates if winter sports coverage for skiing/snowboarding is available. "
-            "Map policy text under 'Winter Sports' to True/False."
-        )
+    # ── Vehicle & Travel ────────────────────────────────────────────────────────
+    vehicle_assistance_available: bool = Field(
+        ...,
+        description="Indicate if vehicle assistance is available (True/False)."
     )
-    extreme_sports_cover: Optional[bool] = Field(
-        None,  
-        description=(
-            "Indicates coverage availability for high-risk or extreme activities (e.g., bungee jumping, scuba diving). "
-            "LLM to read from 'Extreme Sports' clause."
-        )
+    breakdown_assistance: str = Field(
+        ...,
+        description="Detail breakdown assistance coverage, e.g. 'Covered up to CHF X'."
     )
-    pet_cover: Optional[bool] = Field(
-        None,  
-        description=(
-            "Specifies whether pets (typically cats/dogs) are included in the coverage. "
-            "Translate 'Included'/'Optional'/'Excluded' into boolean or None as appropriate."
-        )
+    towing_service: str = Field(
+        ...,
+        description="Detail towing service limits, e.g. 'Distance/Amount CHF X', destination."
     )
-    epidemic_cover: Optional[str] = Field(
-        None,  
-        description=(
-            "Status of epidemic/pandemic coverage under communicable disease exclusions. "
-            "Possible values: 'Covered', 'Excluded', 'Limited coverage – see conditions'. "
-            "LLM should extract the full policy phrase."
-        )
+    replacement_vehicle: str = Field(
+        ...,
+        description="Specify replacement vehicle coverage: days, category, conditions."
     )
+    onwards_return_journey: str = Field(
+        ...,
+        description="Detail onward or return journey coverage, limits."
+    )
+    vehicle_return: str = Field(
+        ...,
+        description="Detail vehicle return coverage, including driver conditions."
+    )
+    other_vehicle_assistance: List[str] = Field(
+        ...,
+        description="List additional vehicle assistance services."
+    )
+    additional_accommodation: str = Field(
+        ...,
+        description="Specify additional accommodation coverage, e.g. 'CHF X per day', max total."
+    )
+    phone_costs: str = Field(
+        ...,
+        description="Detail phone cost coverage, limits and call types."
+    )
+    translation_services: str = Field(
+        ...,
+        description="Detail translation service coverage, limits and availability."
+    )
+    legal_advance_payment: str = Field(
+        ...,
+        description="Specify legal advance payment coverage, e.g. 'Up to CHF X', repayment terms."
+    )
+    bail_bond_advance: str = Field(
+        ...,
+        description="Specify bail bond advance coverage and conditions."
+    )
+    other_cost_coverage: List[str] = Field(
+        ...,
+        description="List any other costs covered by the policy."
+    )
+
+    # ── E-Bike, Home & Insolvency ───────────────────────────────────────────────
+    e_bike_moped_assistance_available: bool = Field(
+        ...,
+        description="Indicate if E-Bike/Moped assistance is available (True/False)."
+    )
+    e_bike_breakdown_service: str = Field(
+        ...,
+        description="Detail E-Bike breakdown service, e.g. 'CHF X per event', distance limits."
+    )
+    e_bike_transport: str = Field(
+        ...,
+        description="Specify E-Bike transport coverage, e.g. 'To where', 'Max distance'."
+    )
+    e_bike_replacement_vehicle: str = Field(
+        ...,
+        description="Detail E-Bike replacement vehicle coverage: type, duration, availability."
+    )
+    e_bike_onwards_journey: str = Field(
+        ...,
+        description="Detail onward journey coverage for E-Bike, limits."
+    )
+    e_bike_theft_assistance: str = Field(
+        ...,
+        description="Describe E-Bike theft assistance services and conditions."
+    )
+    home_assistance_available: bool = Field(
+        ...,
+        description="Indicate if home assistance is available (True/False)."
+    )
+    emergency_home_repairs: str = Field(
+        ...,
+        description="Detail emergency home repairs coverage, e.g. 'CHF X per event', emergencies."
+    )
+    security_services: str = Field(
+        ...,
+        description="Describe security services coverage, triggers, duration."
+    )
+    key_service: str = Field(
+        ...,
+        description="Specify key service coverage, e.g. 'CHF X', circumstances."
+    )
+    property_monitoring: str = Field(
+        ...,
+        description="Detail property monitoring coverage, how arranged."
+    )
+    medical_costs_available: bool = Field(
+        ...,
+        description="Indicate if medical costs coverage is available (True/False)."
+    )
+    medical_costs_coverage_limit: str = Field(
+        ...,
+        description="Specify medical cost coverage limit, e.g. 'CHF X per person/event'."
+    )
+    medical_costs_deductible: str = Field(
+        ...,
+        description="Specify deductible for medical costs, as a CHF amount."
+    )
+    covered_treatments: List[str] = Field(
+        ...,
+        description="List treatments covered, e.g. 'Emergency', 'Dental', 'Medication', 'Other'."
+    )
+    direct_billing: bool = Field(
+        ...,
+        description="Indicate if direct billing is supported (True/False) and providers."
+    )
+    pre_authorization: bool = Field(
+        ...,
+        description="Indicate if pre-authorization is required for treatment (True/False)."
+    )
+    medical_costs_exclusions: List[str] = Field(
+        ...,
+        description="List any exclusions for medical costs coverage."
+    )
+    insolvency_protection_available: bool = Field(
+        ...,
+        description="Indicate if insolvency protection is available (True/False)."
+    )
+    insolvency_coverage_limit: str = Field(
+        ...,
+        description="Specify insolvency coverage limit, e.g. 'CHF X per person/booking'."
+    )
+    insolvency_covered_providers: List[str] = Field(
+        ...,
+        description="List providers covered under insolvency protection, e.g. 'Airlines', 'Tour operators'."
+    )
+    insolvency_covered_costs: List[str] = Field(
+        ...,
+        description="List costs covered upon insolvency, e.g. 'Unused services', 'Return journey'."
+    )
+    insolvency_time_limits: str = Field(
+        ...,
+        description="Specify booking time limits for insolvency coverage, e.g. 'Booked X days before'."
+    )
+    insolvency_exclusions: List[str] = Field(
+        ...,
+        description="List any exclusions for insolvency protection."
+    )
+
+class TravelInsuranceProduct(BaseModel):
+    product: ProductDetails
+    coverage: CoverageDetails
+    services: AssistanceServices
