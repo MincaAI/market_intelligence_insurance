@@ -47,7 +47,10 @@ if product:
     if st.button(f"Scrape and analyze {product} reviews"):
         # Run the scraping pipeline for the selected product
         with st.spinner(f"Scraping and extracting reviews for {product}..."):
-            # You may need to adapt this subprocess call to your actual scraping pipeline
+            # Run each review script for the selected product
+            for script in ["allianz_reviews.py", "axa_reviews.py", "generali_reviews.py"]:
+                subprocess.run(["python3", f"src/scrapers/reviews/{script}", "--product", product], check=False)
+            # Then run the pipeline to aggregate results
             subprocess.run(["python3", "src/scrapers/reviews/pipeline_reviews.py", "--product", product], check=False)
 
         # Load the JSON if it exists

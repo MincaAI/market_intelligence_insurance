@@ -22,16 +22,16 @@ def extract_review_info_from_image(image_path):
         image_b64 = base64.b64encode(img_file.read()).decode("utf-8")
 
     prompt = (
-        "Voici un screenshot du site d'assurance voyage d'un assureur. Vas dans la section avis de la clientele. "
-        "Donne-moi l'évaluation globale, qui correpond a une note sur 5. Donne le nombre total de commentaires ou avis (en général plus de 10,000). "
-        "Si l'information n'est pas visible, réponds 'Aucune note trouvée'. "
-        "Traduits aussi en anglais le texte principal du commentaire ou de l'évaluation globale, et fournis la traduction dans la réponse. "
+        "This is a screenshot of a travel insurance website from an insurer. Go to the customer reviews section. "
+        "Give me the overall rating (on a scale of 5). Provide the total number of reviews or comments (usually over 10,000). "
+        "If the information is not visible, respond with 'No rating found'. "
+        "Also translate the main text of the comment or overall review into English, and include the translation in your response."
     )
 
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "Tu es un assistant d'extraction d'information visuelle."},
+            {"role": "system", "content": "Your are an assistant to extract visual information from a screenshot."},
             {"role": "user", "content": [
                 {"type": "text", "text": prompt},
                 {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{image_b64}"}}
