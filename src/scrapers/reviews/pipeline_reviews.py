@@ -59,7 +59,7 @@ for job in JOBS:
     print(f"\n--- Traitement {key} ---")
     # 1. Générer le screenshot
     try:
-        subprocess.run(["python", job["script"], job["product"]], check=True)
+        subprocess.run([sys.executable, job["script"], job["product"]], check=True)
     except Exception as e:
         print(f"Erreur lors du screenshot pour {key} : {e}")
         recap[key] = {"note": None, "nombre_avis": None, "erreur": str(e)}

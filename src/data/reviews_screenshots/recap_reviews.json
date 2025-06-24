@@ -1,0 +1,32 @@
+{
+  "generali_car": {
+    "note": "4.4",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.4/5 based on a total number of reviews or comments: 42,777"
+  },
+  "generali_travel": {
+    "note": "4.3",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.3/5 based on a total number of reviews or comments: 76,735"
+  },
+  "axa_car": {
+    "note": "4.8",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.8/5 based on a total number of reviews or comments: 57,953"
+  },
+  "axa_travel": {
+    "note": "4.7",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.7/5 based on a total number of reviews or comments: 8,718."
+  },
+  "allianz_car": {
+    "note": "4.7",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.7/5 based on a total number of reviews or comments: 547,305"
+  },
+  "allianz_travel": {
+    "note": "4.4",
+    "nombre_avis": null,
+    "raw": "Overall rating: 4.4/5 based on a total number of reviews or comments: 14,345"
+  }
+}

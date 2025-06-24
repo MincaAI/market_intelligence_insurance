@@ -24,8 +24,8 @@ def extract_review_info_from_image(image_path):
     prompt = (
         "This is a screenshot of a travel insurance website from an insurer. Go to the customer reviews section. "
         "Give me the overall rating (on a scale of 5). Provide the total number of reviews or comments (usually over 10,000). "
+        "The output should be like this: 'Overall rating: 4.9/ 5 based on a total number of reviews or comments: 12,975"
         "If the information is not visible, respond with 'No rating found'. "
-        "Also translate the main text of the comment or overall review into English, and include the translation in your response."
     )
 
     response = client.chat.completions.create(

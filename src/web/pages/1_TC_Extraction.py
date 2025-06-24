@@ -6,13 +6,14 @@ import os
 import subprocess
 import re
 from PyPDF2 import PdfReader
+import sys
 
 PRODUCTS = ["Car Insurance", "Travel Insurance"]
 INSURERS = ["Generali", "AXA", "Allianz", "Swiss", "Baloise"]
 SPIDER_MAP = {"Generali": "generali", "AXA": "axa", "Allianz": "allianz", "Swiss": "swiss", "Baloise": "baloise"}
 
-st.title("Insurance Document Scraping")
-st.write("This page lets you launch PDF (AVB) scraping for each insurer and view the results.")
+st.title("📄 General Terms and Conditions Document Scraping")
+st.write("From GTC overload to actionable insights — in one click.")
 
 insurance_type = st.radio("Select Insurance Type:", ("Car", "Travel"))
 product = insurance_type.lower()
@@ -28,10 +29,12 @@ if st.button("Start scraping"):
             spider = SPIDER_MAP[insurer]
             try:
                 result = subprocess.run(
-                    ["python", "-m", "scrapy", "crawl", spider, "-a", f"product={product}"],
+                    [sys.executable, "-m", "scrapy", "crawl", spider, "-a", f"product={product}"],
                     cwd=os.path.join(os.path.dirname(__file__), "..", "..", "scrapers"),
                     capture_output=True, text=True
                 )
+                st.text(f"{insurer} stdout:\n{result.stdout}")
+                st.text(f"{insurer} stderr:\n{result.stderr}")
                 if result.returncode != 0:
                     scraping_errors.append(insurer)
             except Exception as e:
@@ -42,9 +45,6 @@ if st.button("Start scraping"):
             st.info(f"No document found for: {', '.join(scraping_errors)}.")
         else:
             st.success("Scraping completed!")
-
-if st.button("Show results"):
-    st.session_state.show_results = True
 
 if st.session_state.show_results:
     def extract_year_from_pdf(pdf_path):
@@ -118,4 +118,4 @@ if st.session_state.show_results:
         else:
             cols[3].write("-")
 else:
-    st.info("Start scraping or click 'Show results' to see the documents.") 
+    st.info("Start scraping to see the documents.") 

@@ -22,3 +22,5 @@ pillow
 scrapy
 playwright
 pymupdf
+selenium
+webdriver-manager
