@@ -12,8 +12,8 @@ st.set_page_config(
 # Title and intro
 st.title("📊 Insurance Market Intelligence Dashboard")
 st.markdown("""
-Welcome to the internal Market Intelligence tool developed for **Generali**.  
-This app helps you monitor competitors' insurance offerings and analyze market trends through automated document analysis and web data extraction.
+Welcome to the internal Market Intelligence MVP developed by MincaAI.  
+This demo helps you monitor competitors' insurance offerings and analyze market trends through automated document analysis and web data extraction.
 """)
 
 st.divider()

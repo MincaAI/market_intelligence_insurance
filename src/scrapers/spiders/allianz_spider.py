@@ -6,11 +6,11 @@ import re
 ALLIANZ_URL = "https://www.allianz.ch/de/privatkunden/angebote/fahrzeuge-reisen/downloads.html"
 
 PRODUCT_KEYWORDS = {
-    "Car Insurance": {
+    "car": {
         "keyword": "fahrzeug",
         "url_pattern": "allianz-fahrzeug"
     },
-    "Travel Insurance": {
+    "travel": {
         "keyword": "reise",
         "url_pattern": "allianz-reise"
     }
@@ -23,7 +23,13 @@ class AllianzSpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or "Car Insurance"
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'car'  # Default
         self.product_info = PRODUCT_KEYWORDS[self.product]
 
     def parse(self, response):

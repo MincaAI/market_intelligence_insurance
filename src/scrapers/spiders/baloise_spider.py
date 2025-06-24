@@ -4,8 +4,8 @@ from src.scrapers.items import InsuranceScraperItem
 import re
 
 BALOISE_URLS = {
-    "Car Insurance": "https://www.baloise.ch/de/privatkunden/versichern/fahrzeuge/autoversicherung.html",
-    # "Travel Insurance": "URL_A_COMPLETER"
+    "car": "https://www.baloise.ch/de/privatkunden/versichern/fahrzeuge/autoversicherung.html",
+    # "travel": "URL_A_COMPLETER"
 }
 
 class BaloiseSpider(scrapy.Spider):
@@ -14,7 +14,13 @@ class BaloiseSpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or "Car Insurance"
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'car'  # Default
         self.start_urls = [BALOISE_URLS[self.product]]
 
     def parse(self, response):

@@ -12,8 +12,8 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 PRODUCT_URLS = {
-    'Car Insurance': 'https://www.generali.ch/de/privatpersonen/fahrzeuge-reisen/autoversicherung',
-    'Travel Insurance': 'https://www.generali.ch/de/privatpersonen/fahrzeuge-reisen/reiseversicherung',
+    'car': 'https://www.generali.ch/de/privatpersonen/fahrzeuge-reisen/autoversicherung',
+    'travel': 'https://www.generali.ch/de/privatpersonen/fahrzeuge-reisen/reiseversicherung',
 }
 
 class GeneraliSpider(scrapy.Spider):
@@ -22,7 +22,13 @@ class GeneraliSpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or 'Car Insurance'
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'car'  # Default
         self.start_urls = [PRODUCT_URLS[self.product]]
         self.documents_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'documents')
 

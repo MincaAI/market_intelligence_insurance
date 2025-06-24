@@ -34,14 +34,14 @@ def add_title_banner(image_path, title):
 def get_config(product):
     if product == 'car':
         return {
-            'url': 'https://www.allianz.ch/fr/clients-prives/offres/vehicules-voyages/assurance-voiture.html',
-            'title': 'Allianz - Car Insurance - Ce que disent nos clientes et clients',
+            'url': 'https://www.allianz.ch/de/privatkunden.html',
+            'title': 'Allianz - Car Insurance - Immer für Sie da – einfach, schnell und fair!',
             'screenshot_path': get_screenshot_path('car')
         }
     else:
         return {
-            'url': 'https://www.allianz.ch/fr/clients-prives/offres/vehicules-voyages/assurance-voyages.html',
-            'title': 'Allianz - Travel Insurance - Ce que disent nos clientes et clients',
+            'url': 'https://www.allianz.ch/de/privatkunden/angebote/fahrzeuge-reisen/reiseversicherung.html',
+            'title': 'Allianz - Travel Insurance - Immer für Sie da – einfach, schnell und fair!',
             'screenshot_path': get_screenshot_path('travel')
         }
 
@@ -55,7 +55,8 @@ async def capture_bottom_from_reviews(product='travel', hauteur_voulue=800):
         page = await browser.new_page()
         await page.goto(url)
         await page.wait_for_timeout(3000)
-        element = await page.query_selector('text="Ce que disent nos clientes et clients"')
+        # Recherche la phrase allemande
+        element = await page.query_selector('text="Immer für Sie da – einfach, schnell und fair!"')
         if element:
             box = await element.bounding_box()
             await page.screenshot(path=screenshot_path, full_page=True)
@@ -66,10 +67,10 @@ async def capture_bottom_from_reviews(product='travel', hauteur_voulue=800):
             bottom = min(img.height, top + hauteur_voulue)
             cropped = img.crop((left, top, right, bottom))
             cropped.save(screenshot_path)
-            print(f"Screenshot du bas de page à partir de 'Ce que disent nos clientes et clients' pour {product}, hauteur {hauteur_voulue}px.")
+            print(f"Screenshot du bas de page à partir de 'Immer für Sie da – einfach, schnell und fair!' pour {product}, hauteur {hauteur_voulue}px.")
         else:
             await page.screenshot(path=screenshot_path, full_page=True)
-            print(f"Élément 'Ce que disent nos clientes et clients' non trouvé, screenshot complet pour {product}.")
+            print(f"Élément 'Immer für Sie da – einfach, schnell und fair!' non trouvé, screenshot complet pour {product}.")
         await browser.close()
     add_title_banner(screenshot_path, title)
     print(f"Screenshot enregistré : {screenshot_path}")

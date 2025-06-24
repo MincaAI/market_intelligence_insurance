@@ -4,13 +4,13 @@ from src.scrapers.items import InsuranceScraperItem
 import re
 
 SWISS_URLS = {
-    "Car Insurance": "https://www.zurich.ch/de/privat/mobilitaet-reisen/autoversicherung",
-    "Travel Insurance": "https://www.zurich.ch/de/privat/mobilitaet-reisen/reisen/reiseversicherung"
+    "car": "https://www.zurich.ch/de/privat/mobilitaet-reisen/autoversicherung",
+    "travel": "https://www.zurich.ch/de/privat/mobilitaet-reisen/reisen/reiseversicherung"
 }
 
 PRODUCT_KEYWORDS = {
-    "Car Insurance": "motorfahrzeug",
-    "Travel Insurance": "reiseversicherung"
+    "car": "motorfahrzeug",
+    "travel": "reiseversicherung"
 }
 
 class SwissSpider(scrapy.Spider):
@@ -19,7 +19,13 @@ class SwissSpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or "Car Insurance"
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'car'  # Default
         self.keyword = PRODUCT_KEYWORDS[self.product].lower()
         self.start_urls = [SWISS_URLS[self.product]]
 

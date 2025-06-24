@@ -13,8 +13,8 @@ import shutil
 import os
 
 MOBILIAR_URLS = {
-    "Travel Insurance": "https://oiv.mobiliar.ch/avb/TRP-01-2025/homepage",
-    "Car Insurance": "https://www.mobiliar.ch/rechtliches/allgemeine-versicherungsbedingungen"
+    "travel": "https://oiv.mobiliar.ch/avb/TRP-01-2025/homepage",
+    "car": "https://www.mobiliar.ch/rechtliches/allgemeine-versicherungsbedingungen"
 }
 
 class MobiliarSpider(scrapy.Spider):
@@ -23,7 +23,13 @@ class MobiliarSpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or "Travel Insurance"
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'travel'  # Default
         self.start_urls = [MOBILIAR_URLS[self.product]]
 
     def parse(self, response):

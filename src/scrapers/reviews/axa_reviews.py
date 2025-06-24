@@ -34,14 +34,14 @@ def add_title_banner(image_path, title):
 def get_config(product):
     if product == 'car':
         return {
-            'url': 'https://www.axa.ch/fr/particuliers/offres/vehicules-voyages/assurance-auto.html',
-            'title': 'AXA - Car Insurance - Avis de clients',
+            'url': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/autoversicherung.html',
+            'title': 'AXA - Car Insurance - Kundenbewertungen',
             'screenshot_path': get_screenshot_path('car')
         }
     else:
         return {
-            'url': 'https://www.axa.ch/fr/particuliers/offres/vehicules-voyages/assurance-voyages.html',
-            'title': 'AXA - Travel Insurance - Avis de clients',
+            'url': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/reiseversicherung.html',
+            'title': 'AXA - Travel Insurance - Kundenbewertungen',
             'screenshot_path': get_screenshot_path('travel')
         }
 
@@ -55,7 +55,7 @@ async def capture_bottom_from_avis_client(product='travel', hauteur_voulue=800):
         page = await browser.new_page()
         await page.goto(url)
         await page.wait_for_timeout(3000)
-        element = await page.query_selector('text="Avis de clients"')
+        element = await page.query_selector('text="Kundenbewertungen"')
         if element:
             box = await element.bounding_box()
             await page.screenshot(path=screenshot_path, full_page=True)
@@ -66,10 +66,10 @@ async def capture_bottom_from_avis_client(product='travel', hauteur_voulue=800):
             bottom = min(img.height, top + hauteur_voulue)
             cropped = img.crop((left, top, right, bottom))
             cropped.save(screenshot_path)
-            print(f"Screenshot du bas de page à partir de 'Avis de clients' pour {product}, hauteur {hauteur_voulue}px.")
+            print(f"Screenshot du bas de page à partir de 'Kundenbewertungen' pour {product}, hauteur {hauteur_voulue}px.")
         else:
             await page.screenshot(path=screenshot_path, full_page=True)
-            print(f"Élément 'Avis de clients' non trouvé, screenshot complet pour {product}.")
+            print(f"Élément 'Kundenbewertungen' non trouvé, screenshot complet pour {product}.")
         await browser.close()
     add_title_banner(screenshot_path, title)
     print(f"Screenshot enregistré : {screenshot_path}")

@@ -4,8 +4,8 @@ from src.scrapers.items import InsuranceScraperItem
 import re
 
 AXA_URLS = {
-    'Car Insurance': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/autoversicherung.html',
-    'Travel Insurance': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/reiseversicherung.html',
+    'car': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/autoversicherung.html',
+    'travel': 'https://www.axa.ch/de/privatkunden/angebote/fahrzeug-reisen/reiseversicherung.html',
 }
 
 def clean_filename(text):
@@ -20,7 +20,13 @@ class AXASpider(scrapy.Spider):
 
     def __init__(self, product=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product = product or 'Car Insurance'
+        # Force product to be 'car' or 'travel' only
+        if product and product.lower().startswith('car'):
+            self.product = 'car'
+        elif product and product.lower().startswith('travel'):
+            self.product = 'travel'
+        else:
+            self.product = 'car'  # Default
         self.start_urls = [AXA_URLS[self.product]]
 
     def parse(self, response):
