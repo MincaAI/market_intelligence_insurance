@@ -148,14 +148,23 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm):
             analysis
         ])
         
-    df = pd.DataFrame(table_data, columns=["Criterion", "Document 1", "Document 2", "Analysis"])
-    st.dataframe(df)
+    df = pd.DataFrame(table_data, columns=["Criterion", "Insurer 1", "Insurer 2", "Analysis"])
+    
+    st.dataframe(df.style.set_properties(**{
+        'text-align': 'left', # type: ignore
+        'white-space': 'pre-wrap',# type: ignore
+        'word-wrap': 'break-word'# type: ignore
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('background-color', '#f5f5f5'), ('font-weight', 'bold')]},
+        {'selector': 'td, th', 'props': [('border', '1px solid #e0e0e0'), ('padding', '8px')]}
+    ]))
 
-if uploaded_file1 and uploaded_file2:
-    st.success("Both files uploaded successfully!")
+if st.button("Compare"):
+    if selected_path1 and selected_path2:
+        st.success("Both files uploaded successfully!")
 
-    doc1_text = get_pdf_text(uploaded_file1)
-    doc2_text = get_pdf_text(uploaded_file2)
+        doc1_text = get_pdf_text_from_path(selected_path1)
+        doc2_text = get_pdf_text_from_path(selected_path2)
 
         doc1_data, doc2_data = None, None
 
@@ -166,41 +175,24 @@ if uploaded_file1 and uploaded_file2:
                 doc1_data, doc2_data = run_travel_comparison(doc1_text, doc2_text, status)
             status.update(label="Analysis complete!", state="complete", expanded=False)
 
-    if doc1_data and doc2_data:
-        llm = ChatOpenAI(temperature=0, model="gpt-4.1")
-        
-        st.header("Comparison Summary")
+        if doc1_data and doc2_data:
+            llm = ChatOpenAI(temperature=0, model="gpt-4.1")
+            
+            st.header("Comparison Summary")
 
-        # Custom CSS for tables
-        st.markdown("""
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid #e0e0e0;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f5f5f5;
-                font-weight: bold;
-            }
-        </style>
-        """, unsafe_allow_html=True)
+            for field_name, field in doc1_data.__fields__.items():
+                doc1_section = getattr(doc1_data, field_name)
+                doc2_section = getattr(doc2_data, field_name)
+                get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm)
 
-        for field_name, field in doc1_data.__fields__.items():
-            doc1_section = getattr(doc1_data, field_name)
-            doc2_section = getattr(doc2_data, field_name)
-            get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm)
-
-        excel_data = to_excel(doc1_data, doc2_data, llm)
-        st.download_button(
-            label="Download Full Report as Excel",
-            data=excel_data,
-            file_name=f"{insurance_type.lower()}_comparison_report.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            excel_data = to_excel(doc1_data, doc2_data, llm)
+            st.download_button(
+                label="Download Full Report as Excel",
+                data=excel_data,
+                file_name=f"{insurance_type.lower()}_comparison_report.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+        else:
+            st.error("Could not generate a comparison. Please check the documents and try again.")
     else:
-        st.error("Could not generate a comparison. Please check the documents and try again.")
+        st.error("Please select two PDF files to compare.")
