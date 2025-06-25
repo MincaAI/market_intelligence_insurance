@@ -88,7 +88,7 @@ def flatten_model_for_excel(model, prefix=''):
     """Recursively flattens a Pydantic model for Excel export."""
     data = {}
     if model:
-        for field_name, field in model.__fields__.items():
+        for field_name, field in model.model_fields.items():
             value = getattr(model, field_name)
             current_path = f"{prefix}.{field_name}" if prefix else field_name
             if isinstance(value, BaseModel):
@@ -130,34 +130,41 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm):
     st.header(section_title)
     
     table_data = []
-    for field_name, field in doc1_section.__fields__.items():
-        value1 = getattr(doc1_section, field_name)
-        value2 = getattr(doc2_section, field_name)
-        
-        # Format values for display
-        formatted_value1 = format_value(value1)
-        formatted_value2 = format_value(value2)
-        
-        # Get detailed comparison
-        analysis = get_detailed_comparison(llm, field_name, value1, value2)
-        
+    
+    if isinstance(doc1_section, BaseModel):
+        for field_name, field in doc1_section.model_fields.items():
+            value1 = getattr(doc1_section, field_name)
+            value2 = getattr(doc2_section, field_name)
+            
+            # Format values for display
+            formatted_value1 = format_value(value1)
+            formatted_value2 = format_value(value2)
+            
+            # Get detailed comparison
+            analysis = get_detailed_comparison(llm, field_name, value1, value2)
+            
+            table_data.append([
+                field_name.replace('_', ' ').title(),
+                formatted_value1,
+                formatted_value2,
+                analysis
+            ])
+    else:
+        # Handle simple fields
+        formatted_value1 = format_value(doc1_section)
+        formatted_value2 = format_value(doc2_section)
+        analysis = get_detailed_comparison(llm, section_title, doc1_section, doc2_section)
         table_data.append([
-            field_name.replace('_', ' ').title(),
+            section_title,
             formatted_value1,
             formatted_value2,
             analysis
         ])
+
         
     df = pd.DataFrame(table_data, columns=["Criterion", "Insurer 1", "Insurer 2", "Analysis"])
     
-    st.dataframe(df.style.set_properties(**{
-        'text-align': 'left', # type: ignore
-        'white-space': 'pre-wrap',# type: ignore
-        'word-wrap': 'break-word'# type: ignore
-    }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#f5f5f5'), ('font-weight', 'bold')]},
-        {'selector': 'td, th', 'props': [('border', '1px solid #e0e0e0'), ('padding', '8px')]}
-    ]))
+    st.dataframe(df)
 
 if st.button("Compare"):
     if selected_path1 and selected_path2:
@@ -180,7 +187,7 @@ if st.button("Compare"):
             
             st.header("Comparison Summary")
 
-            for field_name, field in doc1_data.__fields__.items():
+            for field_name, field in doc1_data.model_fields.items():
                 doc1_section = getattr(doc1_data, field_name)
                 doc2_section = getattr(doc2_data, field_name)
                 get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm)
