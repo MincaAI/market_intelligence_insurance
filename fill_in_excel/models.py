@@ -375,12 +375,12 @@ class LegalProtection(BaseModel):
     )
     
 class CarCriteria(BaseModel):
-    general: General = Field(
-        ...,
+    general: Optional[General] = Field(
+        None,
         description="General criteria for the car insurance product."
     )
-    liability: Liability = Field(
-        ...,
+    liability: Optional[Liability] = Field(
+        None,
         description="Liability coverage details."
     )
     partial_insurance: Optional[PartialInsurance] = Field(
@@ -439,16 +439,16 @@ class CarCriteria(BaseModel):
         None,
         description="Rental/replacement vehicle coverage details."
     )
-    assistance: Assistance = Field(
-        ...,
+    assistance: Optional[Assistance] = Field(
+        None,
         description="Assistance services provided with the insurance."
     )
-    repair_service: RepairService = Field(
-        ...,
+    repair_service: Optional[RepairService] = Field(
+        None,
         description="Repair service options available with the insurance."
     )
-    accident: Accident = Field(
-        ...,
+    accident: Optional[Accident] = Field(
+        None,
         description="Accident coverage options."
     )
     legal_protection: Optional[LegalProtection] = Field(

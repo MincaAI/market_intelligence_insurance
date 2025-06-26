@@ -150,7 +150,7 @@ def to_excel(doc1_data, doc2_data, llm, doc1_name, doc2_name):
     for key in all_keys:
         val1 = flat_doc1.get(key, "Not Available")
         val2 = flat_doc2.get(key, "Not Available")
-        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name, insurer2_name)
+        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name=insurer1_name, insurer2_name=insurer2_name)
         
         row = {
             'Criteria': key,
@@ -191,7 +191,7 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm, insurer
             formatted_value2 = format_value(value2)
             
             # Get detailed comparison
-            analysis = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name, insurer2_name)
+            analysis = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name=insurer1_name, insurer2_name=insurer2_name)
             
             table_data.append([
                 field_name.replace('_', ' ').title(),
@@ -203,7 +203,7 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm, insurer
         # Handle simple fields
         formatted_value1 = format_value(doc1_section)
         formatted_value2 = format_value(doc2_section)
-        analysis = get_detailed_comparison(llm, section_title, doc1_section, doc2_section, insurer1_name, insurer2_name)
+        analysis = get_detailed_comparison(llm, section_title, doc1_section, doc2_section, insurer1_name=insurer1_name, insurer2_name=insurer2_name)
         table_data.append([
             section_title,
             formatted_value1,

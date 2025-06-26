@@ -4,7 +4,7 @@ from PyPDF2 import PdfReader
 import io
 import fitz  # PyMuPDF
 import concurrent.futures
-from agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
+from .agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from .models import TravelInsuranceProduct, CarCriteria
@@ -118,7 +118,7 @@ def to_excel(doc1_data, doc2_data, llm, doc1_name, doc2_name):
     for key in all_keys:
         val1 = flat_doc1.get(key, "Not Available")
         val2 = flat_doc2.get(key, "Not Available")
-        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name, insurer2_name)
+        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name=insurer1_name, insurer2_name=insurer2_name)
         
         row = {
             'Criteria': key,
@@ -177,7 +177,7 @@ if uploaded_file1 and uploaded_file2:
                     st.subheader("Analysis")
                     insurer1_name = "Generali" if "generali" in uploaded_file1.name.lower() else "AXA" if "axa" in uploaded_file1.name.lower() else "Document 1"
                     insurer2_name = "Generali" if "generali" in uploaded_file2.name.lower() else "AXA" if "axa" in uploaded_file2.name.lower() else "Document 2"
-                    comparison_text = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name, insurer2_name)
+                    comparison_text = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name=insurer1_name, insurer2_name=insurer2_name)
                     st.markdown(comparison_text)
 
         excel_data = to_excel(doc1_data, doc2_data, llm, uploaded_file1.name, uploaded_file2.name)

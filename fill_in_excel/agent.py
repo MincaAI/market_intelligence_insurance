@@ -58,7 +58,7 @@ def format_value(value):
     return str(value)
 
 
-def get_detailed_comparison(llm, criterion_name, value1, value2, insurer1_name="Document 1", insurer2_name="Document 2"):
+def get_detailed_comparison(llm, criterion_name, value1, value2, *, insurer1_name="Document 1", insurer2_name="Document 2"):
     """Generates a detailed textual comparison for a single criterion."""
     if value1 == value2:
         if value1 is None or (isinstance(value1, list) and not value1):
