@@ -4,37 +4,35 @@ from ..chains.rag import RAGChain
 
 def run_generali(state: CompareState) -> CompareState:
     """
-    Node pour la recherche RAG sur les données Generali.
+    Node for RAG search on Generali data.
     """
     try:
-        # Initialiser la chaîne RAG
+        # Initialize the RAG chain
         rag_chain = RAGChain()
         
-        # Effectuer la recherche pour Generali avec filtre par catégorie
+        # Perform search for Generali with top 4 results
         results = rag_chain.search(
             query=state["user_input"],
             insurer="Generali",
-            category=state.get("detected_category"),
-            top_k=10
+            top_k=4
         )
         
-        # Formater les résultats en texte
+        # Format results as text
         if results:
-            generali_text = f"Résultats Generali (Catégorie: {state.get('detected_category', 'Non spécifiée')}):\n"
+            generali_text = f"Generali Results:\n"
             for i, result in enumerate(results, 1):
                 generali_text += f"{i}. Section: {result['section']}\n"
-                generali_text += f"   Sous-section: {result['subsection']}\n"
-                generali_text += f"   Catégorie: {result['category']}\n"
-                generali_text += f"   Contenu: {result['content'][:200]}...\n"
+                generali_text += f"   Subsection: {result['subsection']}\n"
+                generali_text += f"   Content: {result['content'][:200]}...\n"
                 generali_text += f"   Score: {result['score']:.3f}\n\n"
         else:
-            generali_text = f"Aucun résultat trouvé pour Generali dans la catégorie: {state.get('detected_category', 'Non spécifiée')}"
+            generali_text = "No results found for Generali"
         
-        # Mettre à jour l'état
+        # Update state
         state["generali_result"] = generali_text
         
         return state
         
     except Exception as e:
-        state["generali_result"] = f"Erreur lors de la recherche Generali: {str(e)}"
+        state["generali_result"] = f"Error during Generali search: {str(e)}"
         return state 

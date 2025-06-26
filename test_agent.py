@@ -80,21 +80,27 @@ if __name__ == "__main__":
     from agent.nodes.axa_rag import run_axa
     from agent.nodes.generali_rag import run_generali
 
-    # Prépare un état minimal pour le test
-    state = {
-        "user_input": "Quelles sont les exclusions principales ?",
-        "detected_category": "5. Responsabilité civile (RC)",
-        "axa_result": "",
-        "generali_result": "",
-        "comparison": ""
-    }
+    # Test query
+    query = "what are the deductibles"
 
-    print("--- Test AXA RAG ---")
+    # Prepare initial state
+    state = CompareState(
+        user_input=query,
+        product="car",
+        axa_result="",
+        generali_result="",
+        comparison=""
+    )
+
+    # Run AXA agent
     axa_state = run_axa(state.copy())
+    print("AXA Agent Result:")
     print(axa_state["axa_result"])
+    print("\n" + "-"*60 + "\n")
 
-    print("--- Test Generali RAG ---")
+    # Run Generali agent
     generali_state = run_generali(state.copy())
+    print("Generali Agent Result:")
     print(generali_state["generali_result"])
 
     run_agent_test() 

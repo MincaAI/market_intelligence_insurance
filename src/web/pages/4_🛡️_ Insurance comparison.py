@@ -13,7 +13,8 @@ from langchain_openai import ChatOpenAI
 from fill_in_excel.models import TravelInsuranceProduct, CarCriteria
 from typing import get_args
 
-st.title("Detailed Insurance Comparison")
+st.set_page_config(page_title="Insurance Comparison", page_icon="🛡️", initial_sidebar_state="expanded")
+st.title("🛡️ Insurance Comparison")
 st.write("This page allows you to compare in detail the coverages, prices, exclusions, etc. between different insurers.")
 
 # Insurance type selection

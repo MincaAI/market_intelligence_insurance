@@ -4,82 +4,83 @@ from ..state import CompareState
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement
+# Load environment variables
 load_dotenv()
 
 def run_comparison(state: CompareState) -> CompareState:
     """
-    Node pour la comparaison finale entre AXA et Generali.
+    Node for the final comparison between AXA and Generali.
     """
     try:
-        # Initialiser le client OpenAI
+        # Initialize OpenAI client
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         
-        # Créer le prompt de comparaison simplifié
+        # Create the comparison prompt in English
         comparison_prompt = f"""
-Tu es un expert en assurance auto. Tu compares deux contrats concernant un même thème (ex : responsabilité civile) pour un usage professionnel.
+You are an expert in car insurance. You are comparing two contracts on the same topic (e.g., liability) for a professional use case.
 
-Voici le résultat de recherche de tes 2 agents assureurs :
+Here are the search results from your two insurer agents:
 
-AXA :
+AXA:
 {state['axa_result']}
 
-Generali :
+Generali:
 {state['generali_result']}
 
-Ta mission :
+Your mission:
 
-1. Analyse les garanties, exclusions, limitations et conditions de chaque assureur.
-2. Compare chaque élément de manière rigoureuse.
-3. Détermine, **pour chaque ligne**, lequel des deux contrats est plus avantageux ou protecteur pour l’assuré.
-4. Si aucune des deux options n’est clairement meilleure, écris : “Équivalent”.
-5. Tu dois faire la comparaison la plus fine possible, et donner le plus d'éléments de comparaison dans le tableau.
+1. Analyze the coverages, exclusions, limitations, and conditions of each insurer.
+2. Compare each element rigorously.
+3. For **each row**, determine which contract is more advantageous or protective for the insured.
+4. If neither option is clearly better, write: "Equivalent".
+5. Make the comparison as detailed as possible, and provide as many comparison points as possible in the table.
 
-### Contraintes :
-- Ne fais aucune supposition : base-toi uniquement sur les textes fournis.
-- Utilise un ton clair, professionnel et factuel.
-- Ne recommande pas un assureur globalement : analyse **élément par élément**.
+### Constraints:
+- Do not make any assumptions: base your analysis only on the provided texts.
+- Use a clear, professional, and factual tone.
+- Do not recommend an insurer overall: analyze **element by element**.
+- **Always answer in English.**
 
-### Format de sortie (obligatoire) :
+### Output format (mandatory):
 
-1. **Tableau comparatif** :
+1. **Comparison table**:
 
-| Élément analysé        | AXA                                      | Generali                                 | Meilleur choix                           |
+| Element analyzed        | AXA                                      | Generali                                 | Best choice                             |
 |------------------------|-------------------------------------------|-------------------------------------------|------------------------------------------|
-| Element A   | ...                                       | ...                                       | AXA / Generali / Équivalent              |
-| Elements B            | ...                                       | ...                                       | ...                                      |
-| Element C    | ...                                       | ...                                       | ...                                      |
-| Element D    | ...                                       | ...                                       | ...                                      |
-| Element E    | ...                                       | ...                                       | ...                                      |
-| Element F    | ...                                       | ...                                       | ...                                      |
-| Element G    | ...                                       | ...                                       | ...                                      |
-| Element H    | ...                                       | ...                                       | ...                                      |
-| Element I    | ...                                       | ...                                       | ...                                      |
-| Element J    | ...                                       | ...                                       | ...                                      |
+| Element A   | ...                                       | ...                                       | AXA / Generali / Equivalent              |
+| Element B   | ...                                       | ...                                       | ...                                      |
+| Element C   | ...                                       | ...                                       | ...                                      |
+| Element D   | ...                                       | ...                                       | ...                                      |
+| Element E   | ...                                       | ...                                       | ...                                      |
+| Element F   | ...                                       | ...                                       | ...                                      |
+| Element G   | ...                                       | ...                                       | ...                                      |
+| Element H   | ...                                       | ...                                       | ...                                      |
+| Element I   | ...                                       | ...                                       | ...                                      |
+| Element J   | ...                                       | ...                                       | ...                                      |
 
-2. **Résumé synthétique (5 lignes max)** :
-Présente les différences principales et les avantages contractuels identifiés, sans recommander un assureur globalement.
+2. **Summary (max 5 lines)**:
+Present the main differences and contractual advantages identified, without recommending an insurer overall.
 """
         
-        # Générer la comparaison avec OpenAI
+        # Generate the comparison with OpenAI
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "Tu es un expert en assurances automobiles. Crée des tableaux clairs et structurés pour comparer les produits d'assurance."},
+                {"role": "system", "content": "You are an expert in car insurance. Create clear and structured tables to compare insurance products. Always answer in English."},
                 {"role": "user", "content": comparison_prompt}
             ],
             temperature=0.1,
             max_tokens=2000
         )
         
-        # Extraire la réponse
+        # Extract the response
         comparison_result = response.choices[0].message.content
         
-        # Mettre à jour l'état
+        # Update state
         state["comparison"] = comparison_result
         
         return state
         
     except Exception as e:
-        state["comparison"] = f"Erreur lors de la comparaison: {str(e)}"
+        state["comparison"] = f"Error during comparison: {str(e)}"
         return state

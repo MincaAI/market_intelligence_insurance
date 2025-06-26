@@ -4,37 +4,35 @@ from ..chains.rag import RAGChain
 
 def run_axa(state: CompareState) -> CompareState:
     """
-    Node pour la recherche RAG sur les données AXA.
+    Node for RAG search on AXA data.
     """
     try:
-        # Initialiser la chaîne RAG
+        # Initialize the RAG chain
         rag_chain = RAGChain()
         
-        # Effectuer la recherche pour AXA avec filtre par catégorie
+        # Perform search for AXA with top 4 results
         results = rag_chain.search(
             query=state["user_input"],
             insurer="Axa",
-            category=state.get("detected_category"),
-            top_k=10
+            top_k=4
         )
         
-        # Formater les résultats en texte
+        # Format results as text
         if results:
-            axa_text = f"Résultats AXA (Catégorie: {state.get('detected_category', 'Non spécifiée')}):\n"
+            axa_text = f"AXA Results:\n"
             for i, result in enumerate(results, 1):
                 axa_text += f"{i}. Section: {result['section']}\n"
-                axa_text += f"   Sous-section: {result['subsection']}\n"
-                axa_text += f"   Catégorie: {result['category']}\n"
-                axa_text += f"   Contenu: {result['content'][:200]}...\n"
+                axa_text += f"   Subsection: {result['subsection']}\n"
+                axa_text += f"   Content: {result['content'][:200]}...\n"
                 axa_text += f"   Score: {result['score']:.3f}\n\n"
         else:
-            axa_text = f"Aucun résultat trouvé pour AXA dans la catégorie: {state.get('detected_category', 'Non spécifiée')}"
+            axa_text = "No results found for AXA"
         
-        # Mettre à jour l'état
+        # Update state
         state["axa_result"] = axa_text
         
         return state
         
     except Exception as e:
-        state["axa_result"] = f"Erreur lors de la recherche AXA: {str(e)}"
+        state["axa_result"] = f"Error during AXA search: {str(e)}"
         return state 

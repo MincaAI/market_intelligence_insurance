@@ -13,7 +13,7 @@ def clean_axa_text(text: str) -> str:
     cleaned_lines = []
 
     # Pattern du pied de page à supprimer
-    footer_pattern_text = "Assurance des véhicules automobiles. CGA"
+    footer_pattern_text = "Motor Vehicle Insurance. GIC Version 10.2023"
 
     # Pattern Regex pour les numéros de page seuls (ex: "2", "3", etc.)
     page_number_pattern = re.compile(r'^\s*\d+\s*$')

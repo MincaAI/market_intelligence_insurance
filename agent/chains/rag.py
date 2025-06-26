@@ -1,5 +1,5 @@
 """
-Chains RAG pour la recherche vectorielle dans Pinecone.
+RAG chains for vector search in Pinecone.
 """
 
 import os
@@ -8,45 +8,42 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pinecone import Pinecone
 
-# Charger les variables d'environnement
+# Load environment variables
 load_dotenv()
 
 class RAGChain:
     """
-    Chaîne RAG pour la recherche dans la base vectorielle Pinecone.
+    RAG chain for search in Pinecone vector database.
     """
     
     def __init__(self):
-        """Initialise la chaîne RAG avec les connexions nécessaires."""
+        """Initialize the RAG chain with necessary connections."""
         self.pinecone_client = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
         self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.index_name = os.getenv("PINECONE_INDEX_NAME")
         self.index = self.pinecone_client.Index(self.index_name)
         
-    def search(self, query: str, insurer: str, category: Optional[str] = None, top_k: int = 10) -> List[Dict[str, Any]]:
+    def search(self, query: str, insurer: str, top_k: int = 10) -> List[Dict[str, Any]]:
         """
-        Effectue une recherche vectorielle dans l'index Pinecone pour un assureur donné.
+        Perform vector search in Pinecone index for a given insurer.
         Args:
-            query: La requête de recherche
-            insurer: L'assureur à rechercher ("Axa" ou "Generali")
-            category: Catégorie optionnelle pour filtrer les résultats
-            top_k: Nombre de résultats à retourner
+            query: The search query
+            insurer: The insurer to search for ("Axa" or "Generali")
+            top_k: Number of results to return
         Returns:
-            Liste des résultats avec métadonnées
+            List of results with metadata
         """
         try:
-            # Créer l'embedding de la requête
+            # Create query embedding
             embedding = self.openai_client.embeddings.create(
                 input=query,
                 model="text-embedding-3-small"
             ).data[0].embedding
             
-            # Préparer le filtre
+            # Prepare filter
             filter_dict = {"insurer": insurer}
-            if category and category != "Catégorie non identifiée":
-                filter_dict["category"] = category
             
-            # Recherche dans Pinecone sans namespace
+            # Search in Pinecone without namespace
             results = self.index.query(
                 vector=embedding,
                 filter=filter_dict,
@@ -54,7 +51,7 @@ class RAGChain:
                 include_metadata=True
             )
             
-            # Formater les résultats
+            # Format results
             formatted_results = []
             for match in results.matches:
                 formatted_results.append({
@@ -68,5 +65,5 @@ class RAGChain:
                 })
             return formatted_results
         except Exception as e:
-            print(f"Erreur lors de la recherche RAG pour {insurer}: {e}")
+            print(f"Error during RAG search for {insurer}: {e}")
             return [] 

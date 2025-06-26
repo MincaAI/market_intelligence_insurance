@@ -9,13 +9,18 @@ from pypdf import PdfReader
 import sys
 from langdetect import detect, DetectorFactory
 DetectorFactory.seed = 0
+from datetime import datetime
+import pandas as pd
 
 PRODUCTS = ["Car Insurance", "Travel Insurance"]
 INSURERS = ["Generali", "AXA", "Allianz", "Swiss", "Baloise"]
 SPIDER_MAP = {"Generali": "generali", "AXA": "axa", "Allianz": "allianz", "Swiss": "swiss", "Baloise": "baloise"}
 
 st.title("📄 General Terms and Conditions Document Scraping")
+st.write("")
 st.write("From GTC overload to actionable insights — in one click.")
+st.markdown("**Last scraping date:** 26 June 2025")
+st.markdown(f"**Current date:** {datetime.now().strftime('%d %B %Y')}")
 
 insurance_type = st.radio("Select Insurance Type:", ("Car", "Travel"))
 product = insurance_type.lower()
@@ -59,6 +64,26 @@ if st.session_state.show_results:
             return "Unreadable"
         return "-"
 
+    def extract_version_or_month_from_pdf(pdf_path):
+        try:
+            reader = PdfReader(pdf_path)
+            first_page = reader.pages[0]
+            text = first_page.extract_text() or ''
+            # Cherche un pattern de version (ex: Version 2.1, V.2023-01, etc.)
+            match = re.search(r'(Version[\s:]*[\w\-.]+|V\.[\w\-.]+)', text, re.IGNORECASE)
+            if match:
+                return match.group(0)
+            # Cherche un mois/année (ex: January 2023, 01/2023, 2023-01)
+            match = re.search(r'(January|February|March|April|May|June|July|August|September|October|November|December)[\s-]+\d{4}', text, re.IGNORECASE)
+            if match:
+                return match.group(0)
+            match = re.search(r'\b(0[1-9]|1[0-2])[\/-](19|20)\d{2}\b', text)
+            if match:
+                return match.group(0)
+        except Exception:
+            return "-"
+        return "-"
+
     def detect_language_from_pdf(pdf_path):
         try:
             reader = PdfReader(pdf_path)
@@ -95,13 +120,16 @@ if st.session_state.show_results:
             for filename in sorted(os.listdir(product_folder)):
                 if filename.lower().endswith('.pdf'):
                     year = extract_year_from_pdf(os.path.join(product_folder, filename))
+                    version_or_month = extract_version_or_month_from_pdf(os.path.join(product_folder, filename))
                     language = detect_language_from_pdf(os.path.join(product_folder, filename))
                     table_data.append({
                         "Insurer": insurer,
                         "PDF name": filename,
                         "Year": year,
+                        "Version/Month": version_or_month,
                         "Language": language,
-                        "File": os.path.join(product_folder, filename)
+                        "File": os.path.join(product_folder, filename),
+                        "Version changed": "No"
                     })
                     pdf_found = True
         if not pdf_found:
@@ -109,38 +137,42 @@ if st.session_state.show_results:
                 "Insurer": insurer,
                 "PDF name": "No document found",
                 "Year": "-",
+                "Version/Month": "-",
                 "Language": "-",
-                "File": None
+                "File": None,
+                "Version changed": "-"
             })
 
-    st.header("Scraping results")
-    cols = st.columns([2, 5, 1, 2, 2])
+    st.header("Results")
+    cols = st.columns([2, 5, 1, 2, 2, 2, 2])
     cols[0].markdown("**Insurer**")
     cols[1].markdown("**PDF name**")
     cols[2].markdown("**Year**")
-    cols[3].markdown("**Language**")
-    cols[4].markdown("**Download**")
+    cols[3].markdown("**Version/Month**")
+    cols[4].markdown("**Language**")
+    cols[5].markdown("**Download**")
+    cols[6].markdown("**Version changed**")
 
     last_insurer = None
     for row in table_data:
-        cols = st.columns([2, 5, 1, 2, 2])
-        # Affiche l'assureur seulement si différent du précédent
+        cols = st.columns([2, 5, 1, 2, 2, 2, 2])
         if row["Insurer"] != last_insurer:
             cols[0].write(f"**{row['Insurer']}**")
             last_insurer = row["Insurer"]
         else:
             cols[0].write("")
-        # Nom du PDF en italique
         if row["PDF name"] != "No document found":
             cols[1].markdown(f"*{row['PDF name']}*")
         else:
             cols[1].markdown("No document found")
         cols[2].write(row["Year"])
-        cols[3].write(row["Language"])
+        cols[3].write(row["Version/Month"])
+        cols[4].write(row["Language"])
         if row["File"]:
             with open(row["File"], "rb") as f:
-                cols[4].download_button("Download", f, file_name=row["PDF name"])
+                cols[5].download_button("Download", f, file_name=row["PDF name"])
         else:
-            cols[4].write("-")
-else:
-    st.info("Start scraping to see the documents.") 
+            cols[5].write("-")
+        cols[6].write(row["Version changed"])
+
+    st.table(pd.DataFrame(table_data))

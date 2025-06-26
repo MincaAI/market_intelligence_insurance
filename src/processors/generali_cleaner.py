@@ -18,6 +18,12 @@ def clean_generali_text(text: str) -> str:
         "registre italien des groupes d'assurance",
         "generali.ch/protectiondesdonnees",
         "service clientèle"
+        "Generali General Insurance Ltd.",
+        "Italian Register of Insurance Companies",
+        "generali.ch/dataprotection",
+        "Generali General Insurance Ltd.",
+        "Our data protection provisions can be viewed at generali.ch/dataprotection, or you can request a copy from our customer service department.",
+        "customer service department"
     ]
 
     # Pattern Regex pour les numéros de page (ex: "8 / 29")
