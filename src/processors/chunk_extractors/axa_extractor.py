@@ -13,7 +13,7 @@ def extract_text_axa(pdf_path: str) -> str:
     full_text = []
 
     # Parcourir les pages à partir de la page 8 (index 7)
-    for page_num in range(7, len(doc)):
+    for page_num in range(6, len(doc)):
         page = doc[page_num]
         
         # Obtenir les blocs de texte avec leurs coordonnées
@@ -57,8 +57,8 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Chemin vers le document AVB d'AXA
-    # Note: Assurez-vous que ce nom de fichier correspond bien à votre document.
-    document_path = documents_dir / "axa" / "car" / "17601FR-AXA-Assurance_vehicules_automobiles-CGA-2023-10D (1).pdf"
+    # Note: Utilisation du document anglais
+    document_path = documents_dir / "axa" / "car" / "17601EN-AXA-Motor_vehicle_insurance-GIP-2023-10D (2).pdf"
     
     # Vérification que le document existe
     if not document_path.exists():

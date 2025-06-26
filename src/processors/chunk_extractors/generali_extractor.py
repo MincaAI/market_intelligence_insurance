@@ -40,7 +40,7 @@ def main():
     output_dir = project_root / "data" / "processed" / "generali" / "text"
     
     # Chemin vers le document AVB de Generali
-    document_path = documents_dir / "generali" / "car" / "avb-assurance-vehicules-fr.pdf"
+    document_path = documents_dir / "generali" / "car" / "avb-vehicle-insurance-en (1).pdf"
     
     # Vérification que le document existe
     if not document_path.exists():

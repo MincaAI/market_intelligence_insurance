@@ -5,21 +5,12 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any
 
-
-SECTIONS_MAP_FR = {
-    "A.": "DISPOSITIONS COMMUNES",
-    "B.": "RESPONSABILITÉ CIVILE",
-    "C.": "ASSURANCE CASCO",
-    "D.": "ASSURANCE-ACCIDENTS",
-    "E.": "SERVICE D'ASSISTANCE ET DE DÉPANNAGE 24H/24"
-}
-
 SECTIONS_MAP_EN = {
-    "A.": "Benefits overview",
-    "B.": "Common provisions",
-    "C.": "General exclusions",
-    "D.": "Services",
-    "E.": "Cancellation costs"
+    "A.": "COMMON PROVISIONS",
+    "B.": "LIABILITY",
+    "C.": "ACCIDENTAL DAMAGE INSURANCE",
+    "D.": "ACCIDENT INSURANCE",
+    "E.": "24-HOUR BREAKDOWN COVER AND ASSISTANCE"
 }
 
 SECTION_TITLES_PATTERN = re.compile(r"^([A-E])\.\s*$")
@@ -38,7 +29,7 @@ def extract_chunks_from_text(text: str, pdf_name: str, lang: str = "fr") -> List
     Returns:
         List[Dict[str, Any]]: Liste des chunks avec leurs métadonnées
     """
-    SECTIONS_MAP = SECTIONS_MAP_EN if lang == "en" else SECTIONS_MAP_FR
+    SECTIONS_MAP = SECTIONS_MAP_EN if lang == "en" else SECTIONS_MAP_EN
     chunks = []
     current_section = None
     current_chunk = None
@@ -234,8 +225,8 @@ def main():
             text_content = f.read()
         
         # Générer les chunks avec regex
-        pdf_name = "avb-assurance-vehicules-fr.pdf"  # Nom du fichier PDF source
-        chunks = extract_chunks_from_text(text_content, pdf_name)
+        pdf_name = "avb-vehicle-insurance-en (1).pdf"
+        chunks = extract_chunks_from_text(text_content, pdf_name, lang="en")
         
         # Sauvegarder les chunks
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

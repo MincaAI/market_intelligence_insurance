@@ -10,11 +10,11 @@ from tqdm import tqdm
 load_dotenv()
 
 def get_latest_categorized_file(insurer: str) -> str:
-    """Trouve le fichier de chunks catégorisés le plus récent pour un assureur donné."""
-    search_path = f'data/processed/{insurer}/categorized_chunks/*.json'
+    """Trouve le fichier de chunks le plus récent pour un assureur donné."""
+    search_path = f'data/processed/{insurer}/chunks/*.json'
     list_of_files = glob.glob(search_path)
     if not list_of_files:
-        raise FileNotFoundError(f"Aucun fichier de chunks catégorisés trouvé pour {insurer} dans {search_path}")
+        raise FileNotFoundError(f"Aucun fichier de chunks trouvé pour {insurer} dans {search_path}")
     latest_file = max(list_of_files, key=os.path.getctime)
     return latest_file
 
@@ -49,8 +49,8 @@ def process_insurer_upsert(insurer: str, pc, openai_client, index, embedding_mod
                     "insurer": insurer.capitalize(),
                     "section": chunk.get("section", ""),
                     "subsection": chunk.get("subsection", ""),
-                    "category": chunk.get("category", ""),
-                    "content": chunk.get("content", "")
+                    "content": chunk.get("content", ""),
+                    "product": "car"
                 } for chunk in batch
             ]
 
@@ -65,8 +65,13 @@ def process_insurer_upsert(insurer: str, pc, openai_client, index, embedding_mod
             
             to_upsert = list(zip(ids, embeddings, metadata))
             
+            # Debug : affiche un exemple de vecteur à upserter
+            if to_upsert:
+                print("Exemple de vecteur à upserter :", to_upsert[0])
+            
             try:
-                index.upsert(vectors=to_upsert)
+                upsert_response = index.upsert(vectors=to_upsert)
+                print("Réponse Pinecone upsert:", upsert_response)
             except Exception as e:
                 print(f"Erreur lors de l'upsert du lot {i//batch_size + 1}: {e}")
                 continue

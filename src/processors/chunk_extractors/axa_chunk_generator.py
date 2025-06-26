@@ -7,11 +7,11 @@ from typing import List, Dict, Any
 
 # Ce mapping reste utile
 PART_TITLES = {
-    "A": "Partie A - Conditions-cadres du contrat d'assurance",
-    "B": "Partie B - Assurance de la responsabilité civile: dommages causés par votre véhicule",
-    "C": "Partie C - Assurance casco: dommages causés à votre véhicule",
-    "D": "Partie D - Services et prestations supplémentaires",
-    "E": "Partie E - Définitions"
+    "A": "Part A - Underlying Provisions of the Insurance Contract",
+    "B": "Part B - Liability insurance: Damage caused by your vehicle",
+    "C": "Part C - Accidental damage insurance: Damage to your vehicle",
+    "D": "Part D - Services and add-ons",
+    "E": "Part E - Definitions"
 }
 
 def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
@@ -23,12 +23,12 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
     lines = text.split('\n')
     
     current_part_letter = ''
-    current_part_title = "Partie non définie"
+    current_part_title = "FRAMEWORK CONDITIONS OF THE INSURANCE CONTRACT"
     current_chunk = None
     buffer = []
     
     # Regex pour marquer le début d'une nouvelle partie (ex: "Partie B")
-    part_marker_pattern = re.compile(r'^Partie\s+([A-E])$')
+    part_marker_pattern = re.compile(r'^\s*(Partie|Part)\s*([A-E])\s*$', re.IGNORECASE)
     # Regex pour un ID de sous-section (ex: "B1")
     subsection_id_pattern = re.compile(r'^([A-E])(\d{1,2})$')
 
@@ -44,8 +44,14 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
         # 1. On cherche d'abord un marqueur de partie ("Partie B")
         part_match = part_marker_pattern.match(line)
         if part_match and (i + 1 < len(lines)):
+            # Sauvegarder le chunk courant avant de passer à la nouvelle partie
+            if current_chunk and buffer:
+                current_chunk['content'] = '\n'.join(buffer).strip()
+                chunks.append(current_chunk)
+                current_chunk = None
+                buffer = []
             # C'est une nouvelle partie. On lit le titre sur la ligne suivante.
-            current_part_letter = part_match.group(1)
+            current_part_letter = part_match.group(2)
             current_part_title = lines[i+1].strip()
             # On réinitialise la numérotation pour la nouvelle partie
             last_section_number = 0
@@ -66,7 +72,7 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
             if is_first_part:
                 current_part_letter = 'A'
                 # Le titre de la partie A est manquant dans le texte, nous le définissons manuellement.
-                current_part_title = "CONDITIONS-CADRES DU CONTRAT D'ASSURANCE"
+                current_part_title = "Underlying Provisions of the Insurance Contract"
 
 
             if (is_continuing_part or is_first_part) and (i + 1 < len(lines)):
@@ -98,6 +104,15 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
     if current_chunk and buffer:
         current_chunk['content'] = '\n'.join(buffer).strip()
         chunks.append(current_chunk)
+    # Cas où la dernière section (ex: Part E) n'a pas de sous-section
+    elif current_part_letter and buffer:
+        chunk = {
+            "pdf_name": pdf_name,
+            "section": f"Part {current_part_letter} - {current_part_title}",
+            "subsection": "Definitions",
+            "content": "\n".join(buffer).strip()
+        }
+        chunks.append(chunk)
         
     return chunks
 
@@ -142,7 +157,7 @@ def main():
         with open(latest_file, 'r', encoding='utf-8') as f:
             text_content = f.read()
         
-        pdf_name = "17601FR-AXA-Assurance_vehicules_automobiles-CGA-2023-10D (1).pdf"
+        pdf_name = "17601EN-AXA-Motor_vehicle_insurance-GIP-2023-10D (2).pdf"
         chunks = extract_chunks_from_text(text_content, pdf_name)
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
