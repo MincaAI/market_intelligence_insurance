@@ -151,21 +151,42 @@ with tab2:
         st.session_state["show_public_reviews"] = False
 
     if st.session_state.get("show_public_reviews", False):
-        # Simulated reviews data for car and travel (in English)
-        car_reviews = [
-            {"Insurer": "AXA", "Review": "High overall satisfaction and quality service.", "Score": round(5.1/6*5, 2), "Total reviews": "N/A", "% Positive": "N/A", "Source": "Comparis.ch"},
-            {"Insurer": "Generali", "Review": "Good value for money and transparent communication.", "Score": round(5/6*5, 2), "Total reviews": "N/A", "% Positive": "N/A", "Source": "Comparis.ch"},
-            {"Insurer": "Allianz", "Review": "High overall satisfaction and quality service.", "Score": round(5.1/6*5, 2), "Total reviews": "N/A", "% Positive": "N/A", "Source": "Comparis.ch"},
-        ]
-        travel_reviews = [
-            {"Insurer": "AXA", "Review": "Very positive customer feedback on eKomi.", "Score": 4.7, "Total reviews": 102100, "% Positive": "94.42%", "Source": "eKomi"},
-            {"Insurer": "Generali", "Review": "No public rating available for travel insurance on Comparis.ch", "Score": "N/A", "Total reviews": "N/A", "% Positive": "N/A", "Source": "Comparis.ch"},
-            {"Insurer": "Allianz", "Review": "-", "Score": "-", "Total reviews": "-", "% Positive": "-", "Source": "-"},
-        ]
-
-        selected_reviews = car_reviews if public_product == "car" else travel_reviews
-        df_reviews = pd.DataFrame(selected_reviews)
-        st.dataframe(df_reviews, use_container_width=True, hide_index=True)
+        if public_product == "car":
+            # Detailed criteria table for car insurance (scores out of 6)
+            car_criteria_data = [
+                {
+                    "Insurer": "AXA",
+                    "Value for money": "5.0 / 6",
+                    "Quality & service": "5.1 / 6",
+                    "Info & transparency": "5.1 / 6",
+                    "Friendliness": "5.1 / 6",
+                    "Overall satisfaction": "5.2 / 6",
+                    "Category": "Silver"
+                },
+                {
+                    "Insurer": "Generali",
+                    "Value for money": "4.9 / 6",
+                    "Quality & service": "4.9 / 6",
+                    "Info & transparency": "5.0 / 6",
+                    "Friendliness": "5.0 / 6",
+                    "Overall satisfaction": "5.1 / 6",
+                    "Category": "Silver"
+                },
+                {
+                    "Insurer": "Allianz",
+                    "Value for money": "5.0 / 6",
+                    "Quality & service": "5.0 / 6",
+                    "Info & transparency": "5.0 / 6",
+                    "Friendliness": "5.0 / 6",
+                    "Overall satisfaction": "5.1 / 6",
+                    "Category": "Silver"
+                },
+            ]
+            df_criteria = pd.DataFrame(car_criteria_data)
+            st.subheader("Comparis.ch Criteria Table (Car Insurance)")
+            st.dataframe(df_criteria, use_container_width=True, hide_index=True)
+        elif public_product == "travel":
+            st.info("No detailed public criteria available for travel insurance.")
 
         # Optional: textual summary
         for _, row in df_reviews.iterrows():
