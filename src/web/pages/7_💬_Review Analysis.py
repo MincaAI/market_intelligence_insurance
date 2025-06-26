@@ -188,10 +188,6 @@ with tab2:
         elif public_product == "travel":
             st.info("No detailed public criteria available for travel insurance.")
 
-        # Optional: textual summary
-        for _, row in df_reviews.iterrows():
-            st.markdown(f"**{row['Insurer']}** (Source: {row['Source']}): {row['Score']}/5")
-
         st.info("All scores and reviews are sourced from Comparis.ch for car insurance and from eKomi/Comparis.ch for travel insurance. Scores are normalized to a 5-point scale for comparison when needed.")
 
         if public_product == "car":
