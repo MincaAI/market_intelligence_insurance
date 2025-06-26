@@ -77,4 +77,24 @@ def run_agent_test():
         traceback.print_exc()
 
 if __name__ == "__main__":
+    from agent.nodes.axa_rag import run_axa
+    from agent.nodes.generali_rag import run_generali
+
+    # Prépare un état minimal pour le test
+    state = {
+        "user_input": "Quelles sont les exclusions principales ?",
+        "detected_category": "5. Responsabilité civile (RC)",
+        "axa_result": "",
+        "generali_result": "",
+        "comparison": ""
+    }
+
+    print("--- Test AXA RAG ---")
+    axa_state = run_axa(state.copy())
+    print(axa_state["axa_result"])
+
+    print("--- Test Generali RAG ---")
+    generali_state = run_generali(state.copy())
+    print(generali_state["generali_result"])
+
     run_agent_test() 

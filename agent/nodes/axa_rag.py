@@ -10,9 +10,6 @@ def run_axa(state: CompareState) -> CompareState:
         # Initialiser la chaîne RAG
         rag_chain = RAGChain()
         
-        # Le 'product' de l'état est utilisé comme 'namespace'
-        namespace = state["product"] 
-        
         # Effectuer la recherche pour AXA avec filtre par catégorie
         results = rag_chain.search(
             query=state["user_input"],
