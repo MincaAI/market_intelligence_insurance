@@ -4,7 +4,7 @@ from PyPDF2 import PdfReader
 import io
 import fitz  # PyMuPDF
 import concurrent.futures
-from .agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
+from agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from .models import TravelInsuranceProduct, CarCriteria
