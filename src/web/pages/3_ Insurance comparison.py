@@ -10,6 +10,8 @@ import concurrent.futures
 from fill_in_excel.agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value #type: ignore
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
+from fill_in_excel.models import TravelInsuranceProduct, CarCriteria
+from typing import get_args
 
 st.title("Detailed Insurance Comparison")
 st.write("This page allows you to compare in detail the coverages, prices, exclusions, etc. between different insurers.")
@@ -84,6 +86,27 @@ def get_pdf_text_from_path(pdf_path):
             st.error(f"Both PDF parsers failed. Fallback parser (PyPDF2) error: {e2}")
             return ""
 
+def get_ordered_keys_from_model(model_class, prefix=''):
+    """Recursively generates ordered, flattened keys from a Pydantic model class."""
+    keys = []
+    for name, field in model_class.model_fields.items():
+        current_key = f"{prefix}.{name}" if prefix else name
+        
+        field_type = field.annotation
+        
+        # Handle Optional[Model] and Union[Model, None]
+        type_args = get_args(field_type)
+        
+        model_in_union = next((arg for arg in type_args if isinstance(arg, type) and issubclass(arg, BaseModel)), None)
+
+        if model_in_union:
+            keys.extend(get_ordered_keys_from_model(model_in_union, prefix=current_key))
+        elif isinstance(field_type, type) and issubclass(field_type, BaseModel):
+            keys.extend(get_ordered_keys_from_model(field_type, prefix=current_key))
+        else:
+            keys.append(current_key)
+    return keys
+
 def flatten_model_for_excel(model, prefix=''):
     """Recursively flattens a Pydantic model for Excel export."""
     data = {}
@@ -97,51 +120,78 @@ def flatten_model_for_excel(model, prefix=''):
                 data[current_path] = format_value(value)
     return data
 
-def to_excel(doc1_data, doc2_data, llm):
-    """Creates an Excel report with three sheets."""
+def to_excel(doc1_data, doc2_data, llm, doc1_name, doc2_name):
+    """Creates an Excel report with one sheet."""
     output = io.BytesIO()
-    
+
+    def get_insurer_name(filename):
+        if "generali" in filename.lower():
+            return "Generali"
+        if "axa" in filename.lower():
+            return "AXA"
+        return "Insurer"
+
+    insurer1_name = get_insurer_name(doc1_name)
+    insurer2_name = get_insurer_name(doc2_name)
+
     flat_doc1 = flatten_model_for_excel(doc1_data)
     flat_doc2 = flatten_model_for_excel(doc2_data)
-    
-    df1 = pd.DataFrame(flat_doc1.items(), columns=['Criteria', 'Value'])
-    df2 = pd.DataFrame(flat_doc2.items(), columns=['Criteria', 'Value'])
+
+    # Get keys in the order defined by the model
+    if isinstance(doc1_data, TravelInsuranceProduct):
+        all_keys = get_ordered_keys_from_model(TravelInsuranceProduct)
+    elif isinstance(doc1_data, CarCriteria):
+        all_keys = get_ordered_keys_from_model(CarCriteria)
+    else:
+        # Fallback to the old method if the type is unknown
+        all_keys = sorted(list(set(flat_doc1.keys()) | set(flat_doc2.keys())))
     
     comparison_data = []
-    all_keys = sorted(list(set(flat_doc1.keys()) | set(flat_doc2.keys())))
     for key in all_keys:
         val1 = flat_doc1.get(key, "Not Available")
         val2 = flat_doc2.get(key, "Not Available")
-        comp = get_detailed_comparison(llm, key, val1, val2)
-        comparison_data.append({'Criteria': key, 'Comparison': comp})
-    
+        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name, insurer2_name)
+        
+        row = {
+            'Criteria': key,
+            insurer1_name: val1,
+            insurer2_name: val2,
+            'Comparison': comp
+        }
+        comparison_data.append(row)
+
     df_comp = pd.DataFrame(comparison_data)
 
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df1.to_excel(writer, index=False, sheet_name='Insurer 1')
-        df2.to_excel(writer, index=False, sheet_name='Insurer 2')
         df_comp.to_excel(writer, index=False, sheet_name='Comparison')
         
     return output.getvalue()
 
 
-def get_comparison_table(section_title, doc1_section, doc2_section, llm):
+def get_comparison_table(section_title, doc1_section, doc2_section, llm, insurer1_name, insurer2_name):
     """Generates a comparison table for a section of the insurance product."""
     st.header(section_title)
     
     table_data = []
     
-    if isinstance(doc1_section, BaseModel):
-        for field_name, field in doc1_section.model_fields.items():
-            value1 = getattr(doc1_section, field_name)
-            value2 = getattr(doc2_section, field_name)
+    if doc1_section is None and doc2_section is None:
+        st.write("Not available in either document.")
+        return
+
+    # Use the model class to iterate over fields, not the instance
+    model_class = type(doc1_section) if doc1_section is not None else type(doc2_section)
+
+    if issubclass(model_class, BaseModel):
+        for field_name, field in model_class.model_fields.items():
+            value1 = getattr(doc1_section, field_name, None) if doc1_section else None
+            value2 = getattr(doc2_section, field_name, None) if doc2_section else None
             
             # Format values for display
             formatted_value1 = format_value(value1)
             formatted_value2 = format_value(value2)
             
             # Get detailed comparison
-            analysis = get_detailed_comparison(llm, field_name, value1, value2)
+            analysis = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name, insurer2_name)
             
             table_data.append([
                 field_name.replace('_', ' ').title(),
@@ -153,7 +203,7 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm):
         # Handle simple fields
         formatted_value1 = format_value(doc1_section)
         formatted_value2 = format_value(doc2_section)
-        analysis = get_detailed_comparison(llm, section_title, doc1_section, doc2_section)
+        analysis = get_detailed_comparison(llm, section_title, doc1_section, doc2_section, insurer1_name, insurer2_name)
         table_data.append([
             section_title,
             formatted_value1,
@@ -162,7 +212,7 @@ def get_comparison_table(section_title, doc1_section, doc2_section, llm):
         ])
 
         
-    df = pd.DataFrame(table_data, columns=["Criterion", "Insurer 1", "Insurer 2", "Analysis"])
+    df = pd.DataFrame(table_data, columns=["Criterion", insurer1_name, insurer2_name, "Analysis"])
     
     st.dataframe(df)
 
@@ -187,12 +237,15 @@ if st.button("Compare"):
             
             st.header("Comparison Summary")
 
-            for field_name, field in doc1_data.model_fields.items():
-                doc1_section = getattr(doc1_data, field_name)
-                doc2_section = getattr(doc2_data, field_name)
-                get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm)
+            # Use the model class for iteration
+            for field_name, field in doc1_data.__class__.model_fields.items():
+                doc1_section = getattr(doc1_data, field_name, None)
+                doc2_section = getattr(doc2_data, field_name, None)
+                insurer1_name = "Generali" if "generali" in selected_path1.lower() else "AXA" if "axa" in selected_path1.lower() else "Insurer 1"
+                insurer2_name = "Generali" if "generali" in selected_path2.lower() else "AXA" if "axa" in selected_path2.lower() else "Insurer 2"
+                get_comparison_table(field_name.replace('_', ' ').title(), doc1_section, doc2_section, llm, insurer1_name, insurer2_name)
 
-            excel_data = to_excel(doc1_data, doc2_data, llm)
+            excel_data = to_excel(doc1_data, doc2_data, llm, selected_path1, selected_path2)
             st.download_button(
                 label="Download Full Report as Excel",
                 data=excel_data,

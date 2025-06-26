@@ -2,729 +2,921 @@ from enum import Enum
 from typing import List, Optional, Union, Dict
 from pydantic import BaseModel, Field
 
-class PaymentFrequency(str, Enum):
-    """
-    Enumeration of supported intervals for premium payments within an insurance policy.
-    Useful for identifying and validating the billing cycle specified in the raw document.
-
-    Possible values:
-    - monthly: Premium is due every calendar month.
-    - quarterly: Premium is due every three months.
-    - semiannual: Premium is due every six months.
-    - annual: Premium is paid once per policy year.
-    """
-    monthly = "monthly"
-    quarterly = "quarterly"
-    semiannual = "semiannual"
-    annual = "annual"
-
-
-class CoverageDetailOptions(BaseModel):
-    """
-    Describes configuration options for a particular coverage component.
-    When extracting from text, locate the section heading that introduces this coverage,
-    then capture all listed monetary limits, deductible tiers, and scope descriptions.
-
-    Attributes:
-    - listed_under: Document section title where this coverage is defined.
-    - coverage_sum_options: Valid coverage limit values or ranges as stated.
-    - deductible_options: Available deductible tiers for this coverage.
-    - scope_options: Textual descriptions of included perils and conditions.
-    """
-    listed_under: Optional[str] = Field(
-        None,
-        description=(
-            "Document heading or clause under which this coverage’s details appear. "
-            "Used by the extractor to navigate to the correct section of the policy text."
-        )
+class General(BaseModel):
+    payment_frequency: List[str] = Field(
+        ...,
+        description="Payment frequency. Example: ['Annual', 'Semi-annual', 'Monthly']"
     )
-    coverage_sum_options: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of coverage limit values or labeled ranges as shown in the policy, e.g., '1000 USD', 'No limit'. "
-            "Enables validation of selected sums against permitted options."
-        )
+    online_discount: List[str] = Field(
+        ...,
+        description="Online discount. Example: ['10% off for online purchase']"
     )
-    deductible_options: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of deductible choices defined for this coverage, such as 'Standard', 'Premium'. "
-            "Each choice represents a defined out-of-pocket responsibility tier."
-        )
-    )
-    scope_options: Optional[List[str]] = Field(
-        None,
-        description=(
-            "Descriptions of covered events or perils associated with each option, "
-            "for example ['Fire', 'Theft', 'Glass breakage'], to clarify policy scope."
-        )
+    risk_questions_new: List[str] = Field(
+        ...,
+        description="Risk questions. Example: ['Have you had any accidents in the past 5 years?']"
     )
 
-
-class DeductibleSelection(BaseModel):
-    """
-    Captures deductible configuration for specific driver categories or coverage types.
-
-    Attributes:
-    - listed_under: Section label indicating where deductible options are presented.
-    - options: List of deductible labels or numeric values extracted.
-    """
-    listed_under: Optional[str] = Field(
-        None,
-        description=(
-            "Label or clause title in the policy text where deductible information is provided. "
-            "Guides the extractor to the relevant deductible section."
-        )
+class Liability(BaseModel):
+    deductible_for_young_drivers_selection: str = Field(
+        ...,
+        description="Deductible for young drivers (Selection). Example: 'CHF 1,000'"
     )
-    options: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of named deductible levels or amounts offered, e.g., '250', '500', '1000'. "
-            "Allows downstream systems to present and validate user selections."
-        )
+    standard_deductible_selection: str = Field(
+        ...,
+        description="Standard deductible (Selection). Example: 'CHF 500'"
     )
-
-
-class OptionCoverage(BaseModel):
-    """
-    Represents optional add-on features or service tiers without explicit monetary limits.
-
-    Attributes:
-    - listed_under: Policy text heading under which the add-on is described.
-    - choices: Available option names or variants as presented in the document.
-    """
-    listed_under: Optional[str] = Field(
-        None,
-        description=(
-            "Heading in the policy document where this optional coverage is detailed. "
-            "Essential for locating the descriptive rules associated with the add-on."
-        )
+    bonus_protection: List[str] = Field(
+        ...,
+        description="Bonus protection. Example: ['No-claim bonus protection']"
     )
-    choices: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of available add-on tiers or feature names, such as 'Basic', 'Premium'. "
-            "Used to map user selections to policy-defined options."
-        )
+    bonus_protection_listed_under: List[str] = Field(
+        ...,
+        description="Bonus protection listed under. Example: ['Collision coverage']"
+    )
+    scope_of_coverage_selection: str = Field(
+        ...,
+        description="Scope of coverage (Selection). Example: 'Switzerland & EU'"
+    )
+    own_damage: List[str] = Field(
+        ...,
+        description="Own damage coverage. Example: ['Fire', 'Theft']"
+    )
+    own_damage_listed_under: List[str] = Field(
+        ...,
+        description="Own damage listed under. Example: ['Comprehensive coverage']"
+    )
+    own_damage_sum_insured: str = Field(
+        ...,
+        description="Own damage sum insured. Example: 'CHF 25,000'"
     )
 
-
-class AccidentOptions(BaseModel):
-    """
-    Structured representation of benefits and allowances under accident protection.
-
-    Attributes:
-    - listed_under: Section heading grouping all accident protection details.
-    - death_benefit: Available death capital amounts.
-    - disability_benefit: Disability compensation sums.
-    - daily_allowance: Daily recovery allowances.
-    - hospital_daily_allowance: Inpatient daily rates.
-    - medical_costs: Maximum medical expense coverage options.
-    """
-    listed_under: Optional[str] = Field(
-        None,
-        description=(
-            "Section or clause in the policy where accident benefits are introduced. "
-            "Used to anchor extraction of all related fields."
-        )
+class PartialInsurance(BaseModel):
+    deductible_selection: str = Field(
+        ...,
+        description="Partial insurance deductible (Selection). Example: 'CHF 300'"
     )
-    death_benefit: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of death benefit amounts specified, such as '10000 USD', '20000 USD'. "
-            "Ensures extracted values align with policy-defined benefit levels."
-        )
-    )
-    disability_benefit: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of compensation amounts payable for permanent disability events."
-        )
-    )
-    daily_allowance: Optional[List[str]] = Field(
-        None,
-        description=(
-            "Available daily allowance rates for recovery days, e.g., '100 USD/day'. "
-            "Helps determine per-day compensation levels."
-        )
-    )
-    hospital_daily_allowance: Optional[List[str]] = Field(
-        None,
-        description=(
-            "Daily reimbursement rates for hospital stays, distinct from general allowances."
-        )
-    )
-    medical_costs: Optional[List[str]] = Field(
-        None,
-        description=(
-            "Maximum medical cost coverage options as listed, defining treatment ceilings."
-        )
+    scope_of_coverage: str = Field(
+        ...,
+        description="Partial insurance scope of coverage. Example: 'Collision only'"
     )
 
-
-class AssistanceDetail(BaseModel):
-    """
-    Extracts roadside assistance service details, including geographic applicability.
-
-    Attributes:
-    - listed_under: Heading where assistance services are documented.
-    - region_options: Geographic areas covered by assistance.
-    """
-    listed_under: Optional[str] = Field(
-        None,
-        description=(
-            "Heading or label in the policy text that introduces assistance coverage details."
-        )
+class FullyComprehensiveInsurance(BaseModel):
+    deductible_for_young_drivers_selection: str = Field(
+        ...,
+        description="Deductible for young drivers (Selection). Example: 'CHF 1,500'"
     )
-    region_options: Optional[List[str]] = Field(
-        None,
-        description=(
-            "List of regions or territories where assistance applies, as specified in the coverage section."
-        )
+    standard_deductible_selection: str = Field(
+        ...,
+        description="Standard deductible (Selection). Example: 'CHF 700'"
+    )
+    bonus_protection: List[str] = Field(
+        ...,
+        description="Bonus protection. Example: ['Protected no-claim bonus']"
+    )
+    bonus_protection_listed_under: List[str] = Field(
+        ...,
+        description="Bonus protection listed under. Example: ['Fully comprehensive']"
+    )
+    scope_of_coverage_selection: str = Field(
+        ...,
+        description="Scope of coverage (Selection). Example: 'Worldwide'"
     )
 
+class GrossNegligence(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Gross negligence coverage module. Example: ['Up to CHF 10,000']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Gross negligence listed under. Example: ['Legal protection']"
+    )
 
+class Compensation(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Compensation coverage module. Example: ['Vehicle value compensation']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Compensation listed under. Example: ['Accident benefits']"
+    )
+    selection: str = Field(
+        ...,
+        description="Compensation option (Selection). Example: 'Market value at loss date'"
+    )
+
+class ParkingDamage(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Parking damage coverage module. Example: ['Parking bumpers']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Parking damage listed under. Example: ['Partial insurance']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Parking damage sum insured. Example: 'CHF 2,000'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Parking damage sum insured (Selection). Example: 'Up to CHF 2,000'"
+    )
+    deductible: str = Field(
+        ...,
+        description="Parking damage deductible. Example: 'CHF 300'"
+    )
+    deductible_selection: str = Field(
+        ...,
+        description="Parking damage deductible (Selection). Example: 'CHF 300 per event'"
+    )
+    scope_of_coverage: str = Field(
+        ...,
+        description="Parking damage scope of coverage. Example: 'Public parking only'"
+    )
+
+class GlassPlus(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Glass Plus coverage module. Example: ['Windshield repair']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Glass Plus listed under. Example: ['Additional coverage']"
+    )
+    deductible: str = Field(
+        ...,
+        description="Glass Plus deductible. Example: 'No deductible'"
+    )
+
+class VehicleInterior(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Vehicle interior coverage module. Example: ['Seat upholstery']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Vehicle interior listed under. Example: ['Comprehensive add-on']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Vehicle interior sum insured. Example: 'CHF 1,000'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Vehicle interior sum insured (Selection). Example: 'Up to CHF 1,000'"
+    )
+
+class TiresAndRims(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Tires & rims coverage module. Example: ['Puncture protection']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Tires & rims listed under. Example: ['Additional cover']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Tires & rims sum insured. Example: 'CHF 2,500'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Tires & rims sum insured (Selection). Example: 'Up to CHF 2,500'"
+    )
+
+class VehicleKey(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Vehicle key coverage module. Example: ['Key replacement']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Vehicle key listed under. Example: ['Comprehensive add-on']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Vehicle key sum insured. Example: 'CHF 1,200'"
+    )
+
+class ChargingStationWallbox(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Charging station (wallbox) coverage module. Example: ['Wallbox repair']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Charging station listed under. Example: ['Home assistance']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Charging station sum insured. Example: 'CHF 3,000'"
+    )
+    deductible: str = Field(
+        ...,
+        description="Charging station deductible. Example: 'CHF 500'"
+    )
+
+class Battery(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Battery coverage module. Example: ['Battery replacement']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Battery listed under. Example: ['Additional coverage']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Battery sum insured. Example: 'CHF 4,000'"
+    )
+    deductible: str = Field(
+        ...,
+        description="Battery deductible. Example: 'CHF 800'"
+    )
+
+class CyberAttacksRemediationCosts(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Cyber-attack remediation coverage module. Example: ['Data recovery']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Cyber-attack listed under. Example: ['Special risks']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Cyber-attack sum insured. Example: 'CHF 50,000'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Cyber-attack sum insured (Selection). Example: 'Up to CHF 50,000'"
+    )
+
+class ItemsCarried(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Items carried coverage module. Example: ['Luggage contents']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Items carried listed under. Example: ['Luggage extension']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Items carried sum insured. Example: 'CHF 2,000'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Items carried sum insured (Selection). Example: 'Up to CHF 2,000'"
+    )
+
+class RentalReplacementVehicle(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Rental/replacement vehicle coverage module. Example: ['Car hire cover']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Rental/replacement listed under. Example: ['Roadside assistance']"
+    )
+    sum_insured: str = Field(
+        ...,
+        description="Rental/replacement sum insured. Example: 'CHF 150/day'"
+    )
+    sum_insured_selection: str = Field(
+        ...,
+        description="Rental/replacement sum insured (Selection). Example: 'Up to CHF 150/day'"
+    )
+
+class Assistance(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Assistance coverage module. Example: ['Roadside assistance']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Assistance listed under. Example: ['Basic cover']"
+    )
+    scope: str = Field(
+        ...,
+        description="Assistance scope. Example: '24/7 in Europe'"
+    )
+    scope_selection: str = Field(
+        ...,
+        description="Assistance scope (Selection). Example: 'Europe only'"
+    )
+
+class RepairService(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Repair service coverage module. Example: ['On-site repairs']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Repair service listed under. Example: ['Additional services']"
+    )
+    option: List[str] = Field(
+        ...,
+        description="Repair options. Example: ['Mobile workshop']"
+    )
+    option_selection: str = Field(
+        ...,
+        description="Repair option (Selection). Example: 'Mobile workshop'"
+    )
+
+class Accident(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Accident coverage module. Example: ['Personal accident cover']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Accident listed under. Example: ['Basic coverage']"
+    )
+    death_benefit_selection: str = Field(
+        ...,
+        description="Death benefit (Selection). Example: 'CHF 50,000'"
+    )
+    disability_capital_selection: str = Field(
+        ...,
+        description="Disability capital (Selection). Example: 'CHF 30,000'"
+    )
+    daily_allowance_selection: str = Field(
+        ...,
+        description="Daily allowance (Selection). Example: 'CHF 100/day'"
+    )
+    hospital_daily_allowance_selection: str = Field(
+        ...,
+        description="Hospital daily allowance (Selection). Example: 'CHF 200/day'"
+    )
+    healing_costs: str = Field(
+        ...,
+        description="Healing costs. Example: 'Covered up to CHF 5,000'"
+    )
+
+class LegalProtection(BaseModel):
+    coverage_module: List[str] = Field(
+        ...,
+        description="Legal protection coverage module. Example: ['Traffic legal cover']"
+    )
+    listed_under: List[str] = Field(
+        ...,
+        description="Legal protection listed under. Example: ['Additional coverage']"
+    )
+    option: List[str] = Field(
+        ...,
+        description="Legal protection options. Example: ['Civil disputes']"
+    )
+    option_selection: str = Field(
+        ...,
+        description="Legal protection option (Selection). Example: 'Civil disputes'"
+    )
+    
 class CarCriteria(BaseModel):
-    """
-    Defines the full extraction schema for a motor insurance policy.
-    Each field maps to a specific piece of information in the raw policy text.
-
-    General Settings:
-    - general_info: High-level title or summary text.
-    - payment_frequency: Premium billing interval.
-    - online_discount: Discount rate for online purchases.
-    - new_risk_questions: Additional underwriting questions text.
-
-    Liability & Deductibles:
-    - liability, young_driver_deductible, standard_deductible, bonus_protection, own_damage
-
-    Optional Coverage Modules:
-    - partial_comprehensive, full_comprehensive, gross_negligence, compensation,
-      parking_damage, glass_plus, interior, tires_and_rims, keys, wallbox, battery,
-      cyber_attack, personal_effects, rental_vehicle, repair_service, legal_protection
-
-    Assistance & Accident:
-    - assistance, accident_protection
-    """
-    # — General Settings —
-    general_info: Optional[str] = Field(
+    general: General = Field(
+        ...,
+        description="General criteria for the car insurance product."
+    )
+    liability: Liability = Field(
+        ...,
+        description="Liability coverage details."
+    )
+    partial_insurance: Optional[PartialInsurance] = Field(
         None,
-        description=(
-            "Free-text title, header, or summary that provides context for the entire policy. "
-            "Typically a document title or key introductory phrase."
-        )
+        description="Partial insurance coverage details."
     )
-    payment_frequency: Optional[PaymentFrequency] = Field(
+    fully_comprehensive_insurance: Optional[FullyComprehensiveInsurance] = Field(
         None,
-        description=(
-            "Specifies how often the policy premium must be paid, as described in the text. "
-            "E.g., 'monthly', 'annual'."
-        )
+        description="Fully comprehensive insurance coverage details."
     )
-    online_discount: Optional[float] = Field(
+    gross_negligence: Optional[GrossNegligence] = Field(
         None,
-        description=(
-            "Decimal representation of any discount applied to online policy purchases, "
-            "for example '0.10' indicates a 10% reduction in premium."
-        )
+        description="Gross negligence coverage details."
     )
-    new_risk_questions: Optional[str] = Field(
+    compensation: Optional[Compensation] = Field(
         None,
-        description=(
-            "Text of any new or updated risk assessment questions required by the insurer, "
-            "often referencing prior claims or driving history."
-        )
+        description="Compensation coverage details."
     )
+    parking_damage: Optional[ParkingDamage] = Field(
+        None,
+        description="Parking damage coverage details."
+    )
+    glass_plus: Optional[GlassPlus] = Field(
+        None,
+        description="Glass Plus coverage details."
+    )
+    vehicle_interior: Optional[VehicleInterior] = Field(
+        None,
+        description="Vehicle interior coverage details."
+    )
+    tires_and_rims: Optional[TiresAndRims] = Field(
+        None,
+        description="Tires and rims coverage details."
+    )
+    vehicle_key: Optional[VehicleKey] = Field(
+        None,
+        description="Vehicle key coverage details."
+    )
+    charging_station_wallbox: Optional[ChargingStationWallbox] = Field(
+        None,
+        description="Charging station (wallbox) coverage details."
+    )
+    battery: Optional[Battery] = Field(
+        None,
+        description="Battery coverage details."
+    )
+    cyber_attacks_remediation_costs: Optional[CyberAttacksRemediationCosts] = Field(
+        None,
+        description="Cyber-attack remediation costs coverage details."
+    )
+    items_carried: Optional[ItemsCarried] = Field(
+        None,
+        description="Items carried coverage details."
+    )
+    rental_replacement_vehicle: Optional[RentalReplacementVehicle] = Field(
+        None,
+        description="Rental/replacement vehicle coverage details."
+    )
+    assistance: Assistance = Field(
+        ...,
+        description="Assistance services provided with the insurance."
+    )
+    repair_service: RepairService = Field(
+        ...,
+        description="Repair service options available with the insurance."
+    )
+    accident: Accident = Field(
+        ...,
+        description="Accident coverage options."
+    )
+    legal_protection: Optional[LegalProtection] = Field(
+        None,
+        description="Legal protection coverage options."
+    )
+    
 
-    # — Liability & Deductibles —
-    liability: CoverageDetailOptions
-    young_driver_deductible: DeductibleSelection
-    standard_deductible: DeductibleSelection
-    bonus_protection: OptionCoverage
-    own_damage: CoverageDetailOptions
-
-    # — Optional Coverage Modules —
-    partial_comprehensive: CoverageDetailOptions
-    full_comprehensive: CoverageDetailOptions
-    gross_negligence: CoverageDetailOptions
-    compensation: CoverageDetailOptions
-    parking_damage: CoverageDetailOptions
-    glass_plus: CoverageDetailOptions
-    interior: CoverageDetailOptions
-    tires_and_rims: CoverageDetailOptions
-    keys: CoverageDetailOptions
-    wallbox: CoverageDetailOptions
-    battery: CoverageDetailOptions
-    cyber_attack: CoverageDetailOptions
-    personal_effects: CoverageDetailOptions
-    rental_vehicle: CoverageDetailOptions
-    repair_service: OptionCoverage
-    legal_protection: OptionCoverage
-
-    # — Assistance & Accident —
-    assistance: AssistanceDetail
-    accident_protection: AccidentOptions
-
-class ProductDetails(BaseModel):
-    # ── Identity & Pricing ──────────────────────────────────────────────────────
-    product_name: str = Field(
-        ...,
-        description="Full product name as it appears on documentation, preserving edition, trademarks, version."
-    )
-    product_type: List[str] = Field(
-        ...,
-        description="List product types offered: 'Single Trip', 'Annual', 'Modular', etc."
-    )
-    target_market: List[str] = Field(
-        ...,
-        description="List intended audience segments: 'Leisure', 'Business', 'Both'."
-    )
-    single_trip_price_from: str = Field(
-        ...,
-        description="Specify price for single-trip policies, e.g. 'From CHF X'."
-    )
-    annual_individual_from: str = Field(
-        ...,
-        description="Specify starting price for annual individual policies, e.g. 'From CHF X'."
-    )
-    annual_family_from: str = Field(
-        ...,
-        description="Specify starting price for annual family policies, e.g. 'From CHF X'."
-    )
-    unique_selling_points: List[str] = Field(
-        ...,
-        description="List main advantages or selling points of this product."
-    )
-    major_exclusions: List[str] = Field(
-        ...,
-        description="List the principal exclusions or limitations."
-    )
-    special_features: List[str] = Field(
-        ...,
-        description="List any additional benefits not covered elsewhere."
-    )
-
-    # ── Payment & Premium ───────────────────────────────────────────────────────
-    annual_premium_basic_coverage: str = Field(
-        ...,
-        description="Specify the annual premium for basic coverage as a CHF amount or range, e.g. 'CHF X–Y' or 'From CHF X'."
-    )
-    annual_premium_additional_coverage: str = Field(
-        ...,
-        description="Specify the annual premium for any additional coverage options (CHF per option)."
-    )
-    payment_methods: List[str] = Field(
-        ...,
-        description="List accepted payment frequencies or methods, e.g. 'Annual', 'Semi-annual', 'Monthly', 'Per trip'."
-    )
-    online_purchase_available: List[str] = Field(
-        ...,
-        description="Indicate whether online purchase is available and any restrictions, e.g. 'Yes', 'No', 'Restrictions (describe)'."
-    )
-
-class CoverageDetails(BaseModel):
-    # ── Core Policy Terms ───────────────────────────────────────────────────────
+class GeneralPoints(BaseModel):
     product_variants_available: List[str] = Field(
-        ...,
-        description="List all distinct policy types or plans available under this product, e.g. 'Single Trip', 'Annual', 'Family', 'Business'."
+        ..., 
+        description="List all product variants available (e.g., 'Single Trip', 'Annual', 'Family', 'Business')."
     )
     contract_duration_options: List[str] = Field(
-        ...,
-        description="List the contract duration options with their time frames, e.g. 'Single trip: X days', 'Annual: 12 months', 'Other'."
+        ..., 
+        description="Contract duration options (e.g., 'Single trip: 7 days', 'Annual: 12 months', 'Other')."
     )
     special_discounts_available: List[str] = Field(
-        ...,
-        description="List any special discounts such as 'Family', 'Senior', 'Youth', 'Group', 'Online booking'."
+        ..., 
+        description="Special discounts available (e.g., 'Family', 'Senior', 'Online booking')."
     )
     territorial_validity: List[str] = Field(
-        ...,
-        description="List geographic regions where coverage applies, e.g. 'Europe', 'Worldwide', 'Worldwide excl. USA-Canada', 'Zones'."
+        ..., 
+        description="Territorial validity regions (e.g., 'Europe', 'Worldwide', 'Worldwide excl. USA-Canada')."
     )
     cancellation_rights: List[str] = Field(
-        ...,
-        description="List cancellation rights and values, e.g. 'Automatic renewal: Yes/No', 'Special termination rights'."
+        ..., 
+        description="Cancellation rights (e.g., 'Automatic renewal: No', 'Special termination rights apply')."
     )
-    notice_period: List[str] = Field(
-        ...,
-        description="List any notice period requirements, e.g. 'X months/days', 'Automatic expiry'."
+    notice_period: str = Field(
+        ..., 
+        description="Notice period (e.g., '1 month', '30 days' or 'Automatic expiry')."
     )
     service_features: List[str] = Field(
-        ...,
-        description="List service features such as '24/7 hotline', 'App', 'Online claims'."
+        ..., 
+        description="Service features included (e.g., '24/7 hotline', 'Online claims', 'App-based support')."
+    )
+    online_purchase_available: List[str] = Field(
+        ..., 
+        description="Online purchase availability (e.g., 'Yes', 'No', 'Restrictions apply')."
+    )
+    annual_premium_basic_coverage: str = Field(
+        ..., 
+        description="Annual premium for basic coverage (e.g., 'From CHF 100')."
+    )
+    annual_premium_additional_coverage: str = Field(
+        ..., 
+        description="Annual premium for additional coverage options (e.g., 'CHF 20 for sports coverage')."
+    )
+    payment_methods: List[str] = Field(
+        ..., 
+        description="Payment methods supported (e.g., 'Monthly', 'Annual', 'Per trip')."
     )
     leisure_protection: List[str] = Field(
-        ...,
-        description="Detail leisure protection coverage, e.g. 'Covered up to CHF X', 'Not covered', conditions."
+        ..., 
+        description="Leisure protection coverage (e.g., 'Covered up to CHF 200', 'Not covered')."
     )
     pet_coverage: List[str] = Field(
-        ...,
-        description="Specify pet coverage: 'Included', 'Optional', 'Excluded', plus any limits."
+        ..., 
+        description="Pet coverage options (e.g., 'Optional: up to CHF 100', 'Excluded')."
     )
     epidemic_pandemic_coverage: List[str] = Field(
-        ...,
-        description="List if epidemic/pandemic events are 'Covered', 'Excluded', or 'Limited' with conditions."
+        ..., 
+        description="Epidemic/pandemic coverage (e.g., 'Covered', 'Excluded', 'Limited coverage')."
     )
     min_max_trip_duration: str = Field(
-        ...,
-        description="Specify minimum/maximum trip durations, e.g. 'X days minimum / Y days maximum'."
+        ..., 
+        description="Minimum/maximum trip duration (e.g., '3 days min / 180 days max')."
     )
     age_limits: str = Field(
-        ...,
-        description="Detail age restrictions, e.g. 'Min age X', 'Max age Y', 'Senior conditions'."
+        ..., 
+        description="Age limits for travel (e.g., 'Min age 18 / Max age 75')."
     )
-    waiting_periods: List[str] = Field(
-        ...,
-        description="List waiting periods, e.g. 'X days', 'None', 'By coverage type'."
+    waiting_periods: str = Field(
+        ..., 
+        description="Waiting periods before coverage applies (e.g., 'None', 'X days by coverage type')."
     )
-    individual_insurance: List[str] = Field(
-        ...,
-        description="List specifics for individual insurance: 'Age limits', 'Conditions', 'Premium factors'."
+
+class GroupOfPeople(BaseModel):
+    individual_insurance: str = Field(
+        ..., 
+        description="Individual insurance criteria (e.g., 'Age 18–65; health screening required')."
     )
-    family_insurance: List[str] = Field(
-        ...,
-        description="List specifics for family insurance: 'Definition of family', 'Age limits for children', 'Max persons'."
+    family_insurance: str = Field(
+        ..., 
+        description="Family insurance definition (e.g., 'Spouse + up to 3 children under 18')."
     )
-    additional_insured_persons: List[str] = Field(
-        ...,
-        description="List any additional insured persons (e.g. travel companions) and conditions."
+    additional_insured_persons: str = Field(
+        ..., 
+        description="Additional insured persons allowed (e.g., 'Up to 2 additional adults')."
     )
     family_definition: List[str] = Field(
-        ...,
-        description="Define 'family' per policy, e.g. 'Spouse/Partner', 'Children until age X', living arrangement."
+        ..., 
+        description="Definition of family members (e.g., 'Spouse', 'Children until age 18')."
     )
 
-    # ── Cancellation & Trip ─────────────────────────────────────────────────────
-    cancellation_costs_maximum_coverage: str = Field(
-        ...,
-        description="State maximum cancellation coverage, e.g. 'CHF X per person', 'CHF Y per trip'."
+class BasicCoverage(BaseModel):
+    insured_events_overview: List[str] = Field(
+        ..., 
+        description="Covered events overview (e.g., ['Cancellation', 'Delay', 'Medical'])."
+    )
+    cancellation_maximum_coverage: str = Field(
+        ..., 
+        description="Maximum cancellation coverage (e.g., 'CHF 2,000 per person')."
     )
     cancellation_covered_reasons: List[str] = Field(
-        ...,
-        description="List reasons covered for cancellation: 'Illness', 'Accident', 'Death', 'Job loss', etc."
+        ..., 
+        description="Covered cancellation reasons (e.g., 'Illness', 'Accident')."
     )
     cancellation_deductible: str = Field(
-        ...,
-        description="Specify the deductible, e.g. a CHF amount or X% of claim."
+        ..., 
+        description="Cancellation deductible (e.g., 'CHF 50')."
     )
     cancellation_time_limits: str = Field(
-        ...,
-        description="State the cancellation time limit, e.g. 'Must cancel within X hours/days'."
+        ..., 
+        description="Cancellation time limits (e.g., 'Within 48 hours of booking')."
     )
     cancellation_covered_costs: List[str] = Field(
-        ...,
-        description="List covered costs: 'Flights', 'Hotels', 'Tours', 'Other'."
+        ..., 
+        description="Covered cancellation costs (e.g., 'Flights', 'Hotels')."
     )
     cancellation_exclusions: List[str] = Field(
-        ...,
-        description="List any exclusions specific to cancellation coverage."
+        ..., 
+        description="Cancellation exclusions (e.g., 'Pre-existing conditions')."
     )
     cancellation_additional_benefits: List[str] = Field(
-        ...,
-        description="List any special features or additional benefits for cancellation."
+        ..., 
+        description="Additional cancellation benefits (e.g., 'Waiver of deductible for medical staff')."
     )
     trip_interruption: str = Field(
-        ...,
-        description="Detail trip interruption coverage, e.g. 'Covered up to CHF X', conditions."
+        ..., 
+        description="Trip interruption coverage (e.g., 'Covered up to CHF 1,000')."
     )
     trip_delay: str = Field(
-        ...,
-        description="Detail trip delay compensation, e.g. 'CHF X per hour/day after Y hours delay'."
+        ..., 
+        description="Trip delay compensation (e.g., 'CHF 50/day after 12h delay')."
     )
     missed_departure: str = Field(
-        ...,
-        description="Specify missed departure coverage, e.g. 'Covered up to CHF X', conditions."
+        ..., 
+        description="Missed departure coverage (e.g., 'Covered up to CHF 200')."
     )
-
-    # ── Business, Legal & Luggage ────────────────────────────────────────────────
-    business_travel_basic_coverage: bool = Field(
-        ...,
-        description="Indicate if basic business travel coverage is included (True/False)."
-    )
-    business_travel_additional_premium: str = Field(
-        ...,
-        description="Specify additional premium for business travel, CHF amount or percentage."
-    )
-    business_equipment: str = Field(
-        ...,
-        description="Detail business equipment coverage, limit and item types."
-    )
-    replacement_person: str = Field(
-        ...,
-        description="Specify coverage for replacement person costs, including limits."
-    )
-    business_interruption: str = Field(
-        ...,
-        description="Detail business interruption coverage scope and limits."
-    )
-    travel_legal_protection_available: bool = Field(
-        ...,
-        description="Indicate if travel/legal protection is available (True/False)."
-    )
-    legal_protection_coverage_limit: str = Field(
-        ...,
-        description="Specify coverage limit e.g. 'CHF X per case', 'CHF Y per year'."
-    )
-    legal_protection_deductible: str = Field(
-        ...,
-        description="Specify deductible for legal protection, CHF amount."
-    )
-    legal_protection_covered_disputes: List[str] = Field(
-        ...,
-        description="List types of disputes covered under legal protection."
-    )
-    legal_protection_geographic_scope: List[str] = Field(
-        ...,
-        description="List geographic scope for legal protection coverage."
-    )
-    legal_protection_waiting_period: str = Field(
-        ...,
-        description="Specify waiting period for legal protection, e.g. 'X days', 'None'."
-    )
-    travel_luggage_available: bool = Field(
-        ...,
-        description="Indicate if luggage coverage is available (True/False)."
-    )
-    luggage_sum_insured: str = Field(
-        ...,
-        description="Specify sum insured for luggage, e.g. 'CHF X per person/trip'."
-    )
-    luggage_per_item_limit: str = Field(
-        ...,
-        description="Specify per-item limit for luggage coverage."
-    )
-    luggage_valuables_limit: str = Field(
-        ...,
-        description="Specify valuables limit under luggage coverage."
-    )
-    luggage_deductible: str = Field(
-        ...,
-        description="Specify deductible for luggage coverage, as CHF amount or percentage."
-    )
-    luggage_covered_perils: List[str] = Field(
-        ...,
-        description="List perils covered under luggage, e.g. 'Theft', 'Damage', 'Loss', 'Delay'."
-    )
-    luggage_delay_compensation: str = Field(
-        ...,
-        description="Detail compensation for luggage delay, e.g. 'After X hours: CHF Y'."
-    )
-    luggage_exclusions: List[str] = Field(
-        ...,
-        description="List exclusions specific to luggage coverage."
-    )
-    cdw_coverage_available: bool = Field(
-        ...,
-        description="Indicate if CDW coverage is available (True/False)."
-    )
-    cdw_coverage_limit: str = Field(
-        ...,
-        description="Specify CDW coverage limit, e.g. 'CHF X per event', 'per year'."
-    )
-    cdw_vehicle_types: List[str] = Field(
-        ...,
-        description="List vehicle types covered under CDW, e.g. 'Cars', 'Motorhomes', 'Motorcycles'."
-    )
-    cdw_geographic_validity: List[str] = Field(
-        ...,
-        description="List geographic validity for CDW coverage."
-    )
-    cdw_rental_duration_limit: str = Field(
-        ...,
-        description="Specify rental duration limit under CDW, e.g. 'Max X days'."
-    )
-    cdw_premium: str = Field(
-        ...,
-        description="Specify premium for CDW coverage, as a CHF amount."
-    )
-
-class AssistanceServices(BaseModel):
-    # ── Personal & Medical ───────────────────────────────────────────────────────
     personal_assistance_available: bool = Field(
-        ...,
-        description="Indicate if personal assistance is available (True/False)."
+        ..., 
+        description="Is personal assistance available? (e.g., True for 24/7 service)."
     )
     medical_evacuation: str = Field(
-        ...,
-        description="Detail medical evacuation coverage, e.g. 'Covered up to CHF X', conditions."
+        ..., 
+        description="Medical evacuation coverage (e.g., 'Unlimited')."
     )
     repatriation: str = Field(
-        ...,
-        description="Detail repatriation coverage, e.g. 'Covered up to CHF X', medical necessity."
+        ..., 
+        description="Repatriation coverage (e.g., 'Unlimited for medical necessity')."
     )
     hospital_visit_organization: str = Field(
-        ...,
-        description="Detail hospital visit organization coverage, including travel cost limits and beneficiaries."
+        ..., 
+        description="Hospital visit organization coverage (e.g., 'Up to CHF 500 per visitor')."
     )
     return_of_children: str = Field(
-        ...,
-        description="Specify child return coverage, e.g. 'Covered', age limits, accompaniment."
+        ..., 
+        description="Return of children coverage (e.g., 'Covered up to age 15')."
     )
     search_and_rescue_costs: str = Field(
-        ...,
-        description="Detail search and rescue costs coverage, max amount and limits."
+        ..., 
+        description="Search and rescue coverage (e.g., 'Up to CHF 5,000')."
     )
-    medical_referral_service: List[str] = Field(
-        ...,
-        description="List medical referral service details, e.g. '24/7', languages."
+    medical_referral_service: str = Field(
+        ..., 
+        description="Medical referral service availability (e.g., '24/7 in EN/DE/FR')."
     )
     other_personal_assistance: List[str] = Field(
-        ...,
-        description="List additional personal assistance services."
+        ..., 
+        description="Other personal assistance services (e.g., ['Interpreter service'])."
     )
-
-    # ── Vehicle & Travel ────────────────────────────────────────────────────────
     vehicle_assistance_available: bool = Field(
-        ...,
-        description="Indicate if vehicle assistance is available (True/False)."
+        ..., 
+        description="Is vehicle assistance available? (e.g., True)."
     )
     breakdown_assistance: str = Field(
-        ...,
-        description="Detail breakdown assistance coverage, e.g. 'Covered up to CHF X'."
+        ..., 
+        description="Breakdown assistance coverage (e.g., 'CHF 300 for car')."
     )
     towing_service: str = Field(
-        ...,
-        description="Detail towing service limits, e.g. 'Distance/Amount CHF X', destination."
+        ..., 
+        description="Towing service details (e.g., 'Up to 50 km')."
     )
     replacement_vehicle: str = Field(
-        ...,
-        description="Specify replacement vehicle coverage: days, category, conditions."
+        ..., 
+        description="Replacement vehicle provision (e.g., '3 days, compact car')."
     )
     onwards_return_journey: str = Field(
-        ...,
-        description="Detail onward or return journey coverage, limits."
+        ..., 
+        description="Onward/return journey coverage (e.g., 'Up to CHF 1,000')."
     )
     vehicle_return: str = Field(
-        ...,
-        description="Detail vehicle return coverage, including driver conditions."
+        ..., 
+        description="Vehicle return conditions (e.g., 'Covered; licensed driver required')."
     )
     other_vehicle_assistance: List[str] = Field(
-        ...,
-        description="List additional vehicle assistance services."
+        ..., 
+        description="Other vehicle assistance services (e.g., ['Fuel delivery'])."
     )
     additional_accommodation: str = Field(
-        ...,
-        description="Specify additional accommodation coverage, e.g. 'CHF X per day', max total."
+        ..., 
+        description="Additional accommodation coverage (e.g., 'CHF 150/day up to CHF 600')."
     )
     phone_costs: str = Field(
-        ...,
-        description="Detail phone cost coverage, limits and call types."
+        ..., 
+        description="Phone costs coverage (e.g., 'Up to CHF 100 for local calls')."
     )
     translation_services: str = Field(
-        ...,
-        description="Detail translation service coverage, limits and availability."
+        ..., 
+        description="Translation services coverage (e.g., 'Up to CHF 200 in emergencies')."
     )
     legal_advance_payment: str = Field(
-        ...,
-        description="Specify legal advance payment coverage, e.g. 'Up to CHF X', repayment terms."
+        ..., 
+        description="Legal advance payment details (e.g., 'Up to CHF 5,000; repay within 30 days')."
     )
     bail_bond_advance: str = Field(
-        ...,
-        description="Specify bail bond advance coverage and conditions."
+        ..., 
+        description="Bail bond advance coverage (e.g., 'Up to CHF 10,000')."
     )
     other_cost_coverage: List[str] = Field(
-        ...,
-        description="List any other costs covered by the policy."
+        ..., 
+        description="Other cost coverages (e.g., ['Visa fees'])."
+    )
+    business_travel_basic_coverage: List[str] = Field(
+        ..., 
+        description="Basic business travel coverage (e.g., ['Included'])."
+    )
+    business_travel_additional_premium: str = Field(
+        ..., 
+        description="Additional premium for business travel (e.g., '+10%')."
+    )
+    business_equipment: str = Field(
+        ..., 
+        description="Business equipment coverage (e.g., 'Up to CHF 2,000 for laptop')."
+    )
+    replacement_person: str = Field(
+        ..., 
+        description="Replacement person coverage (e.g., 'Up to CHF 1,500')."
+    )
+    business_interruption: str = Field(
+        ..., 
+        description="Business interruption coverage (e.g., 'Up to CHF 3,000/day')."
     )
 
-    # ── E-Bike, Home & Insolvency ───────────────────────────────────────────────
-    e_bike_moped_assistance_available: bool = Field(
-        ...,
-        description="Indicate if E-Bike/Moped assistance is available (True/False)."
+class AdditionalCoverage(BaseModel):
+    travel_legal_protection_available: bool = Field(
+        ..., 
+        description="Is travel legal protection available? (e.g., True)."
     )
-    e_bike_breakdown_service: str = Field(
-        ...,
-        description="Detail E-Bike breakdown service, e.g. 'CHF X per event', distance limits."
+    legal_protection_coverage_limit: str = Field(
+        ..., 
+        description="Legal protection coverage limit (e.g., 'CHF 2,000 per case')."
     )
-    e_bike_transport: str = Field(
-        ...,
-        description="Specify E-Bike transport coverage, e.g. 'To where', 'Max distance'."
+    legal_protection_deductible: str = Field(
+        ..., 
+        description="Legal protection deductible (e.g., 'CHF 200')."
     )
-    e_bike_replacement_vehicle: str = Field(
-        ...,
-        description="Detail E-Bike replacement vehicle coverage: type, duration, availability."
+    legal_protection_covered_disputes: List[str] = Field(
+        ..., 
+        description="Types of disputes covered (e.g., ['Contract disputes', 'Traffic fines'])."
     )
-    e_bike_onwards_journey: str = Field(
-        ...,
-        description="Detail onward journey coverage for E-Bike, limits."
+    legal_protection_geographic_scope: List[str] = Field(
+        ..., 
+        description="Geographic scope for legal protection (e.g., ['Switzerland', 'EU'])."
     )
-    e_bike_theft_assistance: str = Field(
-        ...,
-        description="Describe E-Bike theft assistance services and conditions."
+    legal_protection_waiting_period: str = Field(
+        ..., 
+        description="Legal protection waiting period (e.g., '30 days')."
+    )
+    travel_luggage_available: bool = Field(
+        ..., 
+        description="Is luggage coverage available? (e.g., True)."
+    )
+    luggage_sum_insured: str = Field(
+        ..., 
+        description="Luggage insured sum (e.g., 'CHF 1,500')."
+    )
+    luggage_per_item_limit: str = Field(
+        ..., 
+        description="Per item limit for luggage (e.g., 'CHF 500')."
+    )
+    valuables_limit: str = Field(
+        ..., 
+        description="Valuables coverage limit (e.g., 'CHF 300 for jewelry')."
+    )
+    luggage_deductible: str = Field(
+        ..., 
+        description="Luggage deductible amount (e.g., 'CHF 50')."
+    )
+    luggage_covered_perils: List[str] = Field(
+        ..., 
+        description="Covered luggage perils (e.g., ['Theft', 'Damage'])."
+    )
+    luggage_delay_compensation: str = Field(
+        ..., 
+        description="Luggage delay compensation (e.g., 'After 12h: CHF 100')."
+    )
+    luggage_exclusions: List[str] = Field(
+        ..., 
+        description="Luggage exclusions (e.g., ['Bicycles'])."
+    )
+    cdw_coverage_available: bool = Field(
+        ..., 
+        description="Is CDW coverage available? (e.g., True)."
+    )
+    cdw_coverage_limit: str = Field(
+        ..., 
+        description="CDW coverage limit (e.g., 'CHF 2,000 per event')."
+    )
+    cdw_vehicle_types: List[str] = Field(
+        ..., 
+        description="Vehicle types covered under CDW (e.g., ['Cars'])."
+    )
+    cdw_geographic_validity: List[str] = Field(
+        ..., 
+        description="Geographic validity for CDW (e.g., ['Europe'])."
+    )
+    cdw_rental_duration_limit: str = Field(
+        ..., 
+        description="Max rental duration for CDW (e.g., 'Max 30 days')."
+    )
+    cdw_premium: str = Field(
+        ..., 
+        description="Premium for CDW (e.g., 'CHF 25')."
+    )
+
+class OtherBuildingBlocks(BaseModel):
+    ebike_assistance_available: bool = Field(
+        ..., 
+        description="Is e-bike assistance available? (e.g., True)."
+    )
+    ebike_breakdown_service: str = Field(
+        ..., 
+        description="E-bike breakdown service (e.g., 'CHF 100 within 20 km')."
+    )
+    ebike_transport: str = Field(
+        ..., 
+        description="E-bike transport details (e.g., 'To nearest repair shop within 50 km')."
+    )
+    ebike_replacement_vehicle: str = Field(
+        ..., 
+        description="E-bike replacement vehicle provision (e.g., 'Loaner e-bike for 2 days')."
+    )
+    ebike_onward_journey: str = Field(
+        ..., 
+        description="E-bike onward journey support (e.g., 'CHF 80 taxi voucher')."
+    )
+    ebike_theft_assistance: str = Field(
+        ..., 
+        description="E-bike theft assistance details (e.g., 'Covers lock replacement')."
     )
     home_assistance_available: bool = Field(
-        ...,
-        description="Indicate if home assistance is available (True/False)."
+        ..., 
+        description="Is home assistance available? (e.g., True)."
     )
     emergency_home_repairs: str = Field(
-        ...,
-        description="Detail emergency home repairs coverage, e.g. 'CHF X per event', emergencies."
+        ..., 
+        description="Emergency home repair services (e.g., 'Up to CHF 500 for plumbing')."
     )
     security_services: str = Field(
-        ...,
-        description="Describe security services coverage, triggers, duration."
+        ..., 
+        description="Security services provided (e.g., '2-hour patrol after break-in')."
     )
     key_service: str = Field(
-        ...,
-        description="Specify key service coverage, e.g. 'CHF X', circumstances."
+        ..., 
+        description="Key service details (e.g., 'CHF 100 for lockout')."
     )
     property_monitoring: str = Field(
-        ...,
-        description="Detail property monitoring coverage, how arranged."
+        ..., 
+        description="Property monitoring services (e.g., '24/7 alarm forwarding')."
     )
     medical_costs_available: bool = Field(
-        ...,
-        description="Indicate if medical costs coverage is available (True/False)."
+        ..., 
+        description="Are medical costs covered? (e.g., True)."
     )
     medical_costs_coverage_limit: str = Field(
-        ...,
-        description="Specify medical cost coverage limit, e.g. 'CHF X per person/event'."
+        ..., 
+        description="Medical costs coverage limit (e.g., 'CHF 10,000 per event')."
     )
     medical_costs_deductible: str = Field(
-        ...,
-        description="Specify deductible for medical costs, as a CHF amount."
+        ..., 
+        description="Medical costs deductible (e.g., 'CHF 100')."
     )
     covered_treatments: List[str] = Field(
-        ...,
-        description="List treatments covered, e.g. 'Emergency', 'Dental', 'Medication', 'Other'."
+        ..., 
+        description="Covered medical treatments (e.g., ['Emergency', 'Dental'])."
     )
-    direct_billing: bool = Field(
-        ...,
-        description="Indicate if direct billing is supported (True/False) and providers."
+    direct_billing: str = Field(
+        ..., 
+        description="Direct billing arrangements (e.g., 'Yes with network hospitals')."
     )
-    pre_authorization: bool = Field(
-        ...,
-        description="Indicate if pre-authorization is required for treatment (True/False)."
+    pre_authorization_required: bool = Field(
+        ..., 
+        description="Is pre-authorization required? (e.g., True)."
     )
     medical_costs_exclusions: List[str] = Field(
-        ...,
-        description="List any exclusions for medical costs coverage."
+        ..., 
+        description="Medical cost exclusions (e.g., ['Pre-existing conditions'])."
     )
     insolvency_protection_available: bool = Field(
-        ...,
-        description="Indicate if insolvency protection is available (True/False)."
+        ..., 
+        description="Is insolvency protection available? (e.g., True)."
     )
     insolvency_coverage_limit: str = Field(
-        ...,
-        description="Specify insolvency coverage limit, e.g. 'CHF X per person/booking'."
+        ..., 
+        description="Insolvency protection limit (e.g., 'CHF 2,000 per booking')."
     )
     insolvency_covered_providers: List[str] = Field(
-        ...,
-        description="List providers covered under insolvency protection, e.g. 'Airlines', 'Tour operators'."
+        ..., 
+        description="Providers covered under insolvency protection (e.g., ['Airlines'])."
     )
     insolvency_covered_costs: List[str] = Field(
-        ...,
-        description="List costs covered upon insolvency, e.g. 'Unused services', 'Return journey'."
+        ..., 
+        description="Costs covered by insolvency protection (e.g., ['Rebooking fees'])."
     )
     insolvency_time_limits: str = Field(
-        ...,
-        description="Specify booking time limits for insolvency coverage, e.g. 'Booked X days before'."
+        ..., 
+        description="Insolvency protection booking time limits (e.g., 'Booked at least 7 days prior')."
     )
     insolvency_exclusions: List[str] = Field(
-        ...,
-        description="List any exclusions for insolvency protection."
+        ..., 
+        description="Insolvency protection exclusions (e.g., ['Low-cost carriers'])."
+    )
+
+class Summary(BaseModel):
+    product_name: str = Field(
+        ..., 
+        description="Product name as written (e.g., 'General Policy Conditions (GPC) Travel Insurance 2025')."
+    )
+    product_type: List[str] = Field(
+        ..., 
+        description="Product type(s) available (e.g., ['Single Trip', 'Annual'])."
+    )
+    target_market: List[str] = Field(
+        ..., 
+        description="Intended target markets (e.g., ['Leisure', 'Business'])."
+    )
+    single_trip_price_from: str = Field(
+        ..., 
+        description="Single trip starting price (e.g., 'CHF 50')."
+    )
+    annual_individual_from: str = Field(
+        ..., 
+        description="Annual individual policy starting price (e.g., 'CHF 200')."
+    )
+    annual_family_from: str = Field(
+        ..., 
+        description="Annual family policy starting price (e.g., 'CHF 350')."
+    )
+    unique_selling_points: List[str] = Field(
+        ..., 
+        description="Unique selling points (e.g., ['No deductible for children'])."
+    )
+    major_exclusions: List[str] = Field(
+        ..., 
+        description="Major exclusions (e.g., ['Adventure sports'])."
+    )
+    special_features: List[str] = Field(
+        ..., 
+        description="Special features beyond standard coverage (e.g., ['Carbon offset contribution'])."
     )
 
 class TravelInsuranceProduct(BaseModel):
-    product: ProductDetails
-    coverage: CoverageDetails
-    services: AssistanceServices
+    general_points: GeneralPoints
+    group_of_people: GroupOfPeople
+    basic_coverage: BasicCoverage
+    additional_coverage: AdditionalCoverage
+    other_building_blocks: OtherBuildingBlocks
+    summary: Summary

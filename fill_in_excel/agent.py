@@ -5,9 +5,32 @@ from pydantic import BaseModel
 from fill_in_excel.models import (
     CarCriteria,
     TravelInsuranceProduct,
-    ProductDetails,
-    CoverageDetails,
-    AssistanceServices
+    General,
+    Liability,
+    PartialInsurance,
+    FullyComprehensiveInsurance,
+    GrossNegligence,
+    Compensation,
+    ParkingDamage,
+    GlassPlus,
+    VehicleInterior,
+    TiresAndRims,
+    VehicleKey,
+    ChargingStationWallbox,
+    Battery,
+    CyberAttacksRemediationCosts,
+    ItemsCarried,
+    RentalReplacementVehicle,
+    Assistance,
+    RepairService,
+    Accident,
+    LegalProtection,
+    GeneralPoints,
+    GroupOfPeople,
+    BasicCoverage,
+    AdditionalCoverage,
+    OtherBuildingBlocks,
+    Summary,
 )
 import concurrent.futures
 import os
@@ -35,7 +58,7 @@ def format_value(value):
     return str(value)
 
 
-def get_detailed_comparison(llm, criterion_name, value1, value2):
+def get_detailed_comparison(llm, criterion_name, value1, value2, insurer1_name="Document 1", insurer2_name="Document 2"):
     """Generates a detailed textual comparison for a single criterion."""
     if value1 == value2:
         if value1 is None or (isinstance(value1, list) and not value1):
@@ -48,78 +71,45 @@ def get_detailed_comparison(llm, criterion_name, value1, value2):
     comparison_prompt = PromptTemplate(
         template="""
 <ROLE>
-You are a Senior Insurance Analyst who specializes in comparing insurance policy documents. Your task is to analyze and compare two policy options based on a specific criterion, extracting key differences and implications for the policyholder.
-Your goal: produce a concise, professional comparison that highlights the most material differences and their practical implications
+You are a Senior Insurance Analyst. Your task is to compare two policy options based on a specific criterion.
+Your goal: produce a **concise, direct comparison** that highlights the main differences in 1-2 sentences.
 </ROLE>
 
-<TECHNIQUES>
-**Use these advanced prompting techniques:**  
-- **Chain-of-Thought (CoT):** Narrate your reasoning steps silently before forming conclusions.  
-- **Tree-of-Thought (ToT):** When you encounter ambiguity (e.g. two competing interpretations), branch into separate mini-analyses, then converge on the best.  
-- **Self-Consistency:** For any non-trivial judgment or normalization, run three parallel CoT+ToT micro-chains and adopt the consensus outcome.  
-- **One-Shot Demonstration:** A single example is provided to set the extraction and analysis style.  
-- **Zero-Shot Remainder:** After the example, apply the same method to all further comparisons without additional demonstrations.
-</TECHNIQUES>
+<INSTRUCTIONS>
+- Use the specific insurer names: **{insurer1}** and **{insurer2}**.
+- Do NOT use generic terms like "Option 1", "Document 2", or "Product 1".
+- Be straight to the point. Focus only on the most material differences.
+- Avoid filler words and introductory phrases.
+</INSTRUCTIONS>
 
 <EXAMPLE>
-### One-Shot Demo  
-**Criterion:** “Coverage Limit”  
-    - Option 1 snippet: “Maximum coverage per claim: USD 1,000.”  
-    - Option 2 snippet: “Limit: up to USD 2,000 per incident.”
-    - CoT-Step1: Locate “coverage limit” labels in both snippets.
-    - CoT-Step2: Normalize values → 1000.0 vs. 2000.0.
-    - ToT Branch A: Interpret “up to” as hard cap → 2000.0.
-    - ToT Branch B: Consider “maximum” synonyms → both mean cap.
-    - Self-Consistency: Branch A & B agree on values.
-    - Final Comparison Note: Option 2 offers a higher cap (2000 vs. 1000), beneficial for high-severity claims.
+**Criterion:** Coverage Limit
+**{insurer1} Details:** 1,000 USD
+**{insurer2} Details:** 2,000 USD
+**Analysis:** {insurer2} offers a higher coverage limit (2,000 USD) compared to {insurer1} (1,000 USD).
 </EXAMPLE>
-
-<PROCESS>
-1. DECONSTRUCT OPTION 1 
-    - Scan the raw text of `{option1}` for the criterion label (e.g., “Deductible”, “Benefit rate”).
-    - Extract the exact phrase or number. 
-    - Normalize formats (strip currency symbols, convert to float, standardize units).
-2. DECONSTRUCT OPTION 2
-    - Repeat the same extraction and normalization for {option2}.
-
-3. IDENTIFY KEY DIFFERENCES
-    - Compare the two normalized values or descriptions.
-    - Highlight the most material differences (monetary, coverage scope, exclusions).
-
-4. ASSESS IMPLICATIONS
-    - Analyze the practical impact on a policyholder:
-    - Trade-off analysis: cost vs. benefit.
-    - Risk exposure: under- or over-insurance scenarios.
-    - Value proposition: in what situation one option outperforms the other.
-
-5. SYNTHESIZE FINAL ANALYSIS
-    - Summarize your findings in 2-4 concise, professional sentences.
-    - Use an objective tone, avoiding filler; focus on actionable insight.
-</PROCESS>
-
-<VALIDATION> 
-- Ensure you reference only the extracted values—do not invent data. 
-- Do **not** include your reasoning steps in the final output. 
-- Produce a single, well-structured paragraph or bullet list—no extra keys or commentary. 
-</VALIDATION> 
 
 <INPUT> 
 **Criterion:** `{criterion}`
-**Document 1 Details:** ``` {option1} ```
-**Document 2 Details:** ``` {option2} ```
+**{insurer1} Details:** ``` {option1} ```
+**{insurer2} Details:** ``` {option2} ```
 </INPUT>
 
 <FINAL_OUTPUT>
 Your comparison analysis here.
 </FINAL_OUTPUT>
         """,
-        input_variables=["criterion", "option1", "option2"],
+        input_variables=["criterion", "option1", "option2", "insurer1", "insurer2"],
     )
 
     comparison_chain = comparison_prompt | llm
-    response = comparison_chain.invoke(
-        {"criterion": criterion_name, "option1": formatted_v1, "option2": formatted_v2}
-    )
+    response = comparison_chain.invoke({
+        "criterion": criterion_name, 
+        "option1": formatted_v1, 
+        "option2": formatted_v2,
+        "insurer1": insurer1_name,
+        "insurer2": insurer2_name
+    })
     return response.content
 
 
@@ -211,23 +201,76 @@ For each field in the schema, repeat this process:
 def run_car_comparison(doc1_text, doc2_text, status):
     """
     This function uses ChatOpenAI to compare two car insurance documents and returns the structured Pydantic objects.
+    It now runs extractions for each sub-model in parallel and merges the results.
     """
     llm = ChatOpenAI(temperature=0, model="gpt-4.1")
-    extraction_chain = create_extraction_chain(llm, CarCriteria)
+
+    # Define all the sub-models to be extracted for CarCriteria
+    models_to_extract = {
+        "general": General,
+        "liability": Liability,
+        "partial_insurance": PartialInsurance,
+        "fully_comprehensive_insurance": FullyComprehensiveInsurance,
+        "gross_negligence": GrossNegligence,
+        "compensation": Compensation,
+        "parking_damage": ParkingDamage,
+        "glass_plus": GlassPlus,
+        "vehicle_interior": VehicleInterior,
+        "tires_and_rims": TiresAndRims,
+        "vehicle_key": VehicleKey,
+        "charging_station_wallbox": ChargingStationWallbox,
+        "battery": Battery,
+        "cyber_attacks_remediation_costs": CyberAttacksRemediationCosts,
+        "items_carried": ItemsCarried,
+        "rental_replacement_vehicle": RentalReplacementVehicle,
+        "assistance": Assistance,
+        "repair_service": RepairService,
+        "accident": Accident,
+        "legal_protection": LegalProtection,
+    }
+
+    def extract_for_model(model, text):
+        chain = create_extraction_chain(llm, model)
+        try:
+            return chain.invoke({"input_text": text})
+        except Exception:
+            # If a sub-model extraction fails (e.g., for optional fields), return None
+            return None
+
+    def process_document(text):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_model = {
+                executor.submit(extract_for_model, model, text): key
+                for key, model in models_to_extract.items()
+            }
+            results = {}
+            for future in concurrent.futures.as_completed(future_to_model):
+                key = future_to_model[future]
+                try:
+                    results[key] = future.result()
+                except Exception as exc:
+                    print(f"{key} generated an exception: {exc}")
+                    results[key] = None
+        return results
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         status.update(label="Extracting data from documents...")
-        future1 = executor.submit(extraction_chain.invoke, {"input_text": doc1_text})
-        future2 = executor.submit(extraction_chain.invoke, {"input_text": doc2_text})
+        future1 = executor.submit(process_document, doc1_text)
+        future2 = executor.submit(process_document, doc2_text)
 
-        doc1_dict = future1.result()
-        doc2_dict = future2.result()
+        doc1_results = future1.result()
+        doc2_results = future2.result()
 
-    if not doc1_dict or not doc2_dict:
+    if not doc1_results or not doc2_results:
         return None, None
 
-    doc1_data = CarCriteria.parse_obj(doc1_dict)
-    doc2_data = CarCriteria.parse_obj(doc2_dict)
+    # Filter out None values for optional fields before creating the Pydantic object
+    doc1_filtered = {k: v for k, v in doc1_results.items() if v is not None}
+    doc2_filtered = {k: v for k, v in doc2_results.items() if v is not None}
+
+    # Create Pydantic objects
+    doc1_data = CarCriteria(**doc1_filtered)
+    doc2_data = CarCriteria(**doc2_filtered)
 
     return doc1_data, doc2_data
 
@@ -241,9 +284,12 @@ def run_travel_comparison(doc1_text, doc2_text, status):
 
     # Define all the sub-models to be extracted
     models_to_extract = {
-        "product": ProductDetails,
-        "coverage": CoverageDetails,
-        "services": AssistanceServices,
+        "General Points": GeneralPoints,
+        "Group of People": GroupOfPeople,
+        "Basic Coverage": BasicCoverage,
+        "Additional Coverage": AdditionalCoverage,
+        "Other Building Blocks": OtherBuildingBlocks,
+        "Summary": Summary,
     }
 
     def extract_for_model(model, text):
@@ -277,8 +323,15 @@ def run_travel_comparison(doc1_text, doc2_text, status):
     if not doc1_results or not doc2_results:
         return None, None
 
+    # Convert dictionary keys from 'Title Case' to 'snake_case' to match Pydantic model fields
+    def convert_keys(d):
+        return {key.lower().replace(" ", "_"): value for key, value in d.items()}
+
+    doc1_snake_cased_results = convert_keys(doc1_results)
+    doc2_snake_cased_results = convert_keys(doc2_results)
+
     # Merge the results into the main Pydantic model
-    doc1_data = TravelInsuranceProduct(**doc1_results)
-    doc2_data = TravelInsuranceProduct(**doc2_results)
+    doc1_data = TravelInsuranceProduct(**doc1_snake_cased_results)
+    doc2_data = TravelInsuranceProduct(**doc2_snake_cased_results)
 
     return doc1_data, doc2_data

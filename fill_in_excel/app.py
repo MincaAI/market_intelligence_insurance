@@ -4,9 +4,11 @@ from PyPDF2 import PdfReader
 import io
 import fitz  # PyMuPDF
 import concurrent.futures
-from agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
+from .agent import run_car_comparison, run_travel_comparison, get_detailed_comparison, format_value
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
+from .models import TravelInsuranceProduct, CarCriteria
+from typing import get_args
 
 st.set_page_config(layout="wide")
 
@@ -33,7 +35,7 @@ def get_pdf_text(pdf_doc):
     try:
         with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                page_texts = list(executor.map(lambda i: doc.load_page(i).get_text(), range(len(doc))))
+                page_texts = list(executor.map(lambda i: doc.load_page(i).get_text(), range(len(doc)))) #type: ignore
             # st.info("PDF text extracted successfully using the primary parser (PyMuPDF).")
             return "".join(page_texts)
     except Exception as e1:
@@ -52,11 +54,32 @@ def get_pdf_text(pdf_doc):
             st.error(f"Both PDF parsers failed. Fallback parser (PyPDF2) error: {e2}")
             return ""
 
+def get_ordered_keys_from_model(model_class, prefix=''):
+    """Recursively generates ordered, flattened keys from a Pydantic model class."""
+    keys = []
+    for name, field in model_class.model_fields.items():
+        current_key = f"{prefix}.{name}" if prefix else name
+        
+        field_type = field.annotation
+        
+        # Handle Optional[Model] and Union[Model, None]
+        type_args = get_args(field_type)
+        
+        model_in_union = next((arg for arg in type_args if isinstance(arg, type) and issubclass(arg, BaseModel)), None)
+
+        if model_in_union:
+            keys.extend(get_ordered_keys_from_model(model_in_union, prefix=current_key))
+        elif isinstance(field_type, type) and issubclass(field_type, BaseModel):
+            keys.extend(get_ordered_keys_from_model(field_type, prefix=current_key))
+        else:
+            keys.append(current_key)
+    return keys
+
 def flatten_model_for_excel(model, prefix=''):
     """Recursively flattens a Pydantic model for Excel export."""
     data = {}
     if model:
-        for field_name, field in model.__fields__.items():
+        for field_name, field in model.model_fields.items():
             value = getattr(model, field_name)
             current_path = f"{prefix}.{field_name}" if prefix else field_name
             if isinstance(value, BaseModel):
@@ -65,29 +88,49 @@ def flatten_model_for_excel(model, prefix=''):
                 data[current_path] = format_value(value)
     return data
 
-def to_excel(doc1_data, doc2_data, llm):
-    """Creates an Excel report with three sheets."""
+def to_excel(doc1_data, doc2_data, llm, doc1_name, doc2_name):
+    """Creates an Excel report with one sheet."""
     output = io.BytesIO()
-    
+
+    def get_insurer_name(filename):
+        if "generali" in filename.lower():
+            return "Generali"
+        if "axa" in filename.lower():
+            return "AXA"
+        return "Insurer"
+
+    insurer1_name = get_insurer_name(doc1_name)
+    insurer2_name = get_insurer_name(doc2_name)
+
     flat_doc1 = flatten_model_for_excel(doc1_data)
     flat_doc2 = flatten_model_for_excel(doc2_data)
-    
-    df1 = pd.DataFrame(flat_doc1.items(), columns=['Criteria', 'Value'])
-    df2 = pd.DataFrame(flat_doc2.items(), columns=['Criteria', 'Value'])
+
+    # Get keys in the order defined by the model
+    if isinstance(doc1_data, TravelInsuranceProduct):
+        all_keys = get_ordered_keys_from_model(TravelInsuranceProduct)
+    elif isinstance(doc1_data, CarCriteria):
+        all_keys = get_ordered_keys_from_model(CarCriteria)
+    else:
+        # Fallback to the old method if the type is unknown
+        all_keys = sorted(list(set(flat_doc1.keys()) | set(flat_doc2.keys())))
     
     comparison_data = []
-    all_keys = sorted(list(set(flat_doc1.keys()) | set(flat_doc2.keys())))
     for key in all_keys:
         val1 = flat_doc1.get(key, "Not Available")
         val2 = flat_doc2.get(key, "Not Available")
-        comp = get_detailed_comparison(llm, key, val1, val2)
-        comparison_data.append({'Criteria': key, 'Comparison': comp})
-    
+        comp = get_detailed_comparison(llm, key, val1, val2, insurer1_name, insurer2_name)
+        
+        row = {
+            'Criteria': key,
+            insurer1_name: val1,
+            insurer2_name: val2,
+            'Comparison': comp
+        }
+        comparison_data.append(row)
+
     df_comp = pd.DataFrame(comparison_data)
 
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df1.to_excel(writer, index=False, sheet_name='Document 1')
-        df2.to_excel(writer, index=False, sheet_name='Document 2')
         df_comp.to_excel(writer, index=False, sheet_name='Comparison')
         
     return output.getvalue()
@@ -113,7 +156,7 @@ if uploaded_file1 and uploaded_file2:
         
         st.header("Comparison Summary")
         
-        for field_name, field in doc1_data.__fields__.items():
+        for field_name, field in doc1_data.__class__.model_fields.items():
             with st.expander(f"### {field_name.replace('_', ' ').title()}"):
                 col1, col2, col3 = st.columns(3)
                 
@@ -132,10 +175,12 @@ if uploaded_file1 and uploaded_file2:
                 
                 with col3:
                     st.subheader("Analysis")
-                    comparison_text = get_detailed_comparison(llm, field_name, value1, value2)
+                    insurer1_name = "Generali" if "generali" in uploaded_file1.name.lower() else "AXA" if "axa" in uploaded_file1.name.lower() else "Document 1"
+                    insurer2_name = "Generali" if "generali" in uploaded_file2.name.lower() else "AXA" if "axa" in uploaded_file2.name.lower() else "Document 2"
+                    comparison_text = get_detailed_comparison(llm, field_name, value1, value2, insurer1_name, insurer2_name)
                     st.markdown(comparison_text)
 
-        excel_data = to_excel(doc1_data, doc2_data, llm)
+        excel_data = to_excel(doc1_data, doc2_data, llm, uploaded_file1.name, uploaded_file2.name)
         st.download_button(
             label="Download Full Report as Excel",
             data=excel_data,
