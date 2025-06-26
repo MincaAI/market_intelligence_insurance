@@ -25,3 +25,4 @@ pymupdf
 selenium
 webdriver-manager
 langdetect
+tabulate
