@@ -40,7 +40,7 @@ st.title("⭐ Global review comparison")
 st.markdown("**How does Generali's reputation compare?**  ")
 st.markdown("A snapshot of customer sentiment across major competitors.")
 
-tab1, tab2 = st.tabs(["🏢 Competitors website", "🌍 Public source"])
+tab2, tab1 = st.tabs(["🌍 Public source", "🏢 Competitors website"])
 
 with tab1:
     st.markdown("Below is a snapshot of customer reviews collected from insurers websites.")
@@ -152,7 +152,7 @@ with tab2:
 
     if st.session_state.get("show_public_reviews", False):
         if public_product == "car":
-    # Detailed criteria table for car insurance (scores out of 6)
+            # Detailed criteria table for car insurance (scores out of 6)
             car_criteria_data = [
                 {
                     "Insurer": "AXA",
@@ -191,6 +191,78 @@ with tab2:
             chart_data = [
                 {"Insurer": "AXA", "Score": 5.2},
                 {"Insurer": "Generali", "Score": 5.1},
+                {"Insurer": "Allianz", "Score": 5.1},
+            ]
+            chart_df = pd.DataFrame(chart_data)
+            chart_df["Color"] = ["#1f77b4" if insurer != "Generali" else "#d62728" for insurer in chart_df["Insurer"]]
+
+            st.subheader("Overall satisfaction comparison (Comparis.ch)")
+            chart = alt.Chart(chart_df).mark_bar().encode(
+                x=alt.X('Insurer', sort=None, axis=alt.Axis(title=None, labelAngle=0, labelFontSize=20)),
+                y=alt.Y('Score', axis=alt.Axis(title=None, grid=False, labels=False, ticks=False), scale=alt.Scale(domain=[0, 6])),
+                color=alt.Color('Color:N', scale=None, legend=None),
+                tooltip=['Insurer', 'Score']
+            ).properties(
+                width=500, height=350
+            )
+            text = alt.Chart(chart_df).mark_text(
+                align='center',
+                baseline='bottom',
+                dy=-10,
+                fontSize=24,
+                fontWeight='bold'
+            ).encode(
+                x=alt.X('Insurer', sort=None),
+                y=alt.Y('Score'),
+                text=alt.Text('Score', format='.1f')
+            )
+            final_chart = (chart + text).configure_view(
+                strokeWidth=0,
+                fill=None
+            ).configure_axis(
+                grid=False
+            )
+            st.altair_chart(final_chart, use_container_width=True)
+
+        elif public_product == "travel":
+            # Placeholder data for travel insurance (to be replaced with real data if available)
+            travel_criteria_data = [
+                {
+                    "Insurer": "AXA",
+                    "Value for money": "4.8 / 6",
+                    "Quality & service": "4.9 / 6",
+                    "Info & transparency": "5.0 / 6",
+                    "Friendliness": "5.0 / 6",
+                    "Overall satisfaction": "5.0 / 6",
+                    "Category": "Silver"
+                },
+                {
+                    "Insurer": "Generali",
+                    "Value for money": "4.7 / 6",
+                    "Quality & service": "4.8 / 6",
+                    "Info & transparency": "4.9 / 6",
+                    "Friendliness": "4.9 / 6",
+                    "Overall satisfaction": "4.9 / 6",
+                    "Category": "Silver"
+                },
+                {
+                    "Insurer": "Allianz",
+                    "Value for money": "4.9 / 6",
+                    "Quality & service": "5.0 / 6",
+                    "Info & transparency": "5.0 / 6",
+                    "Friendliness": "5.0 / 6",
+                    "Overall satisfaction": "5.1 / 6",
+                    "Category": "Silver"
+                }
+            ]
+            df_criteria = pd.DataFrame(travel_criteria_data)
+            st.subheader("Detailed Comparis.ch Criteria (Travel Insurance)")
+            st.dataframe(df_criteria, use_container_width=True, hide_index=True)
+
+            # Extract overall satisfaction for each insurer (travel insurance)
+            chart_data = [
+                {"Insurer": "AXA", "Score": 5.0},
+                {"Insurer": "Generali", "Score": 4.9},
                 {"Insurer": "Allianz", "Score": 5.1},
             ]
             chart_df = pd.DataFrame(chart_data)

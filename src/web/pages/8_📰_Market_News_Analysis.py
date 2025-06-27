@@ -10,7 +10,7 @@ load_dotenv()
 st.title("📰 Market News Analysis")
 
 st.markdown("""
-Analyze recent market news and compare Generali's insurance products to the market.
+Analyze recent competitor market news and compare Generali's insurance positioning. Focused, high-level insights for decision makers.
 """)
 
 PRODUCTS = ["car", "travel"]
@@ -33,19 +33,16 @@ def run_perplexity_query(query, current_date):
             {
                 "role": "system",
                 "content": (
-                    f"Today is {current_date}. Act as a market intelligence analyst.\n\n"
-                    "Provide a concise summary of the latest strategic news and business developments involving Generali Switzerland, "
-                    "compared to its main competitors (AXA Switzerland, Zurich Insurance, Allianz Switzerland, and others), focusing on the past 3 months.\n\n"
-                    "Highlight differences in:\n"
-                    "- strategic positioning\n"
-                    "- product innovation\n"
-                    "- partnerships\n"
-                    "- M&A activity\n"
-                    "- distribution channels\n"
-                    "- ESG initiatives\n"
-                    "- customer experience\n\n"
-                    "Summarize with clear business insights and strategic implications relevant to C-level executives.\n\n"
-                    "Sources must be recent, reliable, and business-relevant. Summarize only what's meaningful for decision-making at the executive level."
+                    f"Today is {current_date}. You are a senior market intelligence analyst for Generali.\n\n"
+                    "Your job is to track recent, business-critical developments from Generali’s main competitors in Switzerland "
+                    "(AXA Switzerland, Zurich Insurance, Allianz Switzerland).\n\n"
+                    "Focus only on the last 30 days and only include facts about:\n"
+                    "- product launches or product changes\n"
+                    "- pricing updates\n"
+                    "- partnerships or M&A\n"
+                    "- regulatory changes\n"
+                    "- major claims or incidents\n\n"
+                    "Exclude generic statements. Provide a short bullet list (max 5 points) of news items that matter to Generali’s business and could impact strategic decisions."
                 )
             },
             {
@@ -68,14 +65,18 @@ def summarize_with_llm(perplexity_response, product, current_date):
         return None
     client = openai.OpenAI(api_key=api_key)
     prompt = (
-        f"Summarize the following market news into a structured report about recent trends for Generali Switzerland "
-        f"({product} insurance). Today is {current_date}. You work for Generali as the market positionning expert for Generali. Focus on key trends, competition.\n\n"
+        f"Today is {current_date}. You are an expert in insurance market positioning working for Generali.\n\n"
+        f"Based on the news below, write a concise market news summary for Generali Switzerland ({product} insurance). "
+        f"Highlight competitive moves, threats, or opportunities. Structure it as:\n"
+        f"- Key competitor moves (AXA, Zurich, Allianz)\n"
+        f"- Implications for Generali’s strategy\n\n"
+        f"Keep it under 5 bullet points. Prioritize clarity and relevance for C-level executives.\n\n"
         f"Market news:\n{perplexity_response}"
     )
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are an expert insurance market analyst."},
+            {"role": "system", "content": "You are an insurance market analyst specialized in competitive strategy."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=600
@@ -84,13 +85,11 @@ def summarize_with_llm(perplexity_response, product, current_date):
 
 if st.button("Run market news mapping"):
     if product == "car":
-        query = "how Generali car insurance compare in switzerland to market and competitors"
+        query = "recent car insurance news Switzerland AXA Zurich Allianz last 30 days"
     else:
-        query = "how Generali travel insurance compare in switzerland to market and comeptitors"
-    st.markdown(f"**Query sent to Perplexity:** {query}")
+        query = "recent travel insurance news Switzerland AXA Zurich Allianz last 30 days"
     result = run_perplexity_query(query, current_date)
     if result:
-        # Try to extract the main answer from Perplexity's response
         answer = result.get('choices', [{}])[0].get('message', {}).get('content', '')
         if answer:
             st.markdown("### Structured Market Report (LLM)")

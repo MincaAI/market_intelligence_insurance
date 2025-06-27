@@ -13,12 +13,16 @@ from datetime import datetime
 import pandas as pd
 
 PRODUCTS = ["Car Insurance", "Travel Insurance"]
-INSURERS = ["Generali", "AXA", "Allianz", "Swiss", "Baloise"]
-SPIDER_MAP = {"Generali": "generali", "AXA": "axa", "Allianz": "allianz", "Swiss": "swiss", "Baloise": "baloise"}
+INSURERS = ["Generali", "AXA", "Allianz", "Zurich", "Baloise"]
+SPIDER_MAP = {"Generali": "generali", "AXA": "axa", "Allianz": "allianz", "Zurich": "zurich", "Baloise": "baloise"}
 
 st.title("📄 General Terms and Conditions Document Scraping")
-st.write("")
-st.write("From GTC overload to actionable insights — in one click.")
+st.write(
+    """
+    This demo illustrates how our prototype automatically connects to competitor websites to retrieve the latest General Terms and Conditions (T&Cs) in real time.
+    For demonstration, scraping is triggered manually here, but the final solution will automate this process — for example, by checking and updating documents every month.
+    """
+)
 st.markdown("**Last scraping date:** 26 June 2025")
 st.markdown(f"**Current date:** {datetime.now().strftime('%d %B %Y')}")
 
@@ -100,7 +104,7 @@ if st.session_state.show_results:
         "Generali": os.path.join(base_dir, "generali"), 
         "AXA": os.path.join(base_dir, "axa"), 
         "Allianz": os.path.join(base_dir, "allianz"), 
-        "Swiss": os.path.join(base_dir, "swiss"),
+        "Zurich": os.path.join(base_dir, "zurich"),
         "Baloise": os.path.join(base_dir, "baloise")
     }
 
@@ -175,4 +179,13 @@ if st.session_state.show_results:
             cols[5].write("-")
         cols[6].write(row["Version changed"])
 
-    st.table(pd.DataFrame(table_data))
+    # Add explanatory comment after the results table
+    st.markdown("""
+    ---
+    **How it works:**
+    The scraped documents are stored in a dedicated database, along with their metadata (insurer, version, language, date).
+
+    The scraping process checks for the presence of new documents or updated versions on competitors' websites.
+
+    When a new document is detected, it is automatically added to the database and compared with the previous version to identify changes. An alert is generated to notify stakeholders of the update.
+    """)

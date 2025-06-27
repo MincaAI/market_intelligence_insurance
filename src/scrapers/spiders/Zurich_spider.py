@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from src.scrapers.items import InsuranceScraperItem
 import re
 
-SWISS_URLS = {
+ZURICH_URLS = {
     "car": "https://www.zurich.ch/de/privat/mobilitaet-reisen/autoversicherung",
     "travel": "https://www.zurich.ch/de/privat/mobilitaet-reisen/reisen/reiseversicherung"
 }
@@ -13,8 +13,8 @@ PRODUCT_KEYWORDS = {
     "travel": "reiseversicherung"
 }
 
-class SwissSpider(scrapy.Spider):
-    name = "swiss"
+class ZurichSpider(scrapy.Spider):
+    name = "zurich"
     allowed_domains = ["zurich.ch"]
 
     def __init__(self, product=None, *args, **kwargs):
@@ -27,7 +27,7 @@ class SwissSpider(scrapy.Spider):
         else:
             self.product = 'car'  # Default
         self.keyword = PRODUCT_KEYWORDS[self.product].lower()
-        self.start_urls = [SWISS_URLS[self.product]]
+        self.start_urls = [ZURICH_URLS[self.product]]
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, "html.parser")
@@ -37,8 +37,8 @@ class SwissSpider(scrapy.Spider):
             href = a["href"]
             text = a.get_text().lower()
             href_lower = href.lower()
-            # Prendre le premier PDF trouvé, sans filtrage par mot-clé
-            if ".pdf" in href_lower:
+            # Prendre le premier PDF qui contient 'avb' ou 'bedingungen' dans le lien ou le texte
+            if ".pdf" in href_lower and ("avb" in href_lower or "bedingungen" in href_lower or "avb" in text or "bedingungen" in text):
                 pdf_url = response.urljoin(href)
                 # Nom de fichier propre
                 file_name = re.sub(r"[^a-z0-9]+", "_", text)[:80] + ".pdf"
@@ -48,6 +48,6 @@ class SwissSpider(scrapy.Spider):
                     file_name=file_name
                 )
                 found = True
-                break  # Prendre le premier PDF seulement
+                break  # Prendre le premier PDF correspondant seulement
         if not found:
-            self.logger.error(f"No PDF found for {self.product} on Swiss Insurance Group (Zurich)") 
+            self.logger.error(f"No AVB/Bedingungen PDF found for {self.product} on Zurich Insurance Group (Zurich)") 

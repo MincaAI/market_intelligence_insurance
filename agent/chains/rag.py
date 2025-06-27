@@ -23,12 +23,13 @@ class RAGChain:
         self.index_name = os.getenv("PINECONE_INDEX_NAME")
         self.index = self.pinecone_client.Index(self.index_name)
         
-    def search(self, query: str, insurer: str, top_k: int = 10) -> List[Dict[str, Any]]:
+    def search(self, query: str, insurer: str, product: str, top_k: int = 10) -> List[Dict[str, Any]]:
         """
-        Perform vector search in Pinecone index for a given insurer.
+        Perform vector search in Pinecone index for a given insurer and product.
         Args:
             query: The search query
             insurer: The insurer to search for ("Axa" or "Generali")
+            product: The insurance product to filter on ("car" or "travel")
             top_k: Number of results to return
         Returns:
             List of results with metadata
@@ -40,8 +41,8 @@ class RAGChain:
                 model="text-embedding-3-small"
             ).data[0].embedding
             
-            # Prepare filter
-            filter_dict = {"insurer": insurer}
+            # Prepare filter for insurer and product
+            filter_dict = {"insurer": insurer, "product": product}
             
             # Search in Pinecone without namespace
             results = self.index.query(

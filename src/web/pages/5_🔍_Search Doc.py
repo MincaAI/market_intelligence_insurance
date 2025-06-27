@@ -52,7 +52,13 @@ def main():
         page_icon="🔍",
         layout="wide"
     )
-    st.title("🔍 AXA vs Generali Document Search")
+    st.title("🔍 Search Insurance Documents")
+
+    st.markdown("""
+    Easily find and compare specific information from two insurance documents, side by side. 
+
+    This tool helps you quickly locate key details, clauses, or coverage points across different insurers—saving you time and making analysis effortless.
+    """)
 
     # Section 1: Select insurance type
     st.header("1. Please select insurance type")

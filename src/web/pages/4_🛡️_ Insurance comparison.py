@@ -15,7 +15,9 @@ from typing import get_args
 
 st.set_page_config(page_title="Insurance Comparison", page_icon="🛡️", initial_sidebar_state="expanded")
 st.title("🛡️ Insurance Comparison")
-st.write("This page allows you to compare in detail the coverages, prices, exclusions, etc. between different insurers.")
+st.markdown("""
+Simply select the two T&Cs to compare — structuring and normalisation are handled automatically in the right format. At the same time, an AI agent compares each key criterion, creating a solid foundation for future analysis and insights.
+""")
 
 # Insurance type selection
 insurance_type = st.radio("Select Insurance Type:", ("Car", "Travel"))
@@ -23,7 +25,7 @@ product = insurance_type.lower()
 
 # Lister tous les PDF disponibles pour chaque assureur
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'data', 'documents'))
-assureurs = ["generali", "axa", "allianz", "swiss", "baloise"]
+assureurs = ["generali", "axa", "allianz", "zurich", "baloise"]
 pdf_options = []
 for assurer in assureurs:
     folder = os.path.join(base_dir, assurer, product)
@@ -37,7 +39,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.header("Insurer 1")
     selected1 = st.selectbox(
-        "Select a PDF for Insurer 1",
+        "Select a T&C for Insurer 1",
         [f"{assurer.capitalize()} - {filename}" for assurer, filename, _ in pdf_options],
         key="pdf1"
     )
@@ -50,7 +52,7 @@ with col1:
 with col2:
     st.header("Insurer 2")
     selected2 = st.selectbox(
-        "Select a PDF for Insurer 2",
+        "Select a TC& for Insurer 2",
         [f"{assurer.capitalize()} - {filename}" for assurer, filename, _ in pdf_options],
         key="pdf2"
     )

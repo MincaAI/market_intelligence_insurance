@@ -14,6 +14,23 @@ PART_TITLES = {
     "E": "Part E - Definitions"
 }
 
+SECTIONS_MAP_TRAVEL_EN = {
+    "A": "Underlying Provisions of the Insurance Contract",
+    "B": "Cancellation Costs",
+    "C": "Personal Assistance",
+    "D": "Roadside Assistance",
+    "E": "Medical Treatment Costs Abroad",
+    "F": "Rental Car Deductible",
+    "G": "Luggage",
+    "H": "Travel Legal Protection",
+    "I": "Claims",
+    "J": "Compensation",
+    "K": "Definitions"
+}
+
+# Add a regex to match 'Part X' where X is A-K
+PART_SECTION_PATTERN = re.compile(r'^Part ([A-K])\b', re.IGNORECASE)
+
 def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
     """
     Extrait les chunks du texte AXA en identifiant d'abord un marqueur "Partie X",
@@ -28,9 +45,9 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
     buffer = []
     
     # Regex pour marquer le début d'une nouvelle partie (ex: "Partie B")
-    part_marker_pattern = re.compile(r'^\s*(Partie|Part)\s*([A-E])\s*$', re.IGNORECASE)
+    part_marker_pattern = re.compile(r'^\s*(Partie|Part)\s*([A-K])\s*$', re.IGNORECASE)
     # Regex pour un ID de sous-section (ex: "B1")
-    subsection_id_pattern = re.compile(r'^([A-E])(\d{1,2})$')
+    subsection_id_pattern = re.compile(r'^([A-K])(\d{1,2})$')
 
     last_section_number = 0
 
@@ -95,6 +112,23 @@ def extract_chunks_from_text(text: str, pdf_name: str) -> List[Dict[str, Any]]:
                 
                 i += 2 # On a consommé l'ID (B1) et le titre de la sous-section
                 continue
+
+        # Detect 'Part X' section headers
+        part_match = PART_SECTION_PATTERN.match(line)
+        if part_match:
+            # Save previous chunk
+            if buffer and current_part_letter:
+                chunks.append({
+                    "pdf_name": pdf_name,
+                    "section": f"Part {current_part_letter} - {current_part_title}",
+                    "content": "\n".join(buffer).strip()
+                })
+                buffer = []
+            section_letter = part_match.group(1).upper()
+            section_title = SECTIONS_MAP_TRAVEL_EN.get(section_letter, f"Part {section_letter}")
+            current_part_letter = section_letter
+            current_part_title = section_title
+            continue
 
         if current_chunk:
             buffer.append(line)

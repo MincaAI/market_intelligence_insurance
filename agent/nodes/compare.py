@@ -17,7 +17,7 @@ def run_comparison(state: CompareState) -> CompareState:
         
         # Create the comparison prompt in English
         comparison_prompt = f"""
-You are an expert in car insurance. You are comparing two contracts on the same topic (e.g., liability) for a professional use case.
+You are an expert in TC insurance. You are comparing two contracts on the same topic (e.g., liability) for a professional use case.
 
 Here are the search results from your two insurer agents:
 
@@ -28,12 +28,7 @@ Generali:
 {state['generali_result']}
 
 Your mission:
-
-1. Analyze the coverages, exclusions, limitations, and conditions of each insurer.
-2. Compare each element rigorously.
-3. For **each row**, determine which contract is more advantageous or protective for the insured.
-4. If neither option is clearly better, write: "Equivalent".
-5. Make the comparison as detailed as possible, and provide as many comparison points as possible in the table.
+Anlayze what seems to be the best options.
 
 ### Constraints:
 - Do not make any assumptions: base your analysis only on the provided texts.
@@ -41,22 +36,6 @@ Your mission:
 - Do not recommend an insurer overall: analyze **element by element**.
 - **Always answer in English.**
 
-### Output format (mandatory):
-
-1. **Comparison table**:
-
-| Element analyzed        | AXA                                      | Generali                                 | Best choice                             |
-|------------------------|-------------------------------------------|-------------------------------------------|------------------------------------------|
-| Element A   | ...                                       | ...                                       | AXA / Generali / Equivalent              |
-| Element B   | ...                                       | ...                                       | ...                                      |
-| Element C   | ...                                       | ...                                       | ...                                      |
-| Element D   | ...                                       | ...                                       | ...                                      |
-| Element E   | ...                                       | ...                                       | ...                                      |
-| Element F   | ...                                       | ...                                       | ...                                      |
-| Element G   | ...                                       | ...                                       | ...                                      |
-| Element H   | ...                                       | ...                                       | ...                                      |
-| Element I   | ...                                       | ...                                       | ...                                      |
-| Element J   | ...                                       | ...                                       | ...                                      |
 
 2. **Summary (max 5 lines)**:
 Present the main differences and contractual advantages identified, without recommending an insurer overall.

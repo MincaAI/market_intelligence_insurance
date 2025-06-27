@@ -14,6 +14,7 @@ def run_axa(state: CompareState) -> CompareState:
         results = rag_chain.search(
             query=state["user_input"],
             insurer="Axa",
+            product=state["product"],
             top_k=4
         )
         

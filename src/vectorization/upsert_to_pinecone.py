@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pinecone import Pinecone, ServerlessSpec
 from tqdm import tqdm
+import argparse
 
 # Charger les variables d'environnement dès le début du script
 load_dotenv()
@@ -27,13 +28,22 @@ def initialize_pinecone(api_key: str):
     """Initialise et retourne le client Pinecone."""
     return Pinecone(api_key=api_key)
 
-def process_insurer_upsert(insurer: str, pc, openai_client, index, embedding_model_name):
+def process_insurer_upsert(insurer: str, pc, openai_client, index, embedding_model_name, product: str = None):
     """Traite l'upsert pour un assureur spécifique."""
     try:
         print(f"\n--- Traitement de {insurer.capitalize()} ---")
         chunk_file = get_latest_categorized_file(insurer)
         chunks = load_chunks(chunk_file)
         print(f"{len(chunks)} chunks chargés depuis {chunk_file}")
+
+        # Déduire le produit si non fourni
+        inferred_product = product
+        if not inferred_product:
+            if 'travel' in chunk_file.lower():
+                inferred_product = 'travel'
+            else:
+                inferred_product = 'car'
+        print(f"Produit utilisé pour l'upsert : {inferred_product}")
         
         # Préparer et envoyer les données par lots (batch)
         batch_size = 100
@@ -42,15 +52,14 @@ def process_insurer_upsert(insurer: str, pc, openai_client, index, embedding_mod
         for i in tqdm(range(0, len(chunks), batch_size), desc=f"Upsert {insurer.capitalize()} vers Pinecone"):
             batch = chunks[i:i + batch_size]
             
-            ids = [f"{insurer}-{i+j}" for j, _ in enumerate(batch)]
+            ids = [f"{insurer}-{inferred_product}-{i+j}" for j, _ in enumerate(batch)]
             
             metadata = [
                 {
                     "insurer": insurer.capitalize(),
                     "section": chunk.get("section", ""),
-                    "subsection": chunk.get("subsection", ""),
                     "content": chunk.get("content", ""),
-                    "product": "car"
+                    "product": inferred_product
                 } for chunk in batch
             ]
 
@@ -90,6 +99,11 @@ def main():
     """
     Script principal pour vectoriser les chunks avec OpenAI et les upsert dans Pinecone.
     """
+    parser = argparse.ArgumentParser(description="Upsert insurance chunks to Pinecone.")
+    parser.add_argument('--insurer', type=str, default='axa', help='Insurer to process (axa, generali, etc.)')
+    parser.add_argument('--product', type=str, default=None, help='Insurance product (car, travel, etc.). If not provided, will be inferred from chunk file path.')
+    args = parser.parse_args()
+
     print("--- Début du script d'upsert vers Pinecone (avec OpenAI Embeddings) ---")
     
     # 1. Charger la configuration
@@ -139,9 +153,10 @@ def main():
 
     index = pc.Index(PINECONE_INDEX_NAME)
     
-    # 4. Traiter AXA uniquement
-    insurer_to_process = "axa"
-    success = process_insurer_upsert(insurer_to_process, pc, openai_client, index, embedding_model_name)
+    # 4. Traiter l'assureur choisi
+    insurer_to_process = args.insurer
+    product_to_use = args.product
+    success = process_insurer_upsert(insurer_to_process, pc, openai_client, index, embedding_model_name, product=product_to_use)
     
     if success:
         print("\n--- Script terminé avec succès ---")
