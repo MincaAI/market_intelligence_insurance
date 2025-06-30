@@ -15,7 +15,7 @@ st.write("")  # Add vertical space after the title
 st.markdown("""
 Welcome to the Market Intelligence Dashboard!
 
-This demo introduces the foundations of MincaAI's approach to help Generali monitor competitors, automate Generali product positioning vs competition and deliver key insights.
+This demo introduces the foundations of MincaAI's approach to help any insurer monitor competitors, automate product positioning vs competition and deliver key insights.
 
 The MVP lays the groundwork for:
 • Automated retrieval of T&Cs.  
@@ -33,7 +33,7 @@ with col1:
 with col2:
     st.warning("**Doc normalisationr**\n\nPrepare the ground for T&Cs comparison")
 with col3:
-    st.info("**Product Comparator**\n\nCompares competitors' offer against Generali's offers.")
+    st.info("**Product Comparator**\n\nCompares competitors' offer against others's offers.")
 
 st.divider()
 
