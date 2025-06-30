@@ -6,3 +6,5 @@ class CompareState(TypedDict):
     axa_result: str
     generali_result: str
     comparison: str
+    axa_answer: str
+    generali_answer: str

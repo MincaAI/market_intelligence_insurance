@@ -22,11 +22,11 @@
   "allianz_car": {
     "note": "4.7",
     "nombre_avis": null,
-    "raw": "Overall rating: 4.7/5 based on a total number of reviews or comments: 547,305."
+    "raw": "Overall rating: 4.7/ 5 based on a total number of reviews or comments: 547,305"
   },
   "allianz_travel": {
-    "note": "4.7",
+    "note": null,
     "nombre_avis": null,
-    "raw": "Overall rating: 4.7/5 based on a total number of reviews or comments: 9,922."
+    "raw": "Overall rating: 5 / 5 based on a total number of reviews or comments: 14,322"
   }
 }

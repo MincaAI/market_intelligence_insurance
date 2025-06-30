@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 # Title and intro
-st.title("📊 Insurance Market Intelligence Dashboard")
+st.title("📊 Insurance Market Intelligence Solution")
 st.write("")  # Add vertical space after the title
 st.markdown("""
 Welcome to the Market Intelligence Dashboard!

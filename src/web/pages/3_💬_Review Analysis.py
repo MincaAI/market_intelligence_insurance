@@ -225,45 +225,45 @@ with tab2:
             st.altair_chart(final_chart, use_container_width=True)
 
         elif public_product == "travel":
-            # Placeholder data for travel insurance (to be replaced with real data if available)
+            # Show N/A for all insurers and criteria
             travel_criteria_data = [
                 {
                     "Insurer": "AXA",
-                    "Value for money": "4.8 / 6",
-                    "Quality & service": "4.9 / 6",
-                    "Info & transparency": "5.0 / 6",
-                    "Friendliness": "5.0 / 6",
-                    "Overall satisfaction": "5.0 / 6",
-                    "Category": "Silver"
+                    "Value for money": "N/A",
+                    "Quality & service": "N/A",
+                    "Info & transparency": "N/A",
+                    "Friendliness": "N/A",
+                    "Overall satisfaction": "N/A",
+                    "Category": "N/A"
                 },
                 {
                     "Insurer": "Generali",
-                    "Value for money": "4.7 / 6",
-                    "Quality & service": "4.8 / 6",
-                    "Info & transparency": "4.9 / 6",
-                    "Friendliness": "4.9 / 6",
-                    "Overall satisfaction": "4.9 / 6",
-                    "Category": "Silver"
+                    "Value for money": "N/A",
+                    "Quality & service": "N/A",
+                    "Info & transparency": "N/A",
+                    "Friendliness": "N/A",
+                    "Overall satisfaction": "N/A",
+                    "Category": "N/A"
                 },
                 {
                     "Insurer": "Allianz",
-                    "Value for money": "4.9 / 6",
-                    "Quality & service": "5.0 / 6",
-                    "Info & transparency": "5.0 / 6",
-                    "Friendliness": "5.0 / 6",
-                    "Overall satisfaction": "5.1 / 6",
-                    "Category": "Silver"
+                    "Value for money": "N/A",
+                    "Quality & service": "N/A",
+                    "Info & transparency": "N/A",
+                    "Friendliness": "N/A",
+                    "Overall satisfaction": "N/A",
+                    "Category": "N/A"
                 }
             ]
             df_criteria = pd.DataFrame(travel_criteria_data)
             st.subheader("Detailed Comparis.ch Criteria (Travel Insurance)")
             st.dataframe(df_criteria, use_container_width=True, hide_index=True)
 
-            # Extract overall satisfaction for each insurer (travel insurance)
+            # Show a bar chart with N/A (0) scores
             chart_data = [
-                {"Insurer": "AXA", "Score": 5.0},
-                {"Insurer": "Generali", "Score": 4.9},
-                {"Insurer": "Allianz", "Score": 5.1},
+                {"Insurer": "AXA", "Score": 0},
+                {"Insurer": "Generali", "Score": 0},
+                {"Insurer": "Allianz", "Score": 0},
             ]
             chart_df = pd.DataFrame(chart_data)
             chart_df["Color"] = ["#1f77b4" if insurer != "Generali" else "#d62728" for insurer in chart_df["Insurer"]]
@@ -271,7 +271,7 @@ with tab2:
             st.subheader("Overall satisfaction comparison (Comparis.ch)")
             chart = alt.Chart(chart_df).mark_bar().encode(
                 x=alt.X('Insurer', sort=None, axis=alt.Axis(title=None, labelAngle=0, labelFontSize=20)),
-                y=alt.Y('Score', axis=alt.Axis(title=None, grid=False, labels=False, ticks=False), scale=alt.Scale(domain=[0, 6])),
+                y=alt.Y('Score', axis=alt.Axis(title=None, grid=False, labels=False, ticks=False), scale=alt.Scale(domain=[0, 7])),
                 color=alt.Color('Color:N', scale=None, legend=None),
                 tooltip=['Insurer', 'Score']
             ).properties(

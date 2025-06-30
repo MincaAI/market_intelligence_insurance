@@ -36,7 +36,6 @@ Anlayze what seems to be the best options.
 - Do not recommend an insurer overall: analyze **element by element**.
 - **Always answer in English.**
 
-
 2. **Summary (max 5 lines)**:
 Present the main differences and contractual advantages identified, without recommending an insurer overall.
 """

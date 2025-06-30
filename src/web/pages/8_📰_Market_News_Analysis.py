@@ -70,7 +70,7 @@ def summarize_with_llm(perplexity_response, product, current_date):
         f"Highlight competitive moves, threats, or opportunities. Structure it as:\n"
         f"- Key competitor moves (AXA, Zurich, Allianz)\n"
         f"- Implications for Generali’s strategy\n\n"
-        f"Keep it under 5 bullet points. Prioritize clarity and relevance for C-level executives.\n\n"
+        f"Keep it under 5 bullet points. Inidcate the date. Prioritize clarity and relevance for C-level executives.\n\n"
         f"Market news:\n{perplexity_response}"
     )
     response = client.chat.completions.create(
