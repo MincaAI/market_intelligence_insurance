@@ -37,7 +37,7 @@ def extract_score_with_llm(raw_text):
     return response.choices[0].message.content.strip()
 
 st.title("⭐ Global review comparison")
-st.markdown("**How does Generali's reputation compare?**  ")
+st.markdown("**How does one insurer's reputation compare?**  ")
 st.markdown("A snapshot of customer sentiment across major competitors.")
 
 tab2, tab1 = st.tabs(["🌍 Public source", "🏢 Competitors website"])
