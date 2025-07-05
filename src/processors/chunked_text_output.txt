@@ -1,0 +1,925 @@
+--- Chunk 1 ---
+![AXA Logo](https://via.placeholder.com/150)  
+General Insurance Conditions (GIC)
+
+--- Chunk 2 ---
+- OPTIMA
+- FLEX  
+Version 10.2023  
+---  
+AXA logo on the left side.
+Contents  
+| Key Points at a Glance | 4 |
+| Overview of the insurable risks and losses under motor vehicle insurance | 6 |  
+**Part A**
+**Underlying Provisions of the Insurance Contract**  
+| A1 | Scope of the contract | 7 |
+| A2 | Territorial scope | 7 |
+| A3 | Term of the contract | 7 |
+| A4 | Termination of the contract | 7 |
+| A5 | Surrender of license plates | 8 |
+| A6 | Transfer of the insurance to a replacement vehicle | 8 |
+| A7 | Use of interchangeable license plates | 8 |
+| A8 | Premium payment | 8 |
+| A9 | No claims discount system | 9 |
+| A10 | Deductible | 9 |
+| A11 | Adjustment to the contract by us | 9 |
+| A12 | Claims | 10 |
+| A13 | Additional duties to provide information | 11 |
+| A14 | Principality of Liechtenstein | 11 |
+| A15 | Applicable law and place of jurisdiction | 11 |
+| A16 | Trade and economic sanctions | 11 |  
+**Part B**
+**Liability insurance: Damage caused by your vehicle**  
+| B1 | Damage/injury to others | 12 |
+| B2 | Damage to your own property | 12 |
+| B3 | Insured vehicles | 12 |
+| B4 | Insureds | 12 |
+| B5 | Benefits in the event of a claim | 12 |
+| B6 | Exclusions | 12 |
+| B7 | Recourse | 12 |  
+**Part C**
+**Accidental damage insurance: Damage to your vehicle**  
+| C1 | Damage caused by you (collision) | 13 |
+| C2 | Damage caused by natural hazards, animals and unknown persons (partial accidental damage) | 13 |
+| C3 | Damage to parked vehicle | 13 |
+| C4 | Headlights and side view mirrors | 14 |
+| C5 | Tires and rims | 14 |
+| C6 | Personal belongings in the vehicle | 14 |
+| C7 | Motorcycle clothing | 14 |
+| C8 | Loss of and damage to vehicle keys | 14 |
+| C9 | Insured vehicle and accessories | 14 |
+| C10 | Benefits in the event of a claim | 15 |
+| C11 | Exclusions | 16 |  
+Motor Vehicle Insurance. GIC Version 10.2023 | 2
+### Part D
+### Services and add-ons  
+|    |                                                   |    |
+|----|---------------------------------------------------|----|
+| D1 | Gross negligence                                  | 17 |
+| D2 | Bonus protection                                  | 17 |
+|    |                                                   |    |
+| D3 | Roadside assistance including onward travel       | 17 |
+| D4 | Replacement vehicle                               | 18 |
+| D5 | E-mobility charging station                       | 18 |
+| D6 | E-mobility battery                                | 18 |
+| D7 | Vehicle legal protection                          | 19 |
+| D8 | Injury to you and your passengers                 | 20 |
+|    |                                                   |    |
+| D9 | Comprehensive service if you are involved in an accident that was caused by a third party | 21 |  
+### Part E
+### Definitions  
+|             |    |
+|-------------|----|
+| Definitions | 22 |  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023                                             3
+
+--- Chunk 3 ---
+*Dear Customer,*  
+We are very happy that you place your trust in our insurance coverage. You will find a precise description of all of the benefits of AXA motor vehicle insurance in these General Insurance Conditions (GIC). All coverage exclusions are highlighted in blue.
+So that these GIC are easier to read, you and we are referred to, where possible, as simply "you" and "we" in the following, instead of "policyholder" and "AXA" or "AXA-ARAG."  
+Best regards,  
+*Your AXA team*  
+---  
+The key points at a glance provide you with information about the key content of the insurance contract in accordance with Article 3 of the Federal Act on Insurance Contracts (ICA). The rights and obligations of the contracting parties arise on conclusion of the insurance contract on the basis of the quote, the policy, the insurance conditions and the statutory provisions.  
+**Who is the insurance carrier?**
+The insurance carrier is AXA Insurance Ltd, General Guisan Strasse 40, 8401 Winterthur (hereinafter referred to as "AXA" or "we"), a stock corporation with registered office in Winterthur and a subsidiary of the AXA Group.  
+The insurance carrier for the legal protection insurance is AXA-ARAG Legal Protection Ltd, Affolternstrasse 42, 8050 Zurich (hereinafter referred to as "AXA-ARAG" or "we"), a stock corporation with its registered office in Zurich and a subsidiary of AXA Insurance Ltd.  
+**What is insured?**
+The insurance covers the vehicles and persons specified in the quote and the policy, as well as in the following General Insurance Conditions. Generally, this insurance is property and casualty insurance pursuant to the Insurance Contracts Act (i.e. the loss or damage incurred is insured up to the agreed benefit), except in the case of daily hospital benefits, daily benefits, disability and lump sum death benefits, which are fixed-sum insurance products (i.e. in the event of a claim, the entire sum insured is paid out).  
+**What risks and losses can be insured?**
+The insured risks and losses, as well as the scope of coverage can be found in the quote or the policy and in the insurance conditions. You can refer to the product overview at the end of this section to find out which risks and losses are insurable.  
+---  
+**What are the most important exclusions?**  
+**General.** Among other things, the insurance does not cover (GIC A12.7):
+- incidents that are caused by the driver while in an intoxicated (blood alcohol level above the limit allowed by law) or otherwise unfit condition, or as a result of a particularly blatant disregard of the maximum speed limit (pursuant to the Road Traffic Act)  
+**Liability insurance.** Among other things, the insurance does not cover (GIC B6):
+- claims arising from accidents that occur at motor sport or cycling events
+- liability if the driver of the vehicle does not possess the driver's license required by law
+- liability arising from trips taken without official authorization  
+**Accidental damage insurance.** Among other things, the insurance does not cover (GIC C11):
+- damage resulting from operation of the vehicle, e.g. wear and tear, material defects, failure of electronics
+- damage that occurs during participation in races or rallies and while driving on race tracks or training tracks
+- damage that occurs on trips taken without official authorization  
+**Services and add-ons.** Among other things, the insurance does not cover (GIC D3.6, D5.3, D6.4.2, D7.5, D8.4, D9.3):
+- Vehicle legal protection:
+- legal cases due to driving without a valid driver’s license or license plates
+- legal cases due to driving repeatedly while intoxicated or in an unfit condition
+- legal cases due to participation in races or rallies and while driving on race tracks or training tracks
+- Injury to you and your passengers:
+- Drivers who do not possess the driver's license required by law  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+*4*
+What benefits do we provide?
+**Liability insurance.** Within the scope of the guaranteed amount shown in the quote and in the policy, we pay justified claims and defend unjustified claims against insureds (GIC B5).  
+**Accidental damage insurance.** If an insured event occurs, we provide the following benefits:
+- assumption of repair costs (GIC C10.1) or
+- payment of compensation in the event of a total loss, depending on the type of compensation chosen (GIC C10.2) (purchase price guarantee, present value supplement or present value)  
+In addition, the following costs are covered (GIC C10.3):
+- recovery and transport to the nearest suitable repair shop, up to CHF 10 000
+- customs clearance
+- return transport from abroad if necessary, up to CHF 1 000
+- the cost of cleaning the interior of the vehicle after administering first aid to accident victims, up to CHF 500  
+**Services and supplementary insurance.** If an insured event occurs, we provide the following benefits (GIC D), among others:
+- **Roadside assistance including onward travel.** We cover the following costs (GIC D3) within the scope of the indemnity limits specified in the quote and in the policy:
+- roadside assistance and towing
+- vehicle recovery, vehicle repatriation and storage fees
+- additional costs for transportation, accommodation and meals
+- **Vehicle legal protection.** In insured legal cases, we provide, in particular, the following benefits and compensation for costs up to the sum insured specified in the policy
+- legal advice and processing of the legal case
+- necessary lawyers’ fees
+- court fees or other costs of proceedings
+- proceedings in the event of revocation of driver's and vehicle license, up to CHF 500 per legal case
+- **Injury to you and your passengers.** The insured benefits are specified in the quote and in the policy (GIC D7):
+- medical expenses
+- daily hospital benefits/daily benefits
+- disability and lump sum death benefit  
+For the other insured benefits, the indemnity limits and the deductible in the event of a claim are set out in the quote and the policy.  
+**Where is the insurance valid?**
+The insurance is valid in Europe and the countries bordering the Mediterranean, but it does not include the Russian Federation, Crimea, Belarus, Georgia, Syria, Armenia, Azerbaijan or Kazakhstan (GIC A2).  
+If, for the insurance "Roadside assistance including onward travel," "Switzerland" is specified in the policy, the insurance is only valid in Switzerland and the Principality of Liechtenstein. If the policy specifies "Europe," however, the scope of validity defined in A2.1 applies.  
+**How much is the premium and when is it due?**
+The premium and its due date as well as the no claims level, statutory fees and expenses are specified in the quote, the policy and the premium statement.  
+**When does the notice of claim need to be filed?**
+You (or the eligible claimant) must notify us immediately (GIC A12.1).  
+---  
+**What are your other obligations?**
+You most important obligations are:
+- not to acknowledge any claims (GIC A12.2.2)
+- to notify us immediately of any changes to your information in the policy, e.g. number of kilometers driven, information about the driver (GIC A13)  
+**When does the insurance begin and when does it end?**
+The insurance begins on the date specified in the policy. We may reject the quote or the application up until the date on which we issue the policy or a definitive cover note. If a quote or the application is submitted, we grant provisional coverage until the date the policy is issued (GIC A3.3).  
+The insurance is valid for the term specified in the policy. Unless the insurance contract is terminated three months prior to expiry, it is automatically renewed for another year. If the insurance contract is concluded for less than one year, it expires on the date specified in the policy.  
+The contract may be terminated prematurely by either contracting party in the following cases, among others:
+- after any claim or legal cases for which we pay benefits (GIC A4.2)
+- in the event of an increase in premiums, a change in the no claims discount system or a change in the rules governing deductibles at the end of the insurance year (e.g. December 31) if you do not agree with the new terms (GIC A11.2)  
+**What loss or damage is insured in terms of time?**
+The insurance covers loss or damage arising from events that occur during the term of the contract. For vehicle legal protection, coverage is available for legal cases whose triggering event and the need for legal protection arose during the period of coverage and which were reported to us during this period or at the latest three months following termination of the insurance contract.  
+**How to exercise the right of withdrawal**
+You may withdraw from the contract with us within 14 days of your acceptance. This deadline will be deemed to be met if your withdrawal is communicated to us in writing or in another form of text (e-mail, for example).  
+If you do withdraw, any benefits you have already received must be paid back.  
+**Special information for the Principality of Liechtenstein**
+You are bound by the quote to conclude an insurance contract within a period of two weeks of submitting or sending the quote. If a medical examination is required, the period is extended to four weeks.  
+If we are in breach of the duty to provide information pursuant to the Liechtenstein Law on Insurance Contracts and the Liechtenstein Insurance Supervision Act, you have the right to withdraw within four weeks of receiving the policy.  
+The responsible supervisory authority is FINMA, the Swiss Financial Market Supervisory Authority, 3000 Bern.  
+**What definitions apply?**
+The key terms are explained in Part E under "Definitions."  
+**What data do we use and how?**
+We use data in accordance with the applicable statutory provisions. For more information, visit AXA.ch/data-protection.  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+Overview of the insurable risks and losses under motor vehicle insurance  
+---  
+### Liability: Damage caused by your vehicle  
+**Damage / injury to others (mandatory)**  
+**Damage to your own property**  
+---  
+### Accidental damage: Damage to your vehicle  
+**Damage caused by you (collision)**  
+**Damage caused by natural hazards, animals and unknown persons (partial accidental damage)**
+- Theft, including car hacking and misappropriation
+- Glass breakage on windshield, side and rear windows
+- Natural hazard events (hail, etc.) and fire
+- Damage due to martens and rodents as well as collisions with animals
+- Malicious damage (excluding scratches)  
+**Damage to parked vehicles**  
+**Headlights and side view mirrors**  
+**Tires and rims**  
+**Personal belongings in the vehicle**  
+**Motorcycle clothing**  
+**Loss of and damage to vehicle keys**  
+| Partial accidental damage | Comprehensive accidental damage |
+|---------------------------|---------------------------------|  
+---  
+### Services and add-ons  
+**Gross negligence**  
+**Bonus protection**  
+**Roadside assistance including onward travel**  
+**Replacement vehicle**  
+**E-mobility charging station**  
+**E-mobility battery**  
+**Vehicle legal protection**  
+**Injury to you and your passengers**  
+**Comprehensive service if you are involved in an accident that was caused by a third party**  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023  
+6
+
+--- Chunk 4 ---
+## Part A
+**Underlying Provisions of the Insurance Contract**  
+### A1 Scope of the contract  
+The policy specifies the type of product, insurance and coverage options that have been purchased. Only those coverages specified in the policy are insured. The policy, these General Insurance Conditions (GIC), any Supplementary Conditions (SC) and any Special Insurance Conditions (SIC) mentioned in the policy provide information about the scope of the insurance.
+The insurance covers events that occur during the term of the contract. The term of the contract is specified in the policy. AXA provides the vehicle legal protection insurance on behalf and for the account of AXA-ARAG.  
+### A2 Territorial scope  
+#### A2.1 Scope of validity  
+The insurance is valid for Europe and countries bordering the Mediterranean, but it does not include the Russian Federation, Crimea, Belarus, Georgia, Armenia, Azerbaijan, Syria or Kazakhstan.
+See also the countries marked in gray on the map at the end of these GIC.
+The scope of validity of the insurance for "Roadside assistance including onward travel" is set out in D3.2.  
+#### A2.2 Relocation abroad  
+If the keeper registers their departure with the Swiss authorities and/or moves abroad (except, in either case, to the Principality of Liechtenstein), the insurance coverage lapses at the end of the insurance year at the latest. At the request of the policyholder, the contract may also be terminated earlier. If the vehicle or the trailer is registered abroad or the location of the trailer is moved abroad, the insurance coverage lapses immediately.  
+### A3 Term of the contract  
+#### A3.1 Beginning  
+The insurance contract begins on the date specified in the policy and applies to loss or damage and legal cases that arise during the term of the contract. Any provisional insurance coverage that may be in place expires once the policy is issued.
+We can reject your quote or application to take out insurance. Any provisional insurance coverage that may be in place ends three days after you receive notice of such rejection. In this case, you will owe the pro rata premium for the period of coverage.  
+#### A3.2 Provisional coverage from the date of vehicle registration  
+From the date the vehicle is registered until a quote or application is submitted, we provide partial or comprehensive accidental damage coverage for up to 30 days (CHF 1 000 deductible for collision), provided that an application is submitted during this period for insurance that includes coverage for the loss or damage incurred.
+Provisional coverage for comprehensive accidental damage insurance is granted for vehicles up to and including their 7th year of operation and for partial accidental damage insurance, for vehicles up to and including their 15th year of operation. Compensation is provided at present value and is limited to a maximum amount of CHF 200 000.  
+In addition, this provisional coverage does not apply if the driver's license of the driver of the vehicle has been revoked for more than two months in the last 36 months.  
+#### A3.3 Provisional coverage from the date of submission of the quote or application  
+If a quote or application is submitted to us, we will provide provisional coverage until the policy is issued. This covers the benefits provided for in the quote or application, but up to a maximum of:
+- the minimum amount guaranteed by law under liability insurance
+- CHF 200 000 under accidental damage insurance
+- CHF 10 000 vehicle legal protection
+- CHF 100 000 disability lump sum under accident insurance
+- CHF 20 000 lump sum death benefit  
+If the quote or application is rejected, insurance coverage lapses three days after you receive notice to this effect. The premium is owed on a pro rata basis for the period during which provisional coverage is in effect.  
+#### A3.4 Contract renewal  
+The contract is concluded for the term specified in the policy, after which it is automatically renewed for another year. A contract concluded for less than one year ends on the date specified in the policy.  
+### A4 Termination of the contract  
+#### A4.1 Ordinary termination  
+Either contracting party (you or we) may terminate the contract in writing or in another form of text (e-mail, for example) up to three months prior to its expiry.
+If the term of the contract is longer than three years, you or we may terminate it at the end of the third year or each subsequent year thereafter in writing or in another form of text (e-mail, for example), subject to compliance with a period of notice of three months.  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+### A4.2 Termination in the event of a claim  
+After a claim or legal case for which we provide benefits, the contract may be terminated as follows:  
+- By you: no later than 14 days after you become aware of the payment of the benefit or, in the case of vehicle legal protection, after the last service was provided, with coverage ending 14 days following receipt by us of the notice of termination.
+- By us: at the latest on disbursement of the benefit or provision of the last service through the legal protection insurance, with coverage ending 14 days following receipt by you of the notice of termination.  
+### A4.3 Termination by you in the event of an adjustment to the contract by us  
+A11.2 applies.  
+---  
+### A5 Surrender of license plates  
+**A5.1** If you surrender the license plates to the competent authority (e.g. department of motor vehicles), the insurance remains valid for 12 months from the date of surrender (e.g. if the automobile is stolen from your garage). There is no insurance coverage on public roads.  
+**A5.2** If the license plates are surrendered for a period of at least 14 days, the premium for this period will be credited as soon as the plates are re-registered (suspension discount). In this case, a processing fee (suspension fee) will be applied. There is no coverage for vehicle legal protection while the license plates are surrendered.  
+**A5.3** If you agreed to a waiver of the surrender of the license plates in the policy (e.g. in the case of motorcycles), the license plates may not be surrendered. In amendment of A5.2, no suspension discount is granted if you nevertheless surrender the license plates. The suspension fee is owed, however.  
+---  
+### A6 Transfer of the insurance to a replacement vehicle  
+**A6.1** If the competent authority (e.g. department of motor vehicles) approves a replacement vehicle in place of the insured vehicle, the insurance is transferred to the replacement vehicle. Accidental damage coverage and the services and add-ons for the replacement vehicle are valid for a maximum of 30 consecutive days.  
+**A6.2** Accidental damage coverage is valid for a replacement vehicle of the same value, and it continues to be valid for the replaced vehicle except for any "collision" accidental damage event.  
+---  
+### A7 Use of interchangeable license plates  
+**A7.1** If one of the vehicles with no license plate or pair of license plates is used on public roads, it will not be covered.  
+**A7.2** In the event of a change from interchangeable plates to individual plates, the vehicle excluded from the contract is covered as if the license plates had been surrendered (A5.1), provided that the keeper or owner of the vehicle does not change.  
+---  
+### A8 Premium payment  
+**A8.1 Amount and due date of the premium**  
+The premium specified in the policy or premium statement is due on the first day of each insurance year; the due date for the first premium is specified in the statement. In the event of payment by installments, the installments due during the insurance year are deemed to be deferred. We may add a surcharge for each installment.  
+**A8.2 Default in payment and consequences of default**  
+If the premium, processing fees, reminder fees or deductibles are not paid following a written reminder, we will set a 14-day extension of deadline. If you fail to meet this deadline, your coverage will be suspended (interruption of coverage). If liability is insured in the contract, we are required to inform the responsible department of motor vehicles, following which your license plates will be confiscated.  
+Once the outstanding premiums, deductibles and all fees such as reminder fees or costs such as the costs of confiscation of the license plates have been paid in full, the insurance contract will be reinstated. The date of the payment is decisive for the reinstatement of the insurance coverage. You will not receive retroactive insurance coverage for the period of interruption. If the department of motor vehicles was already notified of the interruption of coverage, you will need a new certificate of insurance.  
+The insurance contract will lapse two months following the 14-day extended deadline set in the reminder letter, unless we take legal steps to demand payment of the outstanding premium (debt enforcement).  
+We can arrange with the department of motor vehicles for confiscation of the license plates if you do not pay  
+- the premium,
+- the deductible,
+- other amounts owed such as reminder fees,
+- or if any other legal or contractual provisions allow confiscation.  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023  
+8
+
+--- Chunk 5 ---
+The same no claims discount system (table with increasing and decreasing levels) applies to both liability insurance and "collision" events under accidental damage coverage, but the claims levels are calculated separately for each.  
+| A9.1 | No claims level in % | Discount in % |
+|------|---------------------|--------------|
+|      | 150                 |              |
+|      | 130                 |              |
+|      | 120                 |              |
+|      | 110                 |              |
+|      | 100                 |              |
+|      |  90                 | 10           |
+|      |  80                 | 20           |
+|      |  75                 | 25           |
+|      |  70                 | 30           |
+|      |  65                 | 35           |
+|      |  60                 | 40           |
+|      |  55                 | 45           |
+|      |  50                 | 50           |
+|      |  45                 | 55           |
+|      |  40                 | 60           |
+|      |  36                 | 64           |
+|      |  33                 | 67           |
+|      |  30                 | 70           |  
+Example: If your policy/premium statement shows you have a no claims level of 30 %, you are eligible for a discount of 70 %.  
+**A9.2** The level and thus the premium are recalculated for each insurance year. The determining factor is whether any claim was filed in the preceding 12-month period up to the three months before the end of the insurance year (observation period).  
+**A9.3** In the absence of any claims, the no claims level for the following insurance year is reduced by one level. If the insurance begins less than six months prior to the end of the insurance year, the no claims level will remain unchanged in the next insurance year.  
+**A9.4** For each claim, the no claims level for the following insurance year will increase by four levels in the insurance (liability or collision) affected by it.  
+**A9.5** The premium level for liability coverage does not increase:
+- if we are required to pay benefits even though the insured is not at fault (simple causal liability)
+- in the event of joyriding (pursuant to the Road Traffic Act), provided that the keeper is not at fault for the misappropriation of the vehicle  
+**A9.6** For liability and collision, the level is corrected retroactively if:
+- no benefits are paid out for an event that has been reported
+- a liable party or their insurer paid the full amount in liability compensation as part of a final settlement for collision damage (accidental damage)
+- you repay the benefits paid by us within 30 days of your having been notified of the settlement  
+**A9.7** Bonus protection (no increase of the no claims level); see D2  
+**A9.8** Your no claims level is set out in the policy when the contract is concluded. Your premium statement will provide you with information on the currently valid level and the resulting premium.
+
+--- Chunk 6 ---
+**A10.1 General**  
+For every event for which we pay benefits, you pay the deductible agreed in the policy.
+If accidental damage coverage with us applies to both a towing vehicle and a trailer and both are affected by an insured event at the same time, only the higher deductible applies.  
+**A10.2 The deductible does not apply:**  
+**A10.2.1 Liability**
+- if we are required to pay benefits even though the insured is not at fault (simple causal liability)
+- in the event of joyriding (pursuant to the Road Traffic Act), provided that the keeper is not at fault for the misappropriation of the vehicle  
+**A10.2.2 Accidental damage**
+- in the event of loss or damage for which a liable party or their insurer has paid liability compensation in full.
+
+--- Chunk 7 ---
+We may adjust the contract with effect from the following insurance year in the following cases:
+- premium increase
+- a change in the rules on deductibles
+- a change in the no claims discount system
+- insurance conditions
+- contractual conditions  
+**A11.1 Notice of any adjustment to the contract by us**  
+Notice of any adjustment to the contract must be received by you no later than 25 days prior to the start of the new insurance year.  
+**A11.2 Termination by you**  
+You have the right to terminate that part of the contract affected by the change, or the entire contract, at the end of the current insurance year. At the end of the insurance year, those parts of the contract specified by you will end. Notice of termination must be received by us no later than on the last day of the current insurance year. Changes that do not entitle you to terminate are, among others:
+- premiums or benefits in your favor
+- fees, benefits or deductibles under coverage regulated by statute, if a federal authority prescribes them  
+**A11.3 Consent to the adjustment to the contract**  
+If you do not terminate the contract by the end of the insurance year, this will be deemed to constitute consent to the adjustment to the contract.  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023
+A12 Claims  
+A12.1 Notice of claim
+A12.1.1 The eligible claimant must notify us immediately. Possible ways of giving notice of claim:
+- By telephone
+- In Switzerland:
+- 0800 809 809 (toll-free)
+- From abroad:
+- +41 800 809 809
+- +41 52 218 95 95
+- For legal cases:
+- +41 848 111 100
+- Online via AXA.ch/claims or via the myAXA customer portal
+- In writing by letter or e-mail
+We have the right to request a written notification of claim for loss events that were initially reported by telephone.
+A12.1.2 If the duty to notify or rules of conduct are breached and the occurrence, extent or determination of the loss or damage are affected as a result, we can reduce or refuse our benefits.  
+A12.2 Liability
+A12.2.1 We conduct negotiations with the injured party in our own name or as representative of the insured.
+A12.2.2 The insured is not permitted to voluntarily acknowledge any claims by the injured party or to make any payments.
+A12.2.3 If civil proceedings are initiated, the insured is required to allow us to handle the proceedings. If civil claims are asserted in a criminal proceeding, the insured is required to keep us informed about the proceeding from the outset.
+A12.2.4 The settlement of the claims of the injured party by us is binding on the insured.  
+A12.3 Accidental damage
+A12.3.1 The eligible claimant is required to allow us to inspect the damaged vehicle before it is repaired. Orders for repairs may only be issued with our consent.
+A12.3.2 In all cases of theft, the police station in charge of the area where the theft took place must be notified immediately.
+A12.3.3 If a vehicle is stolen abroad, the police station in the area where the theft took place as well as the police station at your place of residence/registered office in Switzerland must be notified immediately.
+A12.3.4 In the event of injury to an animal, you must ensure that the relevant authorities (e.g. police, game warden) record the event or that the animal keeper confirms it.  
+A12.4 Roadside assistance including onward travel
+The eligible claimant must notify us immediately so that we can organize measures. If measures are organized by you, the benefit restrictions pursuant to D3.5 apply.  
+A12.5 E-mobility charging station/e-mobility battery
+The eligible claimant is required to allow us to inspect the damaged property before it is repaired. Orders for repairs may only be issued with our consent.  
+A12.6 Vehicle legal protection
+A12.6.1 Handling of legal cases
+- Notify us immediately as soon as you need legal assistance. Send us all the documents relating to the legal case (e.g. contracts, correspondence, fine orders, summonses and rulings), and provide us with all the necessary information as well as powers of attorney.
+- You will be advised and represented by our legal experts.
+- If, in our view, it becomes necessary to involve an external lawyer, we will help you to select one and we will cover the costs incurred within the scope of the cost approval that was issued.
+- You are free to choose your own lawyer in the following three cases:
+- For court or administrative proceedings where a lawyer must be used
+- If your opposing party is an AXA Group company (other than AXA-ARAG)
+- If the legal case involved is one in which AXA-ARAG must also provide coverage to your opposing party  
+If we reject the lawyer you selected, you can suggest three further lawyers. They may not belong to the same law firm. We must accept one of these three suggestions. In all these cases, we cover the costs within the scope of the cost approval that was issued.
+- In connection with your legal case, you must release the lawyer you retained from attorney-client privilege in relation to us, and you must require the lawyer to keep us informed about the case. In addition, information that we require for our decisions must be provided to us, and relevant documents must be made available to us.
+- You must obtain our consent before you retain a lawyer, commence court proceedings or conclude a settlement for which we are supposed to cover costs or accept any other obligations.
+- If you are in breach of any duties to provide information or any rules of conduct, we may reduce or deny benefits. We will not do so if, under the circumstances, the breach was beyond your control or if you can prove that the legal case did not arise as a result of it, and that the amount of the benefits owed was not affected.
+- Instead of the insured benefits, we may pay all or part of the amount in dispute to you (buyout of claim). In this case, we take into consideration your risk of litigation and collection risk. In addition, we can have the benefits paid through an external service provider (e.g. lawyer).
+- We accept no liability either for the choice and engagement of a lawyer or any other auxiliary persons (e.g. interpreter, expert, etc.). Furthermore, we accept no liability for the prompt communication of information or transfer of cash payments.  
+A12.6.2 Procedure in case of differences of opinion
+- A difference of opinion arises if we consider a legal case to be futile or if you do not agree with us about the measures for dealing with your legal case. In this event, you have the right to have your chances of success assessed by an independent expert to be designated jointly. Within 20 days of receiving our letter setting out the reasons, you must ask us in writing to initiate dispute resolution proceedings; if we do not hear from you, you will be deemed to have waived this option. From the date of our letter, you yourself are responsible for meeting the deadlines in your legal case.
+- If you request dispute resolution proceedings, we must each pay one half of the costs in advance, and the costs will ultimately be borne by the unsuccessful party. In these proceedings, no legal expenses are awarded to the opposing party.  
+Motor Vehicle Insurance, GIC Version 10.2023
+### A12.7 Injury to you and your passengers  
+At our request, every insured is required to undergo a medical examination by doctors appointed by us.  
+### A12.8 Intoxicated and unfit condition or blatant disregard of maximum permitted speed limit  
+**A12.8.1** The following applies if the driver caused the insured event while intoxicated (blood alcohol level above the legal blood-alcohol limit) or driving in an otherwise unfit condition, or by blatantly disregarding the maximum permitted speed limit (pursuant to the Road Traffic Act), and if their driver's license has been revoked for one of these offenses in the last five years preceding the event:
+- We do not provide any benefits to the vehicle driver under accidental damage insurance or for services or add-ons
+- We take recourse against the vehicle driver for benefits under the liability insurance and accident insurance (injury to you and your passengers) for passengers
+- D7.5 applies to vehicle legal protection  
+**A12.8.2** If the vehicle driver can prove that they have not had their driver's license revoked for any of these offenses in the last five years preceding the event, the benefits for loss or damage due to gross negligence will only be reduced.  
+**A12.8.3** These restrictions do not apply if the intoxicated or otherwise unfit condition of the driver or their particularly blatant disregard of the maximum permitted speed limit did not lead to or influence the event.  
+### A12.9 Comprehensive service if you are involved in an accident that was caused by a third party  
+**A12.9.1** Your obligations if you use the service:
+- You must authorize us to assert your claims for damages with the liability insurance of the other party involved in the accident
+- If a claim has been made against us, you may not make the same claim against the other liable party involved in the accident or their insurer without our express consent  
+---  
+### A13 Additional duties to provide information  
+**A13.1 Communication with us**  
+You must address all communications to the relevant branch office or to the registered office of AXA or AXA-ARAG.  
+**A13.2 Increase or decrease in risk**  
+If the information set out in the policy (e.g. number of kilometers driven, information about the driver) no longer applies, you must notify us immediately.  
+---  
+### A14 Principality of Liechtenstein  
+If you are resident or have your registered office in the Principality of Liechtenstein, the references to provisions of Swiss law contained in the insurance contract documents shall be construed as referring to the corresponding provisions of Liechtenstein law.  
+### A15 Applicable law and place of jurisdiction  
+**A15.1 Applicable law**  
+This contract is subject to Swiss law. For insurance contracts that are subject to Liechtenstein law, the binding provisions of Liechtenstein law take precedence in the event of discrepancies with the conditions mentioned above.  
+**A15.2 Place of jurisdiction**  
+The ordinary courts of Switzerland have exclusive jurisdiction to settle disputes arising out of or in connection with the insurance contract, including actions filed by insureds or third parties for benefits for liability claims. If your residence or registered office is located in the Principality of Liechtenstein, the ordinary courts of Liechtenstein have jurisdiction over such disputes.  
+### A16 Trade and economic sanctions  
+We will not provide any insurance coverage, claims payments or any other benefits to the extent that the provision of such benefit would expose us to any sanction, prohibition or restriction under any UN resolution or any trade or economic sanctions, laws, or regulations of the European Union, the United Kingdom, the United States of America, Switzerland or the Principality of Liechtenstein.  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023  
+11
+
+--- Chunk 8 ---
+## Liability insurance: Damage caused by your vehicle  
+### B1 Damage/injury to others  
+The insurance covers claims for damages based on statutory liability provisions that are brought against you or other insureds as a result of:
+- injury to or death of persons (bodily injury)
+- damage to or destruction of property (property damage). Injury to or the killing of animals is considered to be the same as property damage  
+The insurance covers bodily injury and property damage in the following situations:
+- when operating the vehicle
+- in the event of traffic accidents caused by the vehicle while not in operation
+- when providing help after accidents involving the vehicle
+- when entering or exiting or getting on or off the vehicle
+- when opening or closing movable vehicle parts or when coupling or uncoupling a trailer or vehicle  
+The insurance covers costs to be borne by an insured for reasonable measures to prevent an insured loss due to an imminent, unforeseen event (loss prevention costs).  
+Coverage is limited to CHF 20 million in the event of damage or loss caused by fire, explosion or nuclear energy. Loss prevention costs are limited to CHF 5 million.  
+### B2 Damage to your own property  
+Contrary to B6.1, the insurance covers property damage to the property of the keeper,
+- of the spouse,
+- of the registered partner,
+- of the persons living with them in the same household,  
+provided that this property was not transported using the insured vehicle (e.g. collision with second car or garage door). The benefits are limited to present value up to the amount specified in the policy.  
+If another insurance is liable to pay benefits for the same damage, we only cover the benefits that exceed the scope of the coverage of the other insurance (difference in limits and conditions coverage).  
+### B3 Insured vehicles  
+In addition to the insured vehicles specified in the policy, the insurance also covers vehicles and trailers that are pushed or pulled by these vehicles.  
+### B4 Insureds  
+The insurance covers the keeper of the vehicle and all persons for whom the keeper is responsible pursuant to road traffic legislation.  
+### B5 Benefits in the event of a claim  
+We pay justified claims and defend against unjustified claims within the limits of the guaranteed amounts specified in the policy and the General Insurance Conditions.  
+### B6 Exclusions  
+The insurance does not cover…  
+#### B6.1 Property damage
+… claims arising from property damage of the keeper,
+- of the spouse
+- of the registered partner
+- of any grandparents, parents, children, grandchildren or siblings living in the same household with them  
+The insurance also excludes damage to the insured vehicle, the trailer and the items attached to or transported with it. However, the insurance does cover claims for items such as luggage and similar items carried by persons other than those mentioned above.  
+#### B6.2 Racing and similar driving
+… claims arising from accidents that occur at motor sport or cycling events in Switzerland or abroad in accordance with the provisions of Swiss road traffic legislation;  
+#### B6.3 Nuclear energy
+… claims arising from loss or damage that is covered under the Nuclear Energy Liability Act;  
+#### B6.4 Financial loss
+… claims arising from pure financial loss;  
+#### B6.5 Unlicensed driving
+… the liability of drivers who do not have the legally required driver's license or do not meet the corresponding requirements, or of persons who should have been aware of these deficiencies if they had paid due attention;  
+#### B6.6 Unauthorized driving
+… the liability of persons who used the vehicle entrusted to them for trips for which they were not authorized as well as the liability arising from trips taken without official authorization;  
+#### B6.7 Felonies
+… liability arising from accidents in connection with the deliberate commission of a felony or misdemeanor. This includes the intent or attempt to commit these.  
+### B7 Recourse  
+We can demand the return of part or all of the benefits paid to you or other insureds if:
+- there are legal or contractual reasons for doing so
+- we must pay benefits after the insurance policy has lapsed  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 12
+Part C
+Accidental damage insurance: Damage to your vehicle  
+The insured events as well as whether you have partial accidental damage or comprehensive accidental damage insurance are specified individually in the policy. Comprehensive accidental damage includes sections C1 and C2, partial accidental damage only includes C2.  
+### C1 Damage caused by you (collision)  
+The insurance covers damage caused by a sudden and violent external event. This includes, but is not limited to, damage due to collision, impact, overturning, crash, sinking, distortion when dumping. Damage caused while loading or unloading the vehicle is covered even if there was no external impact similar to a collision.  
+### C2 Damage caused by natural hazards, animals and unknown persons (partial accidental damage)  
+#### C2.1 Theft, including car hacking
+The insurance covers loss or damage caused by theft or attempted theft, misappropriation of the car for use or robbery including by means of car hacking, e.g. misuse of the keyless system by car hacking.
+In the event of car hacking, we also cover up to CHF 2 000 of the costs of providing evidence of damage and of resetting the damaged programs and systems.  
+#### C2.2 Misappropriation
+The insurance covers loss or damage caused by the misappropriation or unlawful appropriation of the insured vehicle that was entrusted to a third party for an agreed period of time and could not be recovered within two months of the filing of a criminal complaint.
+There is no insurance coverage if the claim asserted is covered in full or in part under another insurance contract.
+Any deposit paid by the user of the vehicle is deducted from the insurance benefits.
+The following applies in addition to the obligations specified in A12 and A13:
+- The driver must be resident in Switzerland or the Principality of Liechtenstein
+- In the event of damage, a report must be filed immediately with the competent police authority. At the same time, the incident must be reported to us and the following information must be provided:
+- description of the vehicle, i.e. make/model, serial number, registered license plate number
+- complete personal details and address of the lessee and the driver
+- date/time of the handover and return of the vehicle
+In the case of commercial rentals, a valid rental contract with the details mentioned above must be provided as well as a copy or photograph of the identity card or passport of the lessee.  
+#### C2.3 Glass breakage on windshield, side and rear windows
+The insurance covers damage from breakage to the following vehicle parts: Breakage on windshield, side and rear windows and sunroofs made of glass or of materials used as a substitute for glass.
+No compensation is paid for glass breakage if the broken glass is not replaced or repaired or if further damage caused the total costs of repair to be equal to or exceed the present value of the vehicle.  
+#### C2.4 Natural hazard events
+The insurance covers damage caused directly by natural hazards such as landslides, rockslides or rockfalls (damage caused by rocks falling directly onto the vehicle from above), high water, flooding, windstorm (= wind speed of 75 km/h or more), hail, avalanche, snowslide or snow load. This list is exhaustive.  
+#### C2.5 Fire
+The insurance covers loss or damage caused by open fire, explosion or lightning (the insured vehicle must have been hit directly by the lightning). Damage to cables caused by so-called cable fire (short circuit) is covered even if there is no open fire. In addition, damage caused during a firefighting operation is also insured.
+The insurance does not cover warranty claims (e.g. if services have to be provided with a warranty) against third parties.  
+#### C2.6 Damage caused by martens and rodents
+The insurance covers damage caused by martens, in particular bite and consequential damage. The insurance also covers damage to the vehicle caused by rodents (e.g. damage to cables, tubes, caused by mice, etc.).  
+#### C2.7 Collision with animals
+The insurance covers damage due to collision with animals. If you do not meet your obligations under A12.3.4, we will treat the damage as a collision event.  
+#### C2.8 Malicious damage
+The insurance covers damage due to deliberately broken or damaged antennas, side view mirrors, windshield wipers or embellishments original to the vehicle, defaced paintwork (but not scratches), punctured tires, harmful substances poured into the fuel, fuel additive or oil tank, or slashed convertible tops. For motorcycles, the insurance also covers the puncturing or defacing of saddlebags and seats. This list is exhaustive.  
+### C3 Damage to parked vehicle  
+The insurance covers damage caused to the parked vehicle by unknown persons or vehicles (e.g. scratches).
+The exact scope of benefits is specified in the policy. If the number of insured claims is limited in the policy per insurance year, this will apply irrespective of any change of vehicle or the number of months that the contract was in force in the calendar year. The date on which the claim is reported is decisive. If benefits are provided under the insurance for "damage to parked vehicle", we do not pay any other additional benefits under collision coverage (C1).  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 13
+C4 Headlights and side view mirrors  
+The insurance covers damage to headlights, rear lights, indicators and side view mirrors caused by a sudden and violent external event.
+No compensation is paid if replacement or repair is not made or if further damage caused the total costs of repair to be equal to or exceed the present value of the vehicle.  
+C5 Tires and rims  
+The insurance covers unforeseen and sudden damage to rims and tires if they were firmly attached to the vehicle at the time of the damage. We compensate the costs for the repair or, if repair is not possible, the replacement, including the costs of installation. Compensation is paid for the same model of the same make or, if this is no longer available, an equivalent replacement with identical technical features.  
+**The insurance does not cover:**
+- damage as the direct result of lasting, foreseeable influences of a mechanical, thermal or electronic nature, such as aging, wear and tear, corrosion or rotting
+- damage for which third parties such as manufacturers, sellers, contractors, mechanics, etc. are liable by law or contract
+- damage due to design, manufacturing or material defects
+- damage as a direct result of an excessive buildup of rust and other deposits
+- damage in the event of an insured tire with a tread depth of less than 3 mm
+- damage that is incurred while driving on non-public roads (e.g. offroading)  
+C6 Personal belongings in the vehicle  
+The insurance covers damage to or destruction of personal belongings inside the vehicle and items worn by the driver or a passenger if the vehicle sustains damage. Theft is only insured if these items were locked inside or permanently attached to the vehicle (e.g. in roof boxes or roof racks).
+The insurance also covers all kinds of personal electronic devices (computers, laptops, mobile phones, etc.). Trade goods and items used for professional purposes are only also insured in the case of passenger cars and motorcycles.
+Repair costs are covered up to a maximum of the cost of purchasing a new item of equal value, but in no case more than the agreed sum insured.  
+**The insurance does not cover:**
+- any kind of means of payment, monetary assets, valuables, tickets, subscriptions or items of personal sentimental value
+- restoration costs for photo, film, video and audio recordings, computer files and documents
+- motorcycle clothing (only applies in the case of motorcycles or motor scooters)
+- Animals  
+C7 Motorcycle clothing  
+The insurance covers motorcycle clothing/protective equipment such as helmets, jackets, boots, gloves, protectors, etc. if they were damaged, destroyed or misappropriated directly in connection with an accident of the insured motorcycle or an insured event. In the event of theft, coverage only applies if the items were misappropriated together with the motorcycle or from a container that is permanently attached to the motorcycle and secured against theft. Helmets are insured if they are secured to the motorcycle with a helmet lock.
+Repair costs are covered up to a maximum of the cost of purchasing a new item of equal value, but in no case more than the agreed sum insured.  
+C8 Loss of and damage to vehicle keys  
+The insurance covers the loss of as well as unforeseen and sudden external damage to the vehicle keys/vehicle entry system. We cover the costs of replacing keys (such as remote controls, keyless entry systems, key cards, etc.), including the costs necessary to replace the locks and to reset/restore the entry system.  
+**The insurance does not cover:**
+- damage caused by the transmission of malware by the manufacturer or the garage
+- damage to the locking system (such as the start-stop system, steering lock, transponder, immobilizer, door handle, door lock)
+- damage as a result of faulty operation, natural wear and tear (including a lack of maintenance of the battery)  
+C9 Insured vehicle and accessories  
+**C9.1** The insurance covers the vehicles and accessories specified in the policy. If, for utility vehicles with a total weight of over 3.5 tons as well as for work machines and agricultural vehicles the catalog price, including optional equipment and accessories was declared too low, compensation will be reduced proportionately in the event of a claim.  
+**C9.2** Unless there is a special agreement in effect, optional equipment and accessories that go beyond the standard equipment that comes with the vehicle and for which an (additional) price must be paid are also insured altogether up to a maximum of 10% of the catalog price of the vehicle. This includes, for example, car radios, sunroofs, rear view cameras, attached advertisements, spare tires and rims, ski racks, regardless of whether they were delivered with the vehicle or were installed or purchased separately.  
+**C9.3** Agricultural vehicle equipment and trailers are insured, provided that they are attached or connected to the insured agricultural vehicle at the time of the loss event and are owned by you. If you are not the sole owner of the equipment/trailer affected by a claim, our indemnity for this equipment or this trailer is limited to the present value. Equipment and trailers are only insured under accessories if they are included as part of the declared value of the vehicle with their catalog price. This means that the declared value of the vehicle must correspond to the highest possible total catalog price of a vehicle combination (vehicle including the connected equipment and trailer).  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 | 14
+C9.4 The following do not constitute optional equipment or accessories:
+- all types of electronic equipment not permanently installed in the vehicle
+- in addition for motorcycles:
+- helmets, goggles, gloves and other articles of clothing  
+---  
+## C10 Benefits in the event of a claim  
+### C10.1 Repairs
+We pay the costs for the repair of the vehicle within the limits of its present value as well as the optional equipment and accessories, unless the event involves a total loss as defined in C10.2. Compensation may be made contingent on the repair actually being carried out. If faulty maintenance, wear and tear or prior damage have led to increased repair costs, or if the repair has improved the condition of the vehicle, you must pay the corresponding share of these costs. We are under no obligation to pay for a new replacement if it is possible to fully repair the damaged components. The insurance pays the present value for damaged tires. If repairs are not carried out on recreational vehicles or travel trailers in the event of a claim, we will only compensate for depreciation in accordance with the guidelines of the Schweizerischer Caravangewerbe-Verband SGCV (Swiss Camping Industry Association). Any agreed deductible will be subtracted from the calculated damage.  
+### C10.2 Total loss
+There is a total loss if:
+- the repair costs exceed the present value
+- for the compensation type "present value supplement" or "purchase price guarantee," the repair costs exceed 60 % of the value of the vehicle during the first two years in operation
+- a stolen vehicle or stolen optional equipment and accessories have not been found within 30 days of the theft being reported to one of our Swiss branch offices
+- a misappropriated vehicle could not be recovered within two months of the filing of a criminal complaint  
+The calculation of the benefits depends on the type of compensation agreed (purchase price guarantee, present value supplement or present value).  
+#### C10.2.1 Purchase price guarantee
+100 % of the purchase price will be paid in compensation for the first five years following the purchase of the vehicle. In the case of new vehicles, the date on which they are first registered applies and in the case of used vehicles, the acquisition date on the purchase agreement applies. Thereafter, compensation is paid in accordance with the present value supplement (C10.2.2) plus 10 % thereof. In the event of a claim, you must be able to substantiate the purchase price by submitting the purchase agreement. The purchase price is understood to be the amount listed at the time of the handover to the keeper, after deduction of all discounts. This amount may not differ substantially from the price for comparable vehicles (age and condition) at the time of the purchase of the vehicle. If the purchase price cannot be substantiated, or if it differs significantly from that for comparable vehicles at the time of the purchase of the vehicle, compensation is paid in accordance with the present value (C10.2.3).  
+#### C10.2.2 Present value supplement  
+| Time in operation | Insured vehicle value, in % |
+|-------------------|-----------------------------|
+| in year 1         | 100                         |
+| in year 2         | 100                         |
+| in year 3         | 90 – 80                     |
+| in year 4         | 80 – 70                     |
+| in year 5         | 70 – 60                     |
+| in year 6         | 60 – 50                     |
+| in year 7         | 50 – 40                     |
+| from year 8, present value plus 10 % thereof |  
+The benefits are reduced commensurately after an assessment by an expert if a lack of maintenance, wear and tear, or pre-existing damage more likely contributed to the total loss. If the actual purchase price was less than the benefits calculated in this manner, the purchase price will be paid, but no less than the present value. If the purchase price cannot be substantiated, only the present value is compensated. Any agreed deductible and the salvage value will only be deducted afterwards.  
+#### C10.2.3 Present value
+The benefits are limited to the present value.  
+#### C10.2.4 Additional basis for the calculation of benefits
+1. **Salvage value**
+In the case of a total loss, the benefits are reduced by the salvage value of the vehicle. If this value is not deducted, the scrap becomes our property as soon as the benefits have been paid. If a misappropriated vehicle or individual optional equipment and accessories are compensated as a total loss, the rights of ownership are transferred to us.  
+2. **Value added tax**
+Claims payments to taxpayers who are able to deduct input tax are disbursed without value added tax. Claims payments based on provisional estimates of repair costs do not include value added tax.  
+3. **Leasing/assignment**
+In the case of leased vehicles, any difference (gap) between the claim of the lessor and our compensation is also insured. In this case, the benefit is limited to the difference between the residual value and our calculation of compensation. The benefit will only be paid if "present value supplement" or "purchase price guarantee" was agreed.  
+If we are aware of any payments under the accidental damage policy for the insured vehicle that have been assigned to the assignee (in particular to the lessor or lender), the following applies:
+- In the case of a total loss, we indemnify the assignee;
+- in the case of a partial loss, we indemnify the party that carried out the repair and invoiced it
+- We may notify the assignee about any outstanding premiums
+- If we provide benefits, we are not required to verify if the assignment still exists
+- You waive any claim against us if our payments to the assignee are higher than their claims against you  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 15
+C10.3 Additional benefits
+For insured events, we pay benefits for the repairs or the total loss, and also pay the costs of:  
+- the recovery and transport to the nearest suitable repair shop as well as customs clearance of up to CHF 10 000
+- if necessary, return transportation to Switzerland of up to CHF 1 000  
+The cost of cleaning the interior of the vehicle after administering first aid to accident victims is covered for up to CHF 500.  
+---  
+### C11 Exclusions  
+---  
+The insurance does not cover …  
+**C11.1 Damage resulting from operation**
+… loss or damage resulting from operation of the vehicle, in particular damage caused by something other than a violent external influence or damage due to an internal defect (e.g. a lack of or frozen liquids, operating errors, faulty or fatigued materials, wear and tear, excessive use, malfunction of electric or electronic components);  
+**C11.2 Cargo**
+… loss or damage caused by the cargo, unless it is in connection with an insured collision event;  
+**C11.3 Racing and similar driving**
+… loss or damage that occurs during participation in races, rallies and similar competitive driving events and while driving on race tracks and training tracks (e.g. skid control courses, sports driving courses, with the exception of training courses in Switzerland recognized by us);  
+**C11.4 State of emergency**
+… loss or damage in connection with warlike events, military use, civil unrest, violence against persons or property during riots and similar events, unless you can credibly demonstrate that you or the vehicle driver took reasonable precautions to avoid the damage;  
+**C11.5 Felonies/misdemeanors**
+… loss or damage in connection with the deliberate commission of a felony or misdemeanor. This includes the intent or attempt to commit these. Likewise, loss or damage as a result of the vehicle being driven by a person who does not possess the legally required permit or does not meet the relevant conditions;  
+**C11.6 Unlicensed driving**
+… loss or damage that occurs on trips taken without official authorization;  
+**C11.7 Special events**
+… loss or damage in connection with seizure by authorities, earthquakes;
+… loss or damage due to nuclear reaction, radioactive radiation or radioactive contamination, regardless of any other causes. The insurance does not cover, in particular, any damage due to an incident at a nuclear power plant.  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+*16*
+Part D
+Services and add-ons  
+---  
+### D1 Gross negligence  
+In the case of traffic accidents and collisions caused by gross negligence, we waive our right to recourse and to reduce benefits for the policies that have been purchased (A1) unless the driver caused the insured event while intoxicated or driving in an otherwise unfit condition or by blatantly disregarding the maximum permitted speed limit (A12.8) (pursuant to Art. 65 (3) of the Road Traffic Act).  
+---  
+### D2 Bonus protection  
+If bonus protection is insured under the policy, the level for the following insurance year will remain unchanged in the event of claims that would lead to a higher level. The policy specifies the number of claims per insurance affected (liability or collision) within the observation period for which bonus protection applies.
+The observation period deadlines apply in accordance with A9.  
+---  
+### D3 Roadside assistance including onward travel  
+#### D3.1 Coverage  
+The insurance covers the loss of use of the insured vehicle as a direct result of the following events:  
+**D3.1.1 Breakdown**
+Sudden, unforeseen breakdown of the insured vehicle due to a technical defect rendering onward travel impossible or illegal. The following are treated in the same way as a breakdown:
+- tire failure
+- lack of fuel
+- loss of or damage to vehicle keys, keys locked in the vehicle (including remote controls, key cards, etc.)
+- discharged batteries/high-voltage batteries
+- misfuelling  
+**D3.1.2 Collision**
+An event constituting collision is described in C1.  
+**D3.1.3 Other accidental damage events**
+Events constituting accidental damage are described in C8.  
+#### D3.2 Territorial scope  
+**D3.2.1** If "Switzerland" is listed in the policy under Roadside assistance including onward travel, the insurance is only valid, in amendment of A2.1, in Switzerland and the Principality of Liechtenstein.  
+**D3.2.2** If the policy specifies "Europe" under Roadside assistance including onward travel, the territorial scope defined in A2.1 applies.  
+#### D3.3 Insureds  
+The insurance covers the vehicle drivers and passengers.  
+#### D3.4 Insured vehicle  
+The insurance covers the vehicle listed in the policy as well as trailers towed or pushed by it.  
+#### D3.5 Benefits in the event of a claim  
+In the event of an insured claim, our benefits are limited in total per event to the sums insured specified in the policy.
+Benefits will only be paid for measures that have been organized or ordered by us. If, due to the circumstances, we cannot be reached and the insured must thus arrange for roadside assistance and towing on their own, we cover the corresponding costs up to a maximum of CHF 250 per event.  
+**D3.5.1 Providing advice and making arrangements**
+We offer advice and make arrangements for measures by telephone around the clock.
+Only passenger cars can be organized as replacement cars and these are dependent on their availability and the requirements of the car rental companies (e.g. credit card necessary for renting).  
+**D3.5.2 Roadside assistance and towing**
+We will pay for roadside assistance to restore the vehicle to roadworthy condition at the site of the breakdown, including replacement parts, such as cables, clamps, hoses, fuses (not including batteries) that are usually transported by roadside assistance vehicles. If the vehicle cannot be made roadworthy at the location of the breakdown, we pay for towing the vehicle to the nearest suitable repair shop.  
+**D3.5.3 Vehicle recovery**
+We cover the costs of having the vehicle recovered and transporting it to the nearest suitable repair shop.  
+**D3.5.4 Storage fees**
+We cover storage fees up to a maximum of CHF 250 per event (e.g. if the accident vehicle is parked on a repair shop site for a few days).  
+**D3.5.5 Vehicle return**
+If the vehicle cannot be repaired at the nearest suitable repair shop on the same day, we will pay for the return of the vehicle to the agreed garage, provided that the cost of this is not greater than the present value of the insured vehicle.  
+**D3.5.6 Delivery of replacement parts**
+For an event that occurs outside of Switzerland, we will pay the cost of delivering the replacement parts needed to ensure that the vehicle is returned to roadworthy condition.  
+**D3.5.7 Additional transportation costs**
+We cover additional transportation costs for persons to continue their trip up to the sum insured specified in the policy or the costs to return directly to their permanent home address.  
+**D3.5.8 Additional costs for accommodation and meals**
+We cover additional costs for accommodation and meals during the time it takes to repair the vehicle or fix the breakdown up to the sum insured for each insured specified in the policy.  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023  
+17
+D3.6 Exclusions  
+The insurance does not cover …  
+| D3.6.1 | Cargo |
+| --- | --- |
+| | … benefits in connection with the cargo; |
+| D3.6.2 | Recourse |
+| | … recourse claims by third parties; |
+| D3.6.3 | General |
+| | … the exclusions indicated in C11.3 to C11.7. |  
+D4 Replacement vehicle  
+**D4.1 Coverage**
+We reimburse travel and transportation costs that you incur as a result of the loss of use of the insured vehicle. If a replacement vehicle is rented, we reimburse the going rate for renting an equivalent vehicle. The benefits are paid in the event of accidental damage (C1 to C8) or in the event of a breakdown (D3.1.1, D6).  
+**D4.2 Benefits in the event of a claim**
+Benefits are paid up to the sum insured specified in the policy. The policy specifies whether benefits are only paid in the event of a total loss (C10.2) or also in the event of a repair (C10.1).  
+D5 E-mobility charging station  
+**D5.1 Insured property**
+The insurance covers permanently installed charging stations (e.g. wall boxes) owned by you in your primary residence and secondary residence (vacation home) or at your registered office or your vehicle location which are used primarily for charging the vehicles specified in the policy. The insurance also covers mobile charging stations and charging accessories (e.g. charging cable as well as bags and adapters).  
+**D5.2 Coverage**
+The insurance covers unforeseen and sudden damage to or destruction of charging stations, especially as a result of:  
+- impact, overturning and falling down
+- improper use, carelessness, negligence
+- intentional damaging acts
+- damage from the effects of electricity such as short circuit, overcurrent, overvoltage and overload
+- failure of systems for measuring, controlling and safety
+- failure of electronics
+- water, fire and natural hazards (C2.4)
+- damage by animals
+- theft  
+**D5.3 The insurance does not cover:**  
+- charging stations and charging accessories used commercially, as well as charging stations located abroad
+- damage as a direct result of gradually occurring, foreseeable influences of a mechanical, thermal, chemical or electrical nature such as aging, wear and tear, corrosion, rotting or excessive buildup of rust or other deposits
+- damage for which the manufacturer, the seller or the installer is liable by law or by contract
+- damage due to poor maintenance
+- damage due to the loss or misplacement of items  
+**D5.4 Benefits in the event of a claim**
+We compensate the value of an equivalent replacement or repair as well as the installation costs incurred. Benefits are paid up to the sum insured specified in the policy.  
+D6 E-mobility battery  
+**D6.1 Insured property**
+The insurance covers high-voltage vehicle batteries of any kind, including their housing and their inner parts, during the first eight years of operation and up to a maximum of 200 000 vehicle kilometers driven (vehicle mileage). If one of these values is exceeded at the time of the claim, the insurance only covers the costs of disposal.  
+**D6.2 Coverage**
+The insurance covers loss or damage caused by:  
+- operating errors such as, for example, causing an irregular load on the battery, completely discharging it or incorrectly programming an intelligent wall box
+- deep discharging (battery voltage drops below a critical value) due to a defective charging device, for example;
+- overvoltage/overcurrent (battery voltage exceeds the range of tolerance) due to a loss of power, thermal overload or lightning, for example
+- malfunctioning of the charging device
+- other exceptional loss of capacity of greater than 50% in the first three years of operation.  
+This list is exhaustive.  
+**D6.3 Benefits in the event of a claim**
+Provided that no warranty work is due (to be verified by you), we will cover the costs for the repair or, if no repair is possible, we will cover the costs for the replacement of an equivalent high-voltage battery. The calculation of the benefit is made in accordance with the type of compensation selected for accidental damage insurance (C10) and specified in the policy. If the policy does not specify any type of compensation, our benefit is limited to the present value of the high-voltage battery. The costs of disposal are also insured in connection with an insured claim up to the sum insured specified in the policy.  
+**D6.4 Special benefits**  
+**D6.4.1 Property damage to others as a result of battery fire**
+At your request, we cover claims of third parties for property damage caused by a battery fire even if there is no statutory liability (liability) to a maximum of the sum insured agreed in the policy.  
+**D6.4.2 The insurance does not cover:**  
+- loss or damage for which other service providers (e.g. in the case of warranties) are required by law or by contract to pay, or if there is liability through third parties (e.g. garage, manufacturer, importer)
+- damage to the insured vehicle
+- damage for which another insurance is required to pay benefits (e.g. building insurance, personal liability insurance)
+- bodily injury and pure financial loss  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 18
+
+--- Chunk 9 ---
+With vehicle legal protection, we, AXA-ARAG provide support for legal issues and disputes in relation to your insured vehicle.
+AXA cannot instruct AXA-ARAG in connection with settling a legal case. AXA-ARAG does not share information with AXA on legal cases if so doing could disadvantage the insureds.  
+## D7.1 Insured vehicles  
+The insurance covers all vehicles listed in the policy as well as replacement vehicles for insured vehicles undergoing repair.  
+## D7.2 Insureds  
+The definition of insureds includes:
+- you as owner and keeper of the insured vehicles
+- the authorized drivers and passengers of the insured vehicles  
+for all disputes and proceedings related to the insured vehicles.  
+## D7.3 Insured benefits  
+- In an insured legal case, we provide the services and compensation for costs set out below up to the sum insured specified in the policy.
+- If persons other than you are involved in a dispute, we cover the costs proportionately.
+- Multiple legal cases arising from the same cause and/or the same triggering event, or which are related to such cause or event, are considered to constitute a single legal case. The benefits paid for all insureds are cumulated per legal case, and the sum insured is paid at most only once.
+- For all legal cases that are processed under the same policy and occur in the same insurance year, a total sum insured of no more than CHF 1 000 000 applies.  
+### D7.3.1 Insured services  
+Legal advice and processing of the legal case by our in-house Legal Services. The hourly rate charged for the services provided by our Legal Services is CHF 200.  
+### D7.3.2 Insured costs  
+You must obtain our prior consent for the coverage of any external costs.  
+- **Involvement of an external lawyer:** We cover the legal fees for legal representation engaged with our consent and whose fee agreement was approved by us.
+- **Expert reports:** We cover the costs for an expert report if the assessment of a specialist is required or was ordered by a court. The costs of medical examinations, analyses and tests to establish if a person is fit to drive and capable of driving are excluded.
+- **Proceedings before state courts and authorities:** The costs of proceedings are covered by us, we cover the costs relating to a penal order or a ruling by the Department of Motor Vehicles up to CHF 500 per insurance year.
+- **Non-court costs and legal expenses of an opposing party:** If you are required by a court to compensate an opposing party for their legal expenses and attorney fees, we will cover these costs. If legal expenses of an opposing party legal expenses are awarded to you, you must refund or assign these expenses to us up to the amount of the benefits we have already paid.
+- **Mediation and arbitration proceedings:** These costs are covered by us if the respective proceeding was agreed to by the parties in writing prior to the occurrence of the legal case or if it is provided for by law.
+- **Immediate right to an attorney:** We pay an advance of up to CHF 10 000 for a criminal defense lawyer who you retain for the first examination hearing. In the event of a final conviction for the commission of a willful felony or misdemeanor (something done deliberately or that was accepted), these advance payments must be refunded to us.
+- **Bail:** In order to avoid pretrial detention, you may apply to us for an advance for bail. The advance you receive must be refunded to us prior to the conclusion of the legal case.
+- **Translations:** We cover the necessary translation costs of up to CHF 10 000 for legal cases with a foreign connection.
+- **Travel expenses:** We cover the necessary costs of up to CHF 5 000 for travel to court hearings abroad.
+- **Collection (debt collection proceedings):** We cover the costs for the collection of the amount due from an insured legal case until a certificate of shortfall or a bankruptcy warning has been received.  
+## D7.4 Insured legal cases  
+Coverage is available for legal cases whose triggering event and the need for legal protection arose during the period of coverage and which you notified of us during this period or at the latest three months following termination of the insurance contract.
+The triggering event is defined as the first actual or alleged breach of law or breach of contract. The date of the occurrence of the insured event is decisive for disputes regarding insurance benefits.  
+### D7.4.1 Vehicle contract law  
+Disputes arising from contracts (e.g. sale or repair) in connection with your insured vehicles. Contracts concluded on a commercial basis are excluded.  
+### D7.4.2 Criminal and administrative proceedings  
+Criminal proceedings and proceedings regarding the revocation of Swiss driver licenses and vehicle registrations. The insurance covers negligence offenses (something that happened "by mistake"). If you are accused of an intentional offense (something done deliberately or accepted), we will subsequently reimburse costs if the criminal proceedings are discontinued or you are acquitted. This discontinuation of the proceedings or acquittal must not be associated with any financial or material compensation to the plaintiff or any other persons or organizations.  
+### D7.4.3 Vehicle taxation  
+Disputes concerning the taxation of your insured vehicles.  
+### D7.4.4 Ownership and property law  
+Disputes arising from the possession of your insured vehicles, including their accessories.  
+### D7.4.5 Law of damages  
+Enforcement of non-contractual claims for damages (e.g. repair and treatment costs after a car accident).  
+### D7.4.6 Insurance law  
+Disputes with private personal insurance companies and Swiss social insurers.  
+Disputes in connection with social assistance or social welfare offices are not insured.  
+### D7.4.7 Patient law  
+Disputes as a patient in emergencies.  
+### D7.4.8 Support to victims of crime  
+Claiming damages under the Victim Support Act.  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+D7.5 Exclusions
+The insurance does not cover legal cases and benefits in connection with:
+- legal issues and disputes that are not specified as being insured, or are excluded
+- claims, debts and liabilities bequeathed to you or which are transferred to you in some other way
+- defense against non-contractual claims for compensation and claims for compensation for pain and suffering asserted against you
+- the costs for which a liable person or a liability insurer is responsible
+- felonies, including speeding offenses, of which you are accused in a criminal proceeding and the resultant legal consequences
+- driving the vehicle if the driver was not authorized to drive or repeatedly drove a vehicle while intoxicated or under the influence of medication or drugs, or the vehicle involved did not have valid license plates. However, the insurance does cover those insureds who were not aware or could not have been aware of this
+- fines, contractual penalties and other costs of a punitive nature
+- qualifying or re-qualifying for a driver’s license.
+- participation in races or rallies and while driving on race tracks or training tracks
+- disputes with AXA-ARAG, its employees or the persons engaged in a legal case
+- disputes between persons insured under the same policy. In such a case, coverage is provided for the policyholder only
+- war, warlike occurrences, and unrest of any kind (e.g. demonstrations, strikes or riots)
+- loss or damage due to radioactive or ionizing radiation  
+---  
+D8 Injury to you and your passengers  
+D8.1 Coverage  
+D8.1.1
+The insurance covers accidents in connection with the use of the insured vehicle as well as when rendering assistance to others while on the road.  
+D8.1.2
+The insurance also covers accidents if you drive a third-party vehicle of the same category that is registered in Switzerland or the Principality of Liechtenstein and provided that you do not have equivalent insurance coverage under another passenger accident insurance policy. This extension of coverage only applies if the policyholder is a natural person.  
+D8.1.3
+Accidents are deemed to be physical injuries pursuant to the provisions of the Federal Act on Accident Insurance (AIA) and the Federal Act on General Aspects of Social Security Law (GSSLA). Causality is established in accordance with the AIA.  
+D8.1.4
+The definition of an accident also includes:
+- involuntary inhalation of gases and vapors and the accidental ingestion of toxic or corrosive substances
+- frostbite, heatstroke, sunstroke and health impairments caused by ultraviolet radiation, excluding sunburn
+- drowning  
+D8.1.5
+Benefits are reduced proportionately if the health impairment or death was caused only in part by the accident.  
+---  
+D8.2 Benefits in the event of a claim
+Benefits (D8.2.1 to D8.3) are limited to CHF 30 million per event in total.  
+D8.2.1 Medical costs
+From the date of the accident, we pay for the following that are administered or prescribed by a licensed doctor or dentist:
+- medical treatment and any transport of the patient required for this purpose
+- treatment in the private room of a hospital or spa (spa therapy only at specialized spa establishments and with our approval)
+- services provided by certified nursing staff or the nursing staff provided by an institution for the duration of the medical treatment
+- rental of medically required mobility aids
+- initial purchase of artificial limbs, eyeglasses, hearing aids and orthopedic aids as well as their repair or replacement (new value) if they were damaged or destroyed in the accident that caused the need for medical treatment  
+We also pay the daily benefits deduction provided for in the Federal Act on Accident Insurance (AIA) for living costs at a treatment center.  
+We do not cover medical expenses paid by a liable third party or their liability insurer or any expenses that are covered by a social insurance plan.  
+D8.2.2 Transported pets
+If pets transported in the insured vehicle are injured, we pay for medical treatment of up to a maximum of CHF 5 000 per event. For loss of a pet pursuant to C1 to C2.b, a maximum of CHF 5 000 per event is paid for the purchase of an equivalent pet. Treatment costs that were paid by a liable third party or their liability insurer are not covered.  
+D8.2.3 Daily hospital benefits
+We pay the agreed daily hospital benefits for the duration of necessary stays in a hospital or at a spa. These benefits are paid for a maximum of 730 days.  
+D8.2.4 Daily benefits
+If the accident results in an inability to work, we pay the agreed daily benefits to the extent of the inability to work as confirmed by a doctor. These benefits are paid for a maximum of 730 days.  
+D8.2.5 Disability
+If the accident results in disability that is likely to be permanent, we pay the percentage corresponding to the degree of disability. The degree of disability is determined in accordance with the provisions on the assessment of physical or mental impairment of the Federal Law on Accident Insurance (AIA).  
+If several body parts are affected by the accident, the percentages are added together. However, the degree of disability can never exceed 100%.  
+If the insured was already disabled before the accident took place, we will pay the difference between the amount that would result on the basis of the previous degree of disability and the amount calculated on the basis of the total degree of disability.  
+---  
+Motor Vehicle Insurance. GIC Version 10.2023 20
+D8.2.6 Death
+We pay the benefits for the insured
+• to the spouse or registered partner;
+• in the absence thereof, to the children who were fully or partially supported by the insured;
+• in the absence thereof, to any other persons who were supported primarily by the insured;
+• in the absence thereof, to the descendants entitled to inherit;
+• in the absence thereof, to the parents;
+• in the absence thereof, to the siblings or their descendants.
+If none of these persons exist, we will pay funeral expenses up to the amount of the insured lump sum death benefits.  
+The benefits are increased by 50% if the insured has at least one child under the age of 20 who is entitled to inherit.  
+D8.3 Special benefits
+We cover the costs of
+• the necessary rescue, recovery and repatriation of the body of the accident victim to their place of residence, which are not to exceed CHF 100 000 per accident in total. We will also take care of the necessary formalities;
+• cleaning, repairing or replacing (new value) damaged clothing or personal effects of up to CHF 2 000 per person.  
+D8.4 Exclusions  
+| The insurance does not cover... |
+|---------------------------------|
+| D8.4.1 ... the persons listed in B6.5 and B6.6; |
+| D8.4.2 ... suicide or self-mutilation or attempted suicide or self-mutilation; |
+| D8.4.3 ... deductibles, co-pays and other fees charged by HIA insurers; |
+| D8.4.4 ... accidents if the vehicle was misappropriated or in connection with the circumstances described in B6.6, B6.7 and in C11.3 to C11.7. |  
+D8.5 Reduction of benefits if the vehicle has more passengers than seatbelts
+The benefits will be divided by the number of persons who were in the vehicle at the time of the accident and multiplied by the number of seats according to the vehicle registration document.  
+D8.6 Relationship to liability insurance
+D8.6.1 Subject to D8.6.2, daily hospital benefits, daily benefits, and disability and death benefits are paid in addition to the benefits under the liability insurance.
+D8.6.2 The benefits are applied to liability claims to the extent that the keeper or driver of the vehicle is held personally liable for compensation (e.g. as a result of recourse).  
+---  
+D9 Comprehensive service if you are involved in an accident that was caused by a third party
+With the comprehensive service if you are involved in an accident that was caused by a third party, we provide you with support in the event of collisions caused by a third party.  
+D9.1 Coverage
+We will provide the service if a vehicle listed in the policy with liability insurance is damaged in a collision event with another motor vehicle for which the other party involved in the collision is fully or partially liable. This is subject to the condition that the other motor vehicle involved be registered and have motor vehicle liability insurance.  
+D9.2 Benefits in the event of a claim
+If you authorize us, we will take over the filing of justified claims for damages arising from property damage against the liability insurer of the other party involved in the accident.
+D9.2.1 Loss or damage in Switzerland
+We provide coverage for property damage to your vehicle provided that the liability insurer of the party that caused the accident recognizes their obligation to indemnify for this. No benefits (e.g. settlement negotiations, costs for legal representation) are paid for claims that are disputed.
+D9.2.2 Benefits abroad
+We ourselves do not assume any costs arising from property damage. All payments provided to us in connection with such an event will be forwarded to you in full.  
+D9.3 Exclusions  
+| The insurance does not cover claims: |
+|--------------------------------------|
+| • arising from bodily injury |
+| • if the party or the vehicle that caused the damage is unknown |
+| • if an insured expressly waives their claims or rights securing these claims to which they are entitled against third parties, especially against other liability insurers; |
+| • for recourse |
+| • arising from events mentioned in B6 |  
+---  
+*Motor Vehicle Insurance. GIC Version 10.2023*
+*21*
+Part E
+**Definitions**  
+The technical expressions used in the General Insurance Conditions (GIC) are explained in the following table.  
+| Term              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Time in operation** | Period from initial registration to the date of the loss or damage.                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **Vehicle value**     | The sum set out in the policy for the catalog price, optional equipment and accessories or the value set out in the policy.                                                                                                                                                                                                                                                                                                                                                                     |
+| **Catalog price**     | Official list price valid at the time of manufacture, including value added tax. If this cannot be ascertained, the gross price for the factory-new vehicle applies.                                                                                                                                                                                                                                                                                                                          |
+| **Present value**     | Value of the vehicle plus its optional equipment and accessories at the time of the insured event as calculated taking into account the years in operation, kilometers driven (e.g. mileage, driving hours), marketability and the condition. If no agreement can be reached, the documents of the Schweizerischer Verband der freiberuflichen Fahrzeug-Sachverständigen (association of independent vehicle experts) shall be decisive. |
+| **Insurance year**    | An insurance year starts on the (main) due date of the premium specified in the policy and lasts 12 months at a time (e.g. from July 1 to June 30).                                                                                                                                                                                                                                                                                                                                          |
+| **First registration**| Date on which a license plate for a vehicle is registered for the first time or the vehicle was registered. This date is set out in the vehicle registration document.                                                                                                                                                                                                                                                                                                                        |
+| **Reminder fees**     | Reminder fees are charged if an outstanding account is not paid within the deadline set. If a reminder for payment of an outstanding amount has to be sent several times, additional reminder fees will be incurred for each step in the reminder process. If, for example, the "legal reminder," including reminder fees, has not been paid in full, additional reminder fees will be incurred with the notice "Invalid certificate of insurance – license plates confiscated." |  
+*Motor Vehicle Insurance. GIC Version 10.2023* 22
+The insurance is valid for the countries shown in light gray on the map. In the case of sea crossings, the insurance is valid if the place of departure and the place of destination are in these countries.  
+---  
+**Motor Vehicle Insurance. GIC Version 10.2023** 23
+![AXA Logo](https://www.axa.ch)  
+**Need to file a claim?**  
+It's easy and fast – notify us of your claim online at:
+**AXA.ch/report-claim**  
+---  
+AXA
+General-Guisan-Strasse 40
+P.O. Box 357
+8401 Winterthur
+AXA Insurance Ltd  
+AXA.ch
+myAXA.ch (customer portal)
+
